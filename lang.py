@@ -1,44 +1,45 @@
 import pickle
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 class Lang:
     def __init__(self, tokenizer=lambda s: s.split(' ')):
         self.tokenizer = tokenizer
 
-        self.token2index = {}
-        self.token2count = Counter()
-
         self.UNK_token = 0
         self.BOS_token = 1
         self.EOS_token = 2
         self.PAD_token = 3
+
+        self.token2count = Counter()
+        self.token2index = defaultdict(lambda: self.UNK_token)
         self.index2token = {
             self.UNK_token: '<unk>',
             self.BOS_token: '<bos>',
             self.EOS_token: '<eos>',
             self.PAD_token: '<pad>'
         }
-        self.n_tokens = 4  # Count UNK, SOS, EOS and PAD
+        self.n_tokens = len(self.index2token)  # Count UNK, SOS, EOS and PAD
 
     def tokenize(self, sentence: str):
         return self.tokenizer(sentence)
 
-    def add_token(self, token: str):
+    def add_token_temp(self, token: str):
         self.token2count[token] += 1
-        if token not in self.token2index:
-            self.token2index[token] = self.n_tokens
-            self.index2token[self.n_tokens] = token
-            self.n_tokens += 1
-        else:
-            self.token2count[token] += 1
 
     def add_tokens(self, tokens):
         for token in tokens:
-            self.add_token(token)
+            self.add_token_temp(token)
 
     def add_sentence(self, sentence: str):
         self.add_tokens(self.tokenize(sentence))
+
+    def build(self, voc_size=20000):
+        counts = self.token2count.most_common(voc_size)
+        for token, count in counts:
+            self.token2index[token] = self.n_tokens
+            self.index2token[self.n_tokens] = token
+            self.n_tokens += 1
 
     def pad(self, sentence: str, to_length=30):
         length = sentence.count(' ') + 1
