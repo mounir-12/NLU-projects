@@ -41,9 +41,9 @@ all_targets = [None] * len(all_tokens)
 
 for i, tokens in enumerate(all_tokens):
     in_tokens = lang.numericalize(tokens, MAX_LEN)
-    in_tokens.insert(0, lang.BOS_token)
-
     out_tokens = list(in_tokens)
+
+    in_tokens.insert(0, lang.BOS_token)
     out_tokens.append(lang.EOS_token)  # Input shifted in time by one and having EOS
 
     all_embedded[i] = in_tokens
