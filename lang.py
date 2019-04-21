@@ -23,6 +23,9 @@ class Lang:
         }
         self.n_tokens = len(self.index2token)  # Count UNK, SOS, EOS and PAD
 
+    def __len__(self):
+        return self.n_tokens
+
     def tokenize(self, sentence: str):
         return self.tokenizer(sentence.strip())
 
@@ -49,25 +52,22 @@ class Lang:
 
         self._built = True
 
-    def embed(self, tokens, length=30):
-        assert len(tokens) - 2 < length
+    def numericalize(self, tokens, length):
+        assert len(tokens) < length
         embedded = [self.token2index[token] for token in tokens]
-        self.pad_tokens(embedded, length - 2)  # Take into account BOS and EOS tokens
-
-        embedded.insert(0, self.BOS_token)
-        embedded.append(self.EOS_token)
+        self.pad_tokens(embedded, length)  # Take into account BOS and EOS tokens
 
         assert len(embedded) == length
-        assert embedded[0] == self.BOS_token
-        assert embedded[-1] == self.EOS_token
+        # assert embedded[0] == self.BOS_token
+        # assert embedded[-1] == self.EOS_token
 
         return embedded
 
-    def pad_tokens(self, tokens: list, to_length=30):
+    def pad_tokens(self, tokens: list, to_length):
         tokens.extend([self.PAD_token] * (to_length - len(tokens)))
         return tokens
 
-    def pad(self, sentence: str, to_length=30):
+    def pad(self, sentence: str, to_length):
         length = sentence.strip().count(' ') + 1
         return sentence + (' %s' % self.index2token[self.PAD_token]) * (to_length - length)
 
