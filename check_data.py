@@ -2,6 +2,7 @@ import os
 from collections import Counter
 
 train_data_path = "/data/sentences.train"
+eval_data_path = "/data/sentences.eval"
 test_data_path = "/data/sentences_test.txt"
 
 def read(relative_path):
