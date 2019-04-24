@@ -7,14 +7,18 @@ import numpy as np
 
 
 class LSTM:
-    def __init__(self, vocab_size, embedding_size, hidden_size, time_steps, clip_norm):
+    def __init__(self, vocab_size, embedding_size, hidden_size, time_steps, clip_norm, down_project=False, down_projection_size=None):
         initializer = tf.contrib.layers.xavier_initializer()
 
         self.hidden_size = hidden_size
         self.vocab_size = vocab_size
         self.time_steps = time_steps
         # Model Variables
-        self.weights = tf.Variable(initializer((hidden_size, vocab_size)), name="weights")
+        if down_project:
+            self.W_p = tf.Variable(initializer((hidden_size, down_projection_size)), name="W_p") # projection matrix
+            self.W = tf.Variable(initializer((down_projection_size, vocab_size)), name="W") # weights
+        else:
+            self.W = tf.Variable(initializer((hidden_size, vocab_size)), name="W") # weights
         self.biases = tf.Variable(initializer([vocab_size]), name="biases")
         self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
         
@@ -31,7 +35,10 @@ class LSTM:
 
         for t in range(time_steps):
             output, state = self.rnn(embedded_x[:, t], state) # input the slice t (i,e all embedded vectors of the batch at timestep t)
-            logit = tf.matmul(output, self.weights) + self.biases
+            if down_project:
+                logit = tf.matmul(tf.matmul(output, self.W_p), self.W) + self.biases # first project then compute logit
+            else:
+                logit = tf.matmul(output, self.W) + self.biases
             logit = tf.reshape(logit, (tf.shape(logit)[0], 1, tf.shape(logit)[1])) # reshape for later concat
 
             if logits is None: # first output logit
@@ -52,7 +59,9 @@ class LSTM:
         self.clip_norm = clip_norm
         self.train_op = self.get_train_op() # training operation with clipped gradients
 
-        self.trainable_variables = [self.weights, self.biases, self.embedding_matrix, self.rnn]
+        self.trainable_variables = [self.W, self.biases, self.embedding_matrix, self.rnn]
+        if down_project:
+            self.trainable_variables.append(self.W_p)
 
     def compute_loss(self, logits, labels):
         # with tf.GradientTape() as tape:

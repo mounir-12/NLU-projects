@@ -69,7 +69,7 @@ vocab_size = V_train.vocab_size # get true vocab size
 time_steps = sentence_len-1
 
 # Models
-lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps, clip_grad_norm)
+lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps, clip_grad_norm, down_project=True, down_projection_size=int(hidden_size/2))
 
 # Training loop
 with tf.Session() as sess:
