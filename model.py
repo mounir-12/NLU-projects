@@ -1,17 +1,20 @@
 import tensorflow as tf
 from tensorflow.nn.rnn_cell import LSTMCell
 import numpy as np
+from load_embedding import load_embedding
 
 # Can we and should we use an implementation optimized for GPU ?
 # https://www.tensorflow.org/api_docs/python/tf/contrib/cudnn_rnn/CudnnLSTM
 
 
 class LSTM:
-    def __init__(self, vocab_size, embedding_size, hidden_size, time_steps, clip_norm, down_project=False, down_projection_size=None):
+    def __init__(self, V, embedding_size, hidden_size, time_steps, clip_norm, down_project=False, down_projection_size=None,
+                        load_external_embedding=False, embedding_path=None):
+        vocab_size = V.vocab_size
         initializer = tf.contrib.layers.xavier_initializer()
 
         self.hidden_size = hidden_size
-        self.vocab_size = vocab_size
+        self.vocab_size = V.vocab_size
         self.time_steps = time_steps
         # Model Variables
         if down_project:
@@ -19,8 +22,14 @@ class LSTM:
             self.W = tf.Variable(initializer((down_projection_size, vocab_size)), name="W") # weights
         else:
             self.W = tf.Variable(initializer((hidden_size, vocab_size)), name="W") # weights
+
         self.biases = tf.Variable(initializer([vocab_size]), name="biases")
-        self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
+
+        if load_external_embedding: # we're loading the embedding matrix => no training needed to get embeddings
+            matrix = load_embedding(V.token2id, embedding_path, embedding_size, vocab_size) # load embedding matrix from file
+            self.embedding_matrix = tf.convert_to_tensor(matrix, dtype=float, name="embedding") # convert to tensor
+        else: # not loading external embedding => make embedding_matrix a tf.Variable (i,e to be trainable)
+            self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
         
         # Create Model graph
         self.input_x = tf.placeholder(tf.int32, [None, time_steps]) # the input words of shape [batch_size, time_steps]

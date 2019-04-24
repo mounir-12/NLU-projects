@@ -22,6 +22,7 @@ n_lines = 1000 # None
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
 eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
+embedding_path = os.path.join(os.getcwd(), "data", "wordembeddings-dim100.word2vec")
 sentence_len = 30 # padded sentence length including EOS and BOS
 vocab_size = 20000 # vocabulary size
 clip_grad_norm = 5
@@ -69,7 +70,8 @@ vocab_size = V_train.vocab_size # get true vocab size
 time_steps = sentence_len-1
 
 # Models
-lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps, clip_grad_norm, down_project=True, down_projection_size=int(hidden_size/2))
+lstm = LSTM(V_train, embedding_size, hidden_size, time_steps, clip_grad_norm, down_project=True, down_projection_size=int(hidden_size/2),
+            load_external_embedding=True, embedding_path=embedding_path)
 
 # Training loop
 with tf.Session() as sess:
