@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow.nn.rnn_cell import LSTMCell
-from scipy.special import softmax
+# from scipy.special import softmax
 import numpy as np
 
 # Can we and should we use an implementation optimized for GPU ?
@@ -8,40 +8,57 @@ import numpy as np
 
 
 class LSTM:
-    def __init__(self, vocab_size, embed_size, hidden_size, batch_size):
+    def __init__(self, vocab_size, embedding_size, hidden_size, time_steps):
         initializer = tf.contrib.layers.xavier_initializer()
 
         self.hidden_size = hidden_size
         self.vocab_size = vocab_size
-        self.batch_size = batch_size
-
+        self.time_steps = time_steps
+        # Model Variables
         self.weights = tf.Variable(initializer((hidden_size, vocab_size)), name="weights")
         self.biases = tf.Variable(initializer([vocab_size]), name="biases")
-        self.embed_matrix = tf.Variable(initializer((vocab_size, embed_size)), name="embed")
+        self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
+        
+        # Create Model graph
+        self.input_x = tf.placeholder(tf.int32, [None, time_steps]) # the input words of shape [batch_size, time_steps]
+        self.input_y = tf.placeholder(tf.int32, [None, time_steps]) # the target words of shape [batch_size, time_steps]
+        embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x) # the embedded input of shape [batch_size, time_steps, embedding_size]
 
-        words = tf.placeholder(tf.int32, [batch_size, time_steps])
+        self.rnn = LSTMCell(hidden_size, initializer=initializer) # LSTM cell with hidden state of size hidden_size
 
+        self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], tf.float32) # LSTM cell initial state
 
-        self.rnn = LSTMCell(hidden_size, initializer=initializer)
+        logits = None
 
-        self.initial_state = state = self.rnn.zero_state(batch_size, tf.float32)
+        for t in range(time_steps):
+            output, state = self.rnn(embedded_x[:, t], state) # input the slice t (i,e all embedded vectors of the batch at timestep t)
+            logit = tf.matmul(output, self.weights) + self.biases
+            logit = tf.reshape(logit, (tf.shape(logit)[0], 1, tf.shape(logit)[1])) # reshape for later concat
 
-        self.logits = []
+            if logits is None: # first output logit
+                logits = logit
+            else: # concat to previous output logits
+                logits = tf.concat((logits, logit), axis=1)
 
-        for i in range(time_steps):
-            embedded = tf.nn.embedding_lookup(self.embed_matrix, words[:,i])
-            output, state = self.rnn(embedded, state)
-            logits.append(tf.matmul(output, self.weights) + self.biases)
-
+        self.logits = logits
         self.final_state = state
 
-        self.trainable_variables = [self.weights, self.biases, self.embed_matrix, self.rnn]
+        # Optimizer and loss
+        self.global_step = tf.Variable(0, name="global_step", trainable=False)
+        self.optimizer = tf.train.AdamOptimizer()
+        self.loss = self.compute_loss(logits=self.logits, labels=self.input_y)
+        self.train_op = self.optimizer.minimize(self.loss, global_step=self.global_step) # training operation
+        self.trainable_variables = [self.weights, self.biases, self.embedding_matrix, self.rnn]
 
-    def forward(self, sess, input_words):
-        
-        logits = sess.run(self.logits, feed_dict={words: input_words})
+    def compute_loss(self, logits, labels):
+        # with tf.GradientTape() as tape:
+        return tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=labels))
 
-        return logits
+    def train_step(self, sess, input_words, output_words):
+        feed_dict = {self.input_x: input_words, self.input_y: output_words}
+        fetches = [self.train_op, self.global_step, self.loss]
+
+        return sess.run(fetches, feed_dict)
 
     def preplexity(self, sess, input_sentences):
 
@@ -59,6 +76,5 @@ class LSTM:
 
         return perp
 
-
-    def __call__(self, x):
-        return self.forward(x)
+    def __call__(self, sess, x, y):
+        return self.train_step(sess, x, y)
