@@ -16,7 +16,7 @@ tf.set_random_seed(9)
 hidden_size = 128 # 512
 embedding_size = 100 # 100
 batch_size = 50 # 64
-num_epochs = 20
+num_epochs = 1
 eval_every = 10
 n_lines = 1000 # None 
 # ------------------------------------------------------
@@ -64,9 +64,11 @@ print("Eval data matrix shape: ", C_eval.data.shape)
 batched_x, batched_y, num_batches = get_data(C_train, shuffle=True, batch=True, batch_size=batch_size) # training data, shuffled, batched
 eval_x, eval_y, _ = get_data(C_eval) # eval data no shuffling or batching
 
-# Model
+# Constants
 vocab_size = V_train.vocab_size # get true vocab size
 time_steps = sentence_len-1
+
+# Models
 lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps, clip_grad_norm)
 
 # Training loop
@@ -81,5 +83,5 @@ with tf.Session() as sess:
             if step % eval_every == 0:
                 step, step_loss = lstm.eval_step(sess, eval_x, eval_y)
                 print("\nEvaluation:\n    {}: step {}, loss {}\n".format(time_str, step, step_loss))
-                
+    print("Perplexities: ", lstm.preplexity(sess, eval_x, eval_y, V_train))
 

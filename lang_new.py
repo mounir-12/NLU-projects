@@ -3,15 +3,15 @@ import os
 import numpy as np
 from collections import Counter, defaultdict
 
-# special tokens
-PAD_token = '<pad>'
-BOS_token = '<bos>'
-EOS_token = '<eos>'
-UNK_token = '<unk>'
 io_dir = os.path.join(os.getcwd(), "lang")
 
 class Vocabulary:
     def __init__(self, vocab_size, read_from_file=None):
+        # special tokens
+        self.PAD_token = '<pad>'
+        self.BOS_token = '<bos>'
+        self.EOS_token = '<eos>'
+        self.UNK_token = '<unk>'
         # ------------------------read Vocabulary object from dumped file if possible-------------------------
         if read_from_file is not None: # file to read from provided
             in_file = os.path.join(io_dir, read_from_file)
@@ -44,7 +44,7 @@ class Vocabulary:
             for token in tokenized_sentence:
                 all_tokens.append(token)
         token2count = Counter(all_tokens).most_common(self.vocab_size) # count corpus tokens and extract the most common ones with their counts
-        vocab_tokens = [BOS_token, EOS_token, PAD_token, UNK_token] # add special tokens to Vocabulary
+        vocab_tokens = [self.BOS_token, self.EOS_token, self.PAD_token, self.UNK_token] # add special tokens to Vocabulary
         vocab_tokens.extend([token for token, count in token2count]) # add most common corpus tokens to Vocabulary
         self.vocab_size = len(vocab_tokens) # update vocab_size (take special tokens into account)
         self.token2id = {token: i for i, token in enumerate(vocab_tokens)} # assign an id to each vocab token, store mapping in object
@@ -116,17 +116,17 @@ class Corpus:
             for j in range(self.sentence_len): # index over sentence tokens
                 length = len(tokenized_sentence) # the true sentence length
                 if j == 0: # add BOS
-                    self.data[i, j] = V.token2id[BOS_token]
+                    self.data[i, j] = V.token2id[V.BOS_token]
                 elif j == (self.sentence_len-1): # add EOS
-                    self.data[i, j] = V.token2id[EOS_token]
+                    self.data[i, j] = V.token2id[V.EOS_token]
                 elif j >= length: # no more sentence tokens: add PAD
-                    self.data[i, j] = V.token2id[PAD_token]
+                    self.data[i, j] = V.token2id[V.PAD_token]
                 else:
                     token = tokenized_sentence[j] # read sentence token
                     if token in V.token2id: # token part of vocabulary: replace by id
                         self.data[i, j] = V.token2id[token]
                     else: # token not part of vocabulary: add UNK
-                        self.data[i, j] = V.token2id[UNK_token]
+                        self.data[i, j] = V.token2id[V.UNK_token]
         # print(self.data)
         print("Done.")
 

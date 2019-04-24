@@ -1,6 +1,5 @@
 import tensorflow as tf
 from tensorflow.nn.rnn_cell import LSTMCell
-# from scipy.special import softmax
 import numpy as np
 
 # Can we and should we use an implementation optimized for GPU ?
@@ -41,6 +40,9 @@ class LSTM:
                 logits = tf.concat((logits, logit), axis=1)
 
         self.logits = logits
+        self.probas = tf.nn.softmax(logits, axis=2, name="probabilities") # for each sentence of the batch and for each "input word" in the sentence 
+                                                                          # at timestep t, output a probability distribution over the vocabulary
+                                                                          # of the "output word" at timestep t
         self.final_state = state
 
         # Optimizer and loss
@@ -74,20 +76,25 @@ class LSTM:
 
         return sess.run(fetches, feed_dict)
 
-    def preplexity(self, sess, input_sentences):
+    def preplexity(self, sess, input_sentences, output_sentences, V):
+        probas = sess.run(self.probas, feed_dict={self.input_x: input_sentences})
+        
+        s = output_sentences.shape[0] # nb of sentences
+        w = output_sentences.shape[1] # nb of words per sentence
+        perp = np.zeros(s)
 
-        logits = sess.run(self.logits, feed_dict={words: input_sentences})
-
-        probabs = softmax(logits, axis=1)
-
-        perp = np.zeros(input_sentences.shape[0])
-
-        for i in range(input_sentences.shape[0]):
+        for i in range(s): # loop over output sentences i, we consider output sentences since <EOS> is used in perplexity computation while
+                           # <BOS> isn't (since model shouldn't predict <BOS>)
             temp = 1
-            for j in range(input_sentences.shape[1]):
-                temp*=probabs[i,input_sentences[i,j]]
-            perp[i] = (1/temp)**(1/input_sentences.shape[1])
-
+            n = 0
+            for t in range(w): # for each output sentence i, loop over timesteps t
+                token_id = output_sentences[i, t]
+                n += 1
+                if V.id2token[token_id] == V.PAD_token: # skip PAD tokens
+                    continue
+                temp*=probas[i, t, token_id]
+            perp[i] = (1/temp)**(1/n) # n counts PAD symbols too, should we discount them?
+        
         return perp
 
     def __call__(self, sess, x, y):
