@@ -12,7 +12,7 @@ def load_embedding(vocab, path, dim_embedding, vocab_size):
     print("Loading external embeddings from %s" % path)
 
     model = models.KeyedVectors.load_word2vec_format(path, binary=False)  
-    external_embedding = np.zeros(shape=(vocab_size, dim_embedding), dtype=float)
+    external_embedding = np.zeros(shape=(vocab_size, dim_embedding))
     matches = 0
 
     for tok, idx in vocab.items():
