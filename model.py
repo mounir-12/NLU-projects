@@ -8,7 +8,7 @@ import numpy as np
 
 
 class LSTM:
-    def __init__(self, vocab_size, embedding_size, hidden_size, time_steps):
+    def __init__(self, vocab_size, embedding_size, hidden_size, time_steps, clip_norm):
         initializer = tf.contrib.layers.xavier_initializer()
 
         self.hidden_size = hidden_size
@@ -47,12 +47,20 @@ class LSTM:
         self.global_step = tf.Variable(0, name="global_step", trainable=False)
         self.optimizer = tf.train.AdamOptimizer()
         self.loss = self.compute_loss(logits=self.logits, labels=self.input_y)
-        self.train_op = self.optimizer.minimize(self.loss, global_step=self.global_step) # training operation
+        self.clip_norm = clip_norm
+        self.train_op = self.get_train_op() # training operation with clipped gradients
+
         self.trainable_variables = [self.weights, self.biases, self.embedding_matrix, self.rnn]
 
     def compute_loss(self, logits, labels):
         # with tf.GradientTape() as tape:
         return tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=labels))
+
+    def get_train_op(self): # perform gradient clipping and return train operation
+        grads_and_vars = self.optimizer.compute_gradients(self.loss) # compute gradient of loss function, returns list of tensor-variable pair
+        grads, vars = zip(*grads_and_vars) # unzip
+        clipped_grads, _ = tf.clip_by_global_norm(grads, self.clip_norm) # clip
+        return self.optimizer.apply_gradients(zip(clipped_grads, vars), self.global_step) # apply clipped gradients and return train op
 
     def train_step(self, sess, input_words, output_words):
         feed_dict = {self.input_x: input_words, self.input_y: output_words}

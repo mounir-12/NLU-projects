@@ -24,7 +24,7 @@ train_path = os.path.join(os.getcwd(), "data", "sentences.train")
 eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
 sentence_len = 30 # padded sentence length including EOS and BOS
 vocab_size = 20000 # vocabulary size
-MAX_GRAD_NORM = 5
+clip_grad_norm = 5
 
 # ------------------------------------------------------FUNCTIONS---------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ eval_x, eval_y, _ = get_data(C_eval) # eval data no shuffling or batching
 # Model
 vocab_size = V_train.vocab_size # get true vocab size
 time_steps = sentence_len-1
-lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps)
+lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps, clip_grad_norm)
 
 # Training loop
 with tf.Session() as sess:
