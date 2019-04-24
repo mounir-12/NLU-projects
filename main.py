@@ -28,17 +28,20 @@ MAX_GRAD_NORM = 5
 
 # ------------------------------------------------------FUNCTIONS---------------------------------------------------------------------
 
-def get_dataset(corpus, batch=False): # not used for now
-    """ Split copus data matrix to inputs and outputs and get TF dataset representing them """
-    inputs = corpus.data[:, :-1] # all columns except the last one (i,e the one containing EOS ids)
-    outputs = corpus.data[:, 1:] # all columns except the first one (i,e the one containing BOS ids)
-    
-    return tf.data.Dataset.from_tensor_slices((inputs, outputs)).batch(BATCH_SIZE)
-
-def clip_gradients(grads_and_vars, clip_ratio): # not used for now
-    grads, vars = zip(*grads_and_vars) # extract gradients and corresponding var (i,e grad w.r.t that var)
-    clipped, _ = tf.clip_by_global_norm(grads, clip_ratio) # clip gradients
-    return zip(clipped, vars) # zip back clipped gradients with their corresponding vars
+def get_data(corpus, shuffle=False, batch=False, batch_size=None):
+    data = corpus.data
+    data_size = data.shape[0]
+    if shuffle:
+        shuffle_indices = np.random.permutation(np.arange(data_size))
+        data = data[shuffle_indices]
+    x = data[:, :-1]
+    y = data[:, 1:]
+    num_batches = 1 # default value
+    if batch:
+        num_batches = int(math.ceil(data_size/batch_size))
+        x = np.array_split(x, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
+        y = np.array_split(y, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
+    return x, y, num_batches
 
 # --------------------------------------------------------START---------------------------------------------------------------------
 # Data IO
@@ -58,10 +61,8 @@ print("Train data matrix shape: ", C_train.data.shape)
 print("Eval data matrix shape: ", C_eval.data.shape)
 
 # Train and Eval data
-train_x = C_train.data[:, :-1]
-train_y = C_train.data[:, 1:]
-eval_x = C_eval.data[:, :-1]
-eval_y = C_eval.data[:, 1:]
+batched_x, batched_y, num_batches = get_data(C_train, shuffle=True, batch=True, batch_size=batch_size) # training data, shuffled, batched
+eval_x, eval_y, _ = get_data(C_eval) # eval data no shuffling or batching
 
 # Model
 vocab_size = V_train.vocab_size # get true vocab size
@@ -72,9 +73,6 @@ lstm = LSTM(vocab_size, embedding_size, hidden_size, time_steps)
 with tf.Session() as sess:
     # Initialize all variables
     sess.run(tf.global_variables_initializer())
-    num_batches = int(math.ceil(train_x.shape[0]/batch_size))
-    batched_x = np.array_split(train_x, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
-    batched_y = np.array_split(train_y, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
     for e in range(num_epochs):
         for b in range(num_batches):
             _, step, step_loss = lstm.train_step(sess, batched_x[b], batched_y[b])
