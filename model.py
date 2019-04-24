@@ -56,7 +56,13 @@ class LSTM:
 
     def train_step(self, sess, input_words, output_words):
         feed_dict = {self.input_x: input_words, self.input_y: output_words}
-        fetches = [self.train_op, self.global_step, self.loss]
+        fetches = [self.train_op, self.global_step, self.loss] # train and report loss
+
+        return sess.run(fetches, feed_dict)
+    
+    def eval_step(self, sess, input_words, output_words):
+        feed_dict = {self.input_x: input_words, self.input_y: output_words}
+        fetches = [self.global_step, self.loss] # only report loss
 
         return sess.run(fetches, feed_dict)
 

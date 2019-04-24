@@ -17,6 +17,7 @@ hidden_size = 128 # 512
 embedding_size = 100 # 100
 batch_size = 50 # 64
 num_epochs = 20
+eval_every = 10
 n_lines = 1000 # None 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
@@ -76,7 +77,11 @@ with tf.Session() as sess:
     batched_y = np.array_split(train_y, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
     for e in range(num_epochs):
         for b in range(num_batches):
-            _, step, step_loss = lstm(sess, batched_x[b], batched_y[b])
+            _, step, step_loss = lstm.train_step(sess, batched_x[b], batched_y[b])
             time_str = datetime.datetime.now().isoformat()
-            print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e, b, time_str, step, step_loss))
+            print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
+            if step % eval_every == 0:
+                step, step_loss = lstm.eval_step(sess, eval_x, eval_y)
+                print("\nEvaluation:\n    {}: step {}, loss {}\n".format(time_str, step, step_loss))
+                
 

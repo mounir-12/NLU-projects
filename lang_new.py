@@ -8,11 +8,11 @@ PAD_token = '<pad>'
 BOS_token = '<bos>'
 EOS_token = '<eos>'
 UNK_token = '<unk>'
-io_dir = os.path.join(os.getcwd(), "Lang")
+io_dir = os.path.join(os.getcwd(), "lang")
 
 class Vocabulary:
     def __init__(self, vocab_size, read_from_file=None):
-        # read Vocabulary object from dumped file if possible
+        # ------------------------read Vocabulary object from dumped file if possible-------------------------
         if read_from_file is not None: # file to read from provided
             in_file = os.path.join(io_dir, read_from_file)
             if os.path.exists(io_dir) and os.path.isfile(in_file): # read if file exists
@@ -26,7 +26,7 @@ class Vocabulary:
                 self._built = True
                 print("Done.")
                 return
-        
+        # ----------------------------------------------------------------------------------------------------
         # otherwise
         self.vocab_size = vocab_size
         self._built = False # vocabulary not yet built, need to call build_from_corpus()
@@ -34,6 +34,7 @@ class Vocabulary:
     def build_from_corpus(self, corpus, write_to_file=None):
 
         print("Building Vocabulary from Corpus ...")
+        
         if self._built:
             print("Already built. Done.")
             return
@@ -52,17 +53,18 @@ class Vocabulary:
         # print(self.id2token) 
         print("Done.")
 
-        # Dump vocabulary object
+        # ----------------------------------------Dump vocabulary object-----------------------------------------
         if write_to_file is not None: # target file name provided
             print("Writing Vocabulary Object ... ")
             vocab_dict = {"vocab_size": self.vocab_size, "token2id": self.token2id, "id2token": self.id2token}
             dump(write_to_file, vocab_dict)
             print("Done.")
+        # -------------------------------------------------------------------------------------------------------
         
         
 class Corpus:
     def __init__(self, path, sentence_len, read_from_file=None, n_sentences=None):
-        # read Corpus object from dumped file if possible
+        # ------------------------read Corpus object from dumped file if possible--------------------------------
         if read_from_file is not None: # file to read from provided
             in_file = os.path.join(io_dir, read_from_file)
             if os.path.exists(io_dir) and os.path.isfile(in_file): # load if file exists
@@ -77,6 +79,7 @@ class Corpus:
                 self._built = True
                 print("Done.")
                 return
+        # -------------------------------------------------------------------------------------------------------
 
         # otherwise read from text file provided with path
         self.sentence_len = sentence_len
@@ -102,11 +105,12 @@ class Corpus:
         """
         
         print("Building Data Matrix ...")
+        
         if self._built:
             print("Already built. Done.")
             return
 
-        self.data = np.empty([self.n_sentences, self.sentence_len])
+        self.data = np.empty([self.n_sentences, self.sentence_len], dtype=int)
         for i in range(len(self.tokenized_sentences)): # index over sentences
             tokenized_sentence = self.tokenized_sentences[i] # read tokenized sentence from list
             for j in range(self.sentence_len): # index over sentence tokens
@@ -126,13 +130,14 @@ class Corpus:
         # print(self.data)
         print("Done.")
 
-        # Dump corpus object if possible
+        # ---------------------------------------Dump corpus object if possible--------------------------------
         if write_to_file is not None: # target file name provided
             print("Writing Corpus Object ... ")
             corpus_dict = {"sentence_len": self.sentence_len, "n_sentences": self.n_sentences,
                      "tokenized_sentences": self.tokenized_sentences, "data": self.data}
             dump(write_to_file, corpus_dict) # call function to dump object
             print("Done.")
+        # ------------------------------------------------------------------------------------------------------
 
 def dump(write_to_file, dictionary):
     out_file = os.path.join(io_dir, write_to_file) # full path
