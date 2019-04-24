@@ -94,7 +94,7 @@ class LSTM:
 
         return sess.run(fetches, feed_dict)
 
-    def preplexity(self, sess, input_sentences, output_sentences, V):
+    def perplexity(self, sess, input_sentences, output_sentences, V):
         probas = sess.run(self.probas, feed_dict={self.input_x: input_sentences})
         
         s = output_sentences.shape[0] # nb of sentences
