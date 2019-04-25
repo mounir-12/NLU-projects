@@ -11,7 +11,7 @@ class LSTM:
     def __init__(self, V, embedding_size, hidden_size, time_steps, clip_norm, down_project=False, down_projection_size=None,
                         load_external_embedding=False, embedding_path=None):
         vocab_size = V.vocab_size
-        self.dtype = tf.float64
+        self.dtype = tf.float32
         initializer = tf.contrib.layers.xavier_initializer(dtype=self.dtype)
 
         self.hidden_size = hidden_size
