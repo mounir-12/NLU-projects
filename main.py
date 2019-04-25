@@ -45,6 +45,7 @@ def get_data(corpus, shuffle=False, batch=False, batch_size=None):
 def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train):
     # Training loop
     with tf.Session() as sess:
+        train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
         # Initialize all variables
         sess.run(tf.global_variables_initializer())
         for e in range(num_epochs):
@@ -87,6 +88,11 @@ eval_x, eval_y, _ = get_data(C_eval) # eval data no shuffling or batching
 # Constants
 vocab_size = V_train.vocab_size # get true vocab size
 time_steps = sentence_len-1
+
+# Tensorboard csts
+timestamp = str(int(time()))
+out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs", timestamp))
+train_summary_dir = os.path.join(out_dir, "summaries", "train")
 
 # Models
 with tf.Graph().as_default(): # create graph for Experiment A
