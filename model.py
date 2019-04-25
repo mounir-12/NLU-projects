@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.nn.rnn_cell import LSTMCell
 import numpy as np
+import os
 from load_embedding import load_embedding
 
 # Can we and should we use an implementation optimized for GPU ?
@@ -40,8 +41,6 @@ class LSTM:
 
         self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], tf.float32) # LSTM cell initial state
 
-        self.saver = tf.train.Saver()
-
         logits = None
 
         for t in range(time_steps):
@@ -73,6 +72,7 @@ class LSTM:
         self.trainable_variables = [self.W, self.biases, self.embedding_matrix, self.rnn]
         if down_project:
             self.trainable_variables.append(self.W_p)
+        self.saver = tf.train.Saver()
 
     def compute_loss(self, logits, labels):
         # with tf.GradientTape() as tape:
@@ -108,22 +108,27 @@ class LSTM:
             temp = 1
             n = 0
             for t in range(w): # for each output sentence i, loop over timesteps t
+                token_id = output_sentences[i, t] # get token_id first
                 if V.id2token[token_id] == V.PAD_token: # skip PAD tokens
                     continue
-                token_id = output_sentences[i, t]
                 n += 1
                 temp*=probas[i, t, token_id]
             perp[i] = (1/temp)**(1/n) # n doesn't count PAD symbols.
         
         return perp
 
-    def save_model(self, sess, path='./models/model.ckpt'):
+    def save_model(self, sess, path):
         self.saver.save(sess, path)
         print("Model saved at %s" %path)
 
-    def load_model(self, sess, path='./models/model.ckpt'):
-        self.saver.restore(sess, path)
-        print("Model restored from %s" %path)
+    def load_model(self, sess, path):
+        try: # try to load the model
+            self.saver.restore(sess, path)
+            print("Model restored from %s" %path)
+            return True
+        except ValueError:
+            print("Couldn't restore model")
+            return False     
 
     def __call__(self, sess, x, y):
         return self.train_step(sess, x, y)

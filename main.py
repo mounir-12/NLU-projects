@@ -15,8 +15,8 @@ tf.set_random_seed(9)
 # ------values in comment for cluster deployement-------
 batch_size = 64
 num_epochs = 1 # to be chosen
-eval_every = 100
-n_lines = None 
+eval_every = 8
+n_lines = 1000 # None 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
 eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
@@ -42,16 +42,21 @@ def get_data(corpus, shuffle=False, batch=False, batch_size=None):
     return x, y, num_batches
 
 # Trains the model and returns perplexity values on the eval sentences
-def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train):
+def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt"):
     # Training loop
+    models_dir = os.path.join(os.getcwd(), "models")
+    model_path = os.path.join(models_dir, model_ckpt_name) # path of file to save model
     with tf.Session() as sess:
         # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
+        if os.path.exists(models_dir) and model.load_model(sess, model_path): # if successfully loaded model
+            step, step_loss = model.eval_step(sess, eval_x, eval_y)
+            print("\nEvaluating restored model on eval dataset:\n   step {}, loss {}\n".format(step, step_loss))
+            return model.perplexity(sess, eval_x, eval_y, V_train) # then return perplexities            
+
+        # otherwise, train model and save
+        print("Training model ...")
         # Initialize all variables
-        # sess.run(tf.global_variables_initializer())
-        if os.path.exists('./models/model.ckpt'):
-            model.load_model(sess, './models/model.ckpt')
-        else:
-            sess.run(tf.global_variables_initializer())
+        sess.run(tf.global_variables_initializer())
         for e in range(num_epochs):
             for b in range(num_batches):
                 _, step, step_loss = model.train_step(sess, batched_x[b], batched_y[b])
@@ -61,7 +66,7 @@ def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every
                     step, step_loss = model.eval_step(sess, eval_x, eval_y)
                     print("\nEvaluation:\n    {}: step {}, loss {}\n".format(time_str, step, step_loss))
         
-        model.save_model(sess, './models/model.ckpt')
+        model.save_model(sess, model_path)
 
         return model.perplexity(sess, eval_x, eval_y, V_train)
 
@@ -106,20 +111,19 @@ with tf.Graph().as_default(): # create graph for Experiment A
     print("\nRunning Experiment A ...")
     # input("Press Enter to continue...")
     modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
-    perp = train_model(modelA, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train) # train and get perplexities
+    perp = train_model(modelA, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelA.ckpt") # train and get perplexities
     write_out(perp, "group17.perplexityA")
 
 with tf.Graph().as_default(): # create graph for Experiment B
     print("\nRunning Experiment B ...")
     # input("Press Enter to continue...")
     modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
-    perp = train_model(modelB, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train) # train and get perplexities
+    perp = train_model(modelB, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelB.ckpt") # train and get perplexities
     write_out(perp, "group17.perplexityB")
 
 with tf.Graph().as_default(): # create graph for Experiment C
     print("\nRunning Experiment C ...")
     # input("Press Enter to continue...")
-    os.rmdir('./models')
     modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
-    perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train) # train and get perplexities
+    perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelC.ckpt") # train and get perplexities
     write_out(perp, "group17.perplexityC")
