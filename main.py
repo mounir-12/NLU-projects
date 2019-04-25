@@ -16,7 +16,7 @@ tf.set_random_seed(9)
 batch_size = 64
 num_epochs = 1 # to be chosen
 eval_every = 1000
-print_every = 3 # limit the number of prints during training
+print_every = 100 # limit the number of prints during training
 n_lines = None 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
