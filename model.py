@@ -116,6 +116,59 @@ class LSTM:
         
         return perp
 
+    def build_sentence_completion_graph(self):
+        self.sentence_length = tf.placeholder(tf.int32)
+        self.input_x = tf.placeholder(tf.int32, None)
+
+        embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x)
+
+        i = tf.constant(0)
+        state = self.rnn.zero_state()
+        while_condition = lambda i: tf.less(i, self.sentence_length)
+        def body(i):
+            output, state = self.rnn(embedded_x[i], state)
+            tf.add(i, 1) # increment i
+            return [output, state]
+
+        # perform the loop:
+        prompt_output, self.prompt_state = tf.while_loop(while_condition, body, [i])
+
+        prompt_logit = tf.matmul(next_output, self.W) + self.biases
+
+        self.prompt_probabs = tf.nn.softmax(prompt_logit)
+
+        self.int_state = tf.placeholder(tf.float32, None)
+        self.current_word = tf.placeholder(tf.int32)
+        self.current_embed = tf.nn.embedding_lookup(self.embedding_matrix, self.current_word)
+
+        next_output, self.next_state = self.rnn(self.current_embed, self.int_state)
+
+        next_logit = tf.matmul(next_output, self.W) + self.biases
+
+        self.next_probabs = tf.nn.softmax(next_logit)
+
+
+    def sentence_continuation(self, sess, prompt, V):
+        prompt_length = len(prompt)
+        feed_dict={sentence_length: prompt_length, self.input_x: prompt}
+        next_probabs, current_state = sess.run([self.prompt_probabs, self.prompt_state], feed_dict)
+        current_word = np.argmax(next_probabs)
+
+        predicted_continuation = []
+
+        for i in range(max_length-prompt_length):
+            predicted_continuation.append(V.id2token(current_word))
+
+            feed_dict = {self.int_state: current_state, self.current_word: current_word}
+
+            next_probabs, current_state = sess.run([self.next_probabs, sel.next_state], feed_dict)
+            current_word = np.argmax(next_probabs)
+            if(current_word == V.token2id('<eos>')):
+                break
+
+        return predicted_continuation
+
+
     def save_model(self, sess, path):
         self.saver.save(sess, path)
         print("Model saved at %s" %path)
