@@ -42,7 +42,7 @@ def get_data(corpus, shuffle=False, batch=False, batch_size=None):
     return x, y, num_batches
 
 # Trains the model and returns perplexity values on the eval sentences
-def train_model(model, num_epochs, num_batches_train, batched_x, batched_y, eval_every, eval_x, eval_y, num_batches_eval, V_train, model_ckpt_name="model.ckpt"):
+def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt"):
     # Training loop
     models_dir = os.path.join(os.getcwd(), "models")
     model_path = os.path.join(models_dir, model_ckpt_name) # path of file to save model
@@ -58,25 +58,30 @@ def train_model(model, num_epochs, num_batches_train, batched_x, batched_y, eval
         # Initialize all variables
         sess.run(tf.global_variables_initializer())
         for e in range(num_epochs):
-            for b in range(num_batches_train):
+            for b in range(num_batches):
                 _, step, step_loss = model.train_step(sess, batched_x[b], batched_y[b])
                 time_str = datetime.datetime.now().isoformat()
                 print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
                 if step % eval_every == 0:
-                    if num_batches_eval == 1: # only 1 batch
-                        step, step_loss = model.eval_step(sess, eval_x, eval_y)
-                    else:
-                        losses = []
-                        for i in range(num_batches_eval): # compute the loss over each batch
-                            step, step_loss = model.eval_step(sess, eval_x[i], eval_y[i])
-                            losses.append(step_loss)
-                        step_loss = np.mean(losses) # compute the mean loss over all batches
-                    
-                    print("\nEvaluation:\n    num_batches_eval: {}, step {}, loss {}\n".format(num_batches_eval, step, step_loss))
+                    step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)                    
+                    print("\nEvaluation:\n    num_batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
         
         model.save_model(sess, model_path)
 
         return model.perplexity(sess, eval_x, eval_y, V_train)
+
+def eval_model(model, sess, eval_x, eval_y, num_batches):
+    if num_batches == 1: # only 1 batch
+        step, step_loss = model.eval_step(sess, eval_x, eval_y)
+    else: # split eval dataset into batches and evaluate
+        eval_x = np.array_split(eval_x, num_batches)
+        eval_y = np.array_split(eval_y, num_batches)
+        losses = []
+        for i in range(num_batches): # compute the loss over each batch
+            step, step_loss = model.eval_step(sess, eval_x[i], eval_y[i])
+            losses.append(step_loss)
+        step_loss = np.mean(losses) # compute the mean loss over all batches
+    return step, step_loss
 
 def write_out(array, file_name): # overwrite file if exists
     n = array.shape[0]
@@ -102,8 +107,8 @@ print("Train data matrix shape: ", C_train.data.shape)
 print("Eval data matrix shape: ", C_eval.data.shape)
 
 # Train and Eval data
-batched_x, batched_y, num_batches_train = get_data(C_train, shuffle=True, batch=True, batch_size=batch_size) # training data, shuffled, batched
-eval_x, eval_y, num_batches_eval = get_data(C_eval, batch_size=batch_size) # eval data no shuffling or batching
+batched_x, batched_y, num_batches = get_data(C_train, shuffle=True, batch=True, batch_size=batch_size) # training data, shuffled, batched
+eval_x, eval_y, _ = get_data(C_eval) # eval data no shuffling or batching
 
 # Constants
 vocab_size = V_train.vocab_size # get true vocab size
@@ -119,19 +124,19 @@ with tf.Graph().as_default(): # create graph for Experiment A
     print("\nRunning Experiment A ...")
     # input("Press Enter to continue...")
     modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
-    perp = train_model(modelA, num_epochs, num_batches_train, batched_x, batched_y, eval_every, eval_x, eval_y, num_batches_eval, V_train, model_ckpt_name="modelA.ckpt") # train and get perplexities
+    perp = train_model(modelA, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelA.ckpt") # train and get perplexities
     write_out(perp, "group17.perplexityA")
 
 with tf.Graph().as_default(): # create graph for Experiment B
     print("\nRunning Experiment B ...")
     # input("Press Enter to continue...")
     modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
-    perp = train_model(modelB, num_epochs, num_batches_train, batched_x, batched_y, eval_every, eval_x, eval_y, num_batches_eval, V_train, model_ckpt_name="modelB.ckpt") # train and get perplexities
+    perp = train_model(modelB, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelB.ckpt") # train and get perplexities
     write_out(perp, "group17.perplexityB")
 
 with tf.Graph().as_default(): # create graph for Experiment C
     print("\nRunning Experiment C ...")
     # input("Press Enter to continue...")
     modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
-    perp = train_model(modelC, num_epochs, num_batches_train, batched_x, batched_y, eval_every, eval_x, eval_y, num_batches_eval, V_train, model_ckpt_name="modelC.ckpt") # train and get perplexities
+    perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelC.ckpt") # train and get perplexities
     write_out(perp, "group17.perplexityC")
