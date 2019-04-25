@@ -49,8 +49,8 @@ def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every
     with tf.Session() as sess:
         # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
         if os.path.exists(models_dir) and model.load_model(sess, model_path): # if successfully loaded model
-            step, step_loss = model.eval_step(sess, eval_x, eval_y)
-            print("\nEvaluating restored model on eval dataset:\n   step {}, loss {}\n".format(step, step_loss))
+            step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)
+            print("\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
             return model.perplexity(sess, eval_x, eval_y, V_train) # then return perplexities            
 
         # otherwise, train model and save
@@ -64,7 +64,7 @@ def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every
                 print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
                 if step % eval_every == 0:
                     step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)                    
-                    print("\nEvaluation:\n    num_batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
+                    print("\nEvaluation:\n    batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
         
         model.save_model(sess, model_path)
 
