@@ -122,25 +122,26 @@ time_steps = sentence_len-1
 timestamp = str(int(time()))
 out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs", timestamp))
 train_summary_dir = os.path.join(out_dir, "summaries", "train")
+evaluate = True # toggle evaluation step
 
 # Models
 with tf.Graph().as_default(): # create graph for Experiment A
     print("\nRunning Experiment A ...")
     # input("Press Enter to continue...")
     modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
-    perp = train_model(modelA, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelA.ckpt") # train and get perplexities
+    perp = train_model(modelA, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelA.ckpt", evaluate=evaluate) # train and get perplexities
     write_out(perp, "group17.perplexityA")
 
 with tf.Graph().as_default(): # create graph for Experiment B
     print("\nRunning Experiment B ...")
     # input("Press Enter to continue...")
     modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
-    perp = train_model(modelB, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelB.ckpt") # train and get perplexities
+    perp = train_model(modelB, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelB.ckpt", evaluate=evaluate) # train and get perplexities
     write_out(perp, "group17.perplexityB")
 
 with tf.Graph().as_default(): # create graph for Experiment C
     print("\nRunning Experiment C ...")
     # input("Press Enter to continue...")
     modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
-    perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelC.ckpt") # train and get perplexities
+    perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelC.ckpt", evaluate=evaluate) # train and get perplexities
     write_out(perp, "group17.perplexityC")
