@@ -42,15 +42,16 @@ def get_data(corpus, shuffle=False, batch=False, batch_size=None):
     return x, y, num_batches
 
 # Trains the model and returns perplexity values on the eval sentences
-def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt"):
+def train_model(model, num_epochs, num_batches, batched_x, batched_y, evaluate=False, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt"):
     # Training loop
     models_dir = os.path.join(os.getcwd(), "models")
     model_path = os.path.join(models_dir, model_ckpt_name) # path of file to save model
     with tf.Session() as sess:
         # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
         if os.path.exists(models_dir) and model.load_model(sess, model_path): # if successfully loaded model
-            step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)
-            print("\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
+            if evaluate:
+                step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)
+                print("\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
             return model.perplexity(sess, eval_x, eval_y, V_train) # then return perplexities            
 
         # otherwise, train model and save
@@ -62,7 +63,7 @@ def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every
                 _, step, step_loss = model.train_step(sess, batched_x[b], batched_y[b])
                 time_str = datetime.datetime.now().isoformat()
                 print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
-                if step % eval_every == 0:
+                if evaluate and step % eval_every == 0:
                     step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)                    
                     print("\nEvaluation:\n    batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
         
