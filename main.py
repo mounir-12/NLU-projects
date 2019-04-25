@@ -42,7 +42,7 @@ def get_data(corpus, shuffle=False, batch=False, batch_size=None):
     return x, y, num_batches
 
 # Trains the model and returns perplexity values on the eval sentences
-def train_model(model, num_epochs, num_batches, batched_x, batched_y, evaluate=False, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt"):
+def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt", evaluate=False):
     # Training loop
     models_dir = os.path.join(os.getcwd(), "models")
     model_path = os.path.join(models_dir, model_ckpt_name) # path of file to save model
