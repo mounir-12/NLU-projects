@@ -15,7 +15,8 @@ tf.set_random_seed(9)
 # ------values in comment for cluster deployement-------
 batch_size = 64
 num_epochs = 1 # to be chosen
-eval_every = 100
+eval_every = 1000
+print_every = 3 # limit the number of prints during training
 n_lines = None 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
@@ -62,8 +63,9 @@ def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_
     for e in range(num_epochs):
         for b in range(num_batches_train):
             _, step, step_loss = model.train_step(sess, train_x_batched[b], train_y_batched[b])
-            time_str = datetime.datetime.now().isoformat()
-            print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
+            if step == 1 or step % print_every == 0:
+                time_str = datetime.datetime.now().isoformat()
+                print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
             if eval_every > 0 and step % eval_every == 0: # do not evaluate if eval_every <= 0
                 step, step_loss = eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches_eval)                   
                 print("\nEvaluation:\n    batches: {}, step {}, loss {}\n".format(num_batches_eval, step, step_loss))
