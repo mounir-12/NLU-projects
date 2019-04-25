@@ -164,7 +164,7 @@ with tf.Graph().as_default(): # create graph for Experiment C
         perp = get_perplexity(modelC, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
         write_out(perp, "group17.perplexityC")
 
-
+"""
 with tf.Graph().as_default(): # create graph for task 2
     model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
     print("\nRunning Task 2 ...")
@@ -197,3 +197,4 @@ with tf.Graph().as_default(): # create graph for task 2
             for word in sentence:
                 file.write(word+' ')
             file.write('\n')
+"""

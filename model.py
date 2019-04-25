@@ -26,9 +26,9 @@ class LSTM:
 
         self.biases = tf.Variable(initializer([vocab_size]), name="biases")
 
-        if load_external_embedding: # we're loading the embedding matrix => no training needed to get embeddings
+        if load_external_embedding: # we're loading the embedding matrix
             matrix = load_embedding(V.token2id, embedding_path, embedding_size, vocab_size) # load embedding matrix from file
-            self.embedding_matrix = tf.Variable(matrix, name="embedding", trainable=False) # no training
+            self.embedding_matrix = tf.Variable(matrix, name="embedding") # make it trainable too (further train embeddings)
         else: # not loading external embedding => make embedding_matrix a tf.Variable (i,e to be trainable)
             self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
         
