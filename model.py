@@ -40,6 +40,8 @@ class LSTM:
 
         self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], tf.float32) # LSTM cell initial state
 
+        self.saver = tf.train.Saver()
+
         logits = None
 
         for t in range(time_steps):
@@ -106,14 +108,22 @@ class LSTM:
             temp = 1
             n = 0
             for t in range(w): # for each output sentence i, loop over timesteps t
-                token_id = output_sentences[i, t]
-                n += 1
                 if V.id2token[token_id] == V.PAD_token: # skip PAD tokens
                     continue
+                token_id = output_sentences[i, t]
+                n += 1
                 temp*=probas[i, t, token_id]
-            perp[i] = (1/temp)**(1/n) # n counts PAD symbols too, should we discount them?
+            perp[i] = (1/temp)**(1/n) # n doesn't count PAD symbols.
         
         return perp
+
+    def save_model(self, sess, path='./models/model.ckpt'):
+        self.saver.save(sess, path)
+        print("Model saved at %s" %path)
+
+    def load_model(self, sess, path='./models/model.ckpt'):
+        self.saver.restore(sess, path)
+        print("Model restored from %s" %path)
 
     def __call__(self, sess, x, y):
         return self.train_step(sess, x, y)

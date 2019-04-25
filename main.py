@@ -47,7 +47,11 @@ def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every
     with tf.Session() as sess:
         # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
         # Initialize all variables
-        sess.run(tf.global_variables_initializer())
+        # sess.run(tf.global_variables_initializer())
+        if os.path.exists('./models/model.ckpt'):
+            model.load_model(sess, './models/model.ckpt')
+        else:
+            sess.run(tf.global_variables_initializer())
         for e in range(num_epochs):
             for b in range(num_batches):
                 _, step, step_loss = model.train_step(sess, batched_x[b], batched_y[b])
@@ -56,6 +60,9 @@ def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every
                 if step % eval_every == 0:
                     step, step_loss = model.eval_step(sess, eval_x, eval_y)
                     print("\nEvaluation:\n    {}: step {}, loss {}\n".format(time_str, step, step_loss))
+        
+        model.save_model(sess, './models/model.ckpt')
+
         return model.perplexity(sess, eval_x, eval_y, V_train)
 
 def write_out(array, file_name): # overwrite file if exists
@@ -112,6 +119,7 @@ with tf.Graph().as_default(): # create graph for Experiment B
 with tf.Graph().as_default(): # create graph for Experiment C
     print("\nRunning Experiment C ...")
     # input("Press Enter to continue...")
+    os.rmdir('./models')
     modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
     perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train) # train and get perplexities
     write_out(perp, "group17.perplexityC")
