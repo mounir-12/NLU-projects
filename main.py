@@ -84,6 +84,17 @@ def eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches):
     step_loss = sum/counter # compute the mean loss over all batches
     return step, step_loss
 
+def get_perplexity(model, sess, test_x_batched, test_y_batched, V_train):
+    num_batches = test_x_batched.shape[0]
+    perp = None
+    for i in range(num_batches):
+        batch_perp = model.perplexity(sess, test_x_batched[i], test_x_batched[i], V_train)
+        if perp is None:
+            perp = batch_perp
+        else:
+            perp = np.concatenate((perp, batch_perp))
+    return perp
+
 def write_out(array, file_name): # overwrite file if exists
     n = array.shape[0]
     with open(file_name, 'w') as output:
@@ -113,9 +124,8 @@ print("Eval data matrix shape: ", C_eval.data.shape)
 
 # Train and Eval data
 train_x_batched, train_y_batched = get_data(C_train, shuffle=True, batch_size=batch_size) # training data, shuffled, batched
-eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size) # eval data no shuffling or batching
-test_x = C_test.data[:, :-1] # unbatched data to compute perplexity
-test_y = C_test.data[:, 1:] # unbatched data to compute perplexity
+eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size) # eval data batched no shuffling
+test_x_batched, test_y_batched = get_data(C_test, batch_size=batch_size) # test data batched no shuffling (used for perplexity computation)
 
 # Constants
 vocab_size = V_train.vocab_size # get true vocab size
@@ -125,7 +135,6 @@ time_steps = sentence_len-1
 timestamp = str(int(time()))
 out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs", timestamp))
 train_summary_dir = os.path.join(out_dir, "summaries", "train")
-evaluate = True # toggle evaluation step
 
 # Models
 with tf.Graph().as_default(): # create graph for Experiment A
@@ -134,7 +143,7 @@ with tf.Graph().as_default(): # create graph for Experiment A
         # input("Press Enter to continue...")
         modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
         train_model(modelA, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelA.ckpt", eval_every=eval_every)
-        perp = modelA.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
+        perp = get_perplexity(modelA, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
         write_out(perp, "group17.perplexityA")
 
 with tf.Graph().as_default(): # create graph for Experiment B
@@ -143,7 +152,7 @@ with tf.Graph().as_default(): # create graph for Experiment B
         # input("Press Enter to continue...")
         modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
         train_model(modelB, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelB.ckpt", eval_every=eval_every)
-        perp = modelB.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
+        perp = get_perplexity(modelB, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
         write_out(perp, "group17.perplexityB")
 
 with tf.Graph().as_default(): # create graph for Experiment C
@@ -152,7 +161,7 @@ with tf.Graph().as_default(): # create graph for Experiment C
         # input("Press Enter to continue...")
         modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
         train_model(modelC, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelC.ckpt", eval_every=eval_every)
-        perp = modelC.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
+        perp = get_perplexity(modelC, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
         write_out(perp, "group17.perplexityC")
 
 
