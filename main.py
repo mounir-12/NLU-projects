@@ -15,7 +15,7 @@ tf.set_random_seed(9)
 # ------values in comment for cluster deployement-------
 batch_size = 64
 num_epochs = 1 # to be chosen
-eval_every = 10
+eval_every = 100
 n_lines = None 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
@@ -80,7 +80,7 @@ def eval_model(model, sess, eval_x, eval_y, num_batches):
         counter = 0
         for i in range(num_batches): # compute the loss over each batch
             step, step_loss = model.eval_step(sess, eval_x[i], eval_y[i])
-            if(not np.is_nan(step_loss)):
+            if(not np.isnan(step_loss)):
                 sum += step_loss
                 counter += 1
         step_loss = sum/counter # compute the mean loss over all batches
