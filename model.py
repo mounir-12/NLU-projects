@@ -1,7 +1,6 @@
 import tensorflow as tf
-from tensorflow.nn.rnn_cell import LSTMCell
+from tensorflow.contrib.rnn import LSTMCell
 import numpy as np
-import os
 from load_embedding import load_embedding
 
 # Can we and should we use an implementation optimized for GPU ?
