@@ -155,3 +155,36 @@ with tf.Graph().as_default(): # create graph for Experiment C
         perp = modelC.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
         write_out(perp, "group17.perplexityC")
 
+
+with tf.Graph().as_default(): # create graph for task 2
+    model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
+    print("\nRunning Task 2 ...")
+    prompt_path = os.path.join(os.getcwd(), "sentences.continuation")
+    prompts = []
+    with open(prompt_path) as sentences:
+        for sentence in sentences:
+            tokens = sentence.strip().split(" ")
+            prompts.append(token2id(tokens))
+
+    model_ckpt_name = "modelA.ckpt"
+    models_dir = os.path.join(os.getcwd(), "models")
+    model_path = os.path.join(models_dir, model_ckpt_name)
+    with tf.Session() as sess:
+        model2.load_model(sess, model_path)
+        print("\nModel Restored")
+        model2.build_sentence_completion_graph()
+        print("\nSentence Completion Graph Built")
+        completed_sentences = []
+        for prompt in prompts:
+            continuation = model2.sentence_continuation(sess, prompt, V_train)
+            completed_sentences.append(prompt+continuation)
+
+    write_path = os.path.join(os.getcwd(), "group17.continuation")
+
+    print("\nWriting Completed Sentences")
+
+    with open(write_path, "w") as file:
+        for sentence in completed_sentences:
+            for word in sentence:
+                file.write(word+' ')
+            file.write('\n')
