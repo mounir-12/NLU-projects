@@ -26,7 +26,7 @@ vocab_size = 20000 # vocabulary size
 clip_grad_norm = 5
 # ------------------------------------------------------FUNCTIONS---------------------------------------------------------------------
 
-def get_data(corpus, shuffle=False, batch=False, batch_size=None):
+def get_data(corpus, shuffle=False, batch_size=None):
     data = corpus.data
     data_size = data.shape[0]
     if shuffle:
@@ -35,56 +35,50 @@ def get_data(corpus, shuffle=False, batch=False, batch_size=None):
     x = data[:, :-1]
     y = data[:, 1:]
     num_batches = 1 # default value
-    if batch:
+    if batch_size is not None:
         num_batches = int(math.ceil(data_size/batch_size))
-        x = np.array_split(x, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
-        y = np.array_split(y, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
-    return x, y, num_batches
+    x = np.array_split(x, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
+    y = np.array_split(y, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
+    return np.array(x), np.array(y)
 
 # Trains the model and returns perplexity values on the eval sentences
-def train_model(model, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="model.ckpt", evaluate=False):
+def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="model.ckpt", eval_every=-1):
     # Training loop
     models_dir = os.path.join(os.getcwd(), "models")
     model_path = os.path.join(models_dir, model_ckpt_name) # path of file to save model
-    with tf.Session() as sess:
-        # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
-        if os.path.exists(models_dir) and model.load_model(sess, model_path): # if successfully loaded model
-            if evaluate:
-                step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)
-                print("\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
-            return model.perplexity(sess, eval_x, eval_y, V_train) # then return perplexities            
+    num_batches_train = train_x_batched.shape[0] # nb of batches in the training set
+    num_batches_eval = eval_x_batched.shape[0] # nb of batches in the eval set
+    
+    # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
+    if os.path.exists(models_dir) and model.load_model(sess, model_path): # if successfully loaded model
+        step, step_loss = eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches_eval)
+        print("\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches_eval, step, step_loss))
+        return
 
-        # otherwise, train model and save
-        print("Training model ...")
-        # Initialize all variables
-        sess.run(tf.global_variables_initializer())
-        for e in range(num_epochs):
-            for b in range(num_batches):
-                _, step, step_loss = model.train_step(sess, batched_x[b], batched_y[b])
-                time_str = datetime.datetime.now().isoformat()
-                print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
-                if evaluate and step % eval_every == 0:
-                    step, step_loss = eval_model(model, sess, eval_x, eval_y, num_batches)                    
-                    print("\nEvaluation:\n    batches: {}, step {}, loss {}\n".format(num_batches, step, step_loss))
-        
-        model.save_model(sess, model_path)
+    # otherwise, train model and save
+    print("Training model ...")
+    # Initialize all variables
+    sess.run(tf.global_variables_initializer())
+    for e in range(num_epochs):
+        for b in range(num_batches_train):
+            _, step, step_loss = model.train_step(sess, train_x_batched[b], train_y_batched[b])
+            time_str = datetime.datetime.now().isoformat()
+            print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
+            if eval_every > 0 and step % eval_every == 0: # do not evaluate if eval_every <= 0
+                step, step_loss = eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches_eval)                   
+                print("\nEvaluation:\n    batches: {}, step {}, loss {}\n".format(num_batches_eval, step, step_loss))
+    
+    model.save_model(sess, model_path) # save trained model
 
-        return model.perplexity(sess, eval_x, eval_y, V_train)
-
-def eval_model(model, sess, eval_x, eval_y, num_batches):
-    if num_batches == 1: # only 1 batch
-        step, step_loss = model.eval_step(sess, eval_x, eval_y)
-    else: # split eval dataset into batches and evaluate
-        eval_x = np.array_split(eval_x, num_batches)
-        eval_y = np.array_split(eval_y, num_batches)
-        sum = 0
-        counter = 0
-        for i in range(num_batches): # compute the loss over each batch
-            step, step_loss = model.eval_step(sess, eval_x[i], eval_y[i])
-            if(not np.isnan(step_loss)):
-                sum += step_loss
-                counter += 1
-        step_loss = sum/counter # compute the mean loss over all batches
+def eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches):
+    sum = 0
+    counter = 0
+    for i in range(num_batches): # compute the loss over each batch
+        step, step_loss = model.eval_step(sess, eval_x_batched[i], eval_y_batched[i])
+        if(not np.isnan(step_loss)):
+            sum += step_loss
+            counter += 1
+    step_loss = sum/counter # compute the mean loss over all batches
     return step, step_loss
 
 def write_out(array, file_name): # overwrite file if exists
@@ -111,8 +105,10 @@ print("Train data matrix shape: ", C_train.data.shape)
 print("Eval data matrix shape: ", C_eval.data.shape)
 
 # Train and Eval data
-batched_x, batched_y, num_batches = get_data(C_train, shuffle=True, batch=True, batch_size=batch_size) # training data, shuffled, batched
-eval_x, eval_y, _ = get_data(C_eval) # eval data no shuffling or batching
+train_x_batched, train_y_batched = get_data(C_train, shuffle=True, batch_size=batch_size) # training data, shuffled, batched
+eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size) # eval data no shuffling or batching
+test_x = C_eval.data[:, :-1] # unbatched data to compute perplexity
+test_y = C_eval.data[:, 1:] # unbatched data to compute perplexity
 
 # Constants
 vocab_size = V_train.vocab_size # get true vocab size
@@ -126,22 +122,29 @@ evaluate = True # toggle evaluation step
 
 # Models
 with tf.Graph().as_default(): # create graph for Experiment A
-    print("\nRunning Experiment A ...")
-    # input("Press Enter to continue...")
-    modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
-    perp = train_model(modelA, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelA.ckpt", evaluate=evaluate) # train and get perplexities
-    write_out(perp, "group17.perplexityA")
+    with tf.Session() as sess:
+        print("\nRunning Experiment A ...")
+        # input("Press Enter to continue...")
+        modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
+        train_model(modelA, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelA.ckpt", eval_every=eval_every)
+        perp = modelA.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
+        write_out(perp, "group17.perplexityA")
 
 with tf.Graph().as_default(): # create graph for Experiment B
-    print("\nRunning Experiment B ...")
-    # input("Press Enter to continue...")
-    modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
-    perp = train_model(modelB, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelB.ckpt", evaluate=evaluate) # train and get perplexities
-    write_out(perp, "group17.perplexityB")
+    with tf.Session() as sess:
+        print("\nRunning Experiment B ...")
+        # input("Press Enter to continue...")
+        modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
+        train_model(modelB, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelB.ckpt", eval_every=eval_every)
+        perp = modelB.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
+        write_out(perp, "group17.perplexityB")
 
 with tf.Graph().as_default(): # create graph for Experiment C
-    print("\nRunning Experiment C ...")
-    # input("Press Enter to continue...")
-    modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
-    perp = train_model(modelC, num_epochs, num_batches, batched_x, batched_y, eval_every, eval_x, eval_y, V_train, model_ckpt_name="modelC.ckpt", evaluate=evaluate) # train and get perplexities
-    write_out(perp, "group17.perplexityC")
+    with tf.Session() as sess:
+        print("\nRunning Experiment C ...")
+        # input("Press Enter to continue...")
+        modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
+        train_model(modelC, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelC.ckpt", eval_every=eval_every)
+        perp = modelC.perplexity(sess, test_x, test_y, V_train) # compute perplexities on test set
+        write_out(perp, "group17.perplexityC")
+
