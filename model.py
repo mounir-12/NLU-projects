@@ -19,6 +19,7 @@ class LSTM:
         # Model Variables
         if down_project:
             self.W_p = tf.Variable(initializer((hidden_size, down_projection_size)), name="W_p") # projection matrix
+            self.biases_p = tf.Variable(initializer([vocab_size]), name="biases_p")
             self.W = tf.Variable(initializer((down_projection_size, vocab_size)), name="W") # weights
         else:
             self.W = tf.Variable(initializer((hidden_size, vocab_size)), name="W") # weights
@@ -45,7 +46,7 @@ class LSTM:
         for t in range(time_steps):
             output, state = self.rnn(embedded_x[:, t], state) # input the slice t (i,e all embedded vectors of the batch at timestep t)
             if down_project:
-                logit = tf.matmul(tf.matmul(output, self.W_p), self.W) + self.biases # first project then compute logit
+                logit = tf.matmul(tf.matmul(output, self.W_p) + self.biases_p, self.W) + self.biases # first project then compute logit
             else:
                 logit = tf.matmul(output, self.W) + self.biases
             logit = tf.reshape(logit, (tf.shape(logit)[0], 1, tf.shape(logit)[1])) # reshape for later concat
