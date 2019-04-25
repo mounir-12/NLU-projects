@@ -28,7 +28,7 @@ class LSTM:
 
         if load_external_embedding: # we're loading the embedding matrix => no training needed to get embeddings
             matrix = load_embedding(V.token2id, embedding_path, embedding_size, vocab_size) # load embedding matrix from file
-            self.embedding_matrix = tf.convert_to_tensor(matrix, dtype=float, name="embedding") # convert to tensor
+            self.embedding_matrix = tf.Variable(matrix, name="embedding", trainable=False) # no training
         else: # not loading external embedding => make embedding_matrix a tf.Variable (i,e to be trainable)
             self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
         
@@ -36,6 +36,7 @@ class LSTM:
         self.input_x = tf.placeholder(tf.int32, [None, time_steps]) # the input words of shape [batch_size, time_steps]
         self.input_y = tf.placeholder(tf.int32, [None, time_steps]) # the target words of shape [batch_size, time_steps]
         embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x) # the embedded input of shape [batch_size, time_steps, embedding_size]
+        embedded_x = tf.cast(embedded_x, tf.float32) # cast needed fot LSTMCell next, otherwise error
 
         self.rnn = LSTMCell(hidden_size, initializer=initializer) # LSTM cell with hidden state of size hidden_size
 
