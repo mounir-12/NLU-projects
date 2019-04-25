@@ -11,36 +11,37 @@ class LSTM:
     def __init__(self, V, embedding_size, hidden_size, time_steps, clip_norm, down_project=False, down_projection_size=None,
                         load_external_embedding=False, embedding_path=None):
         vocab_size = V.vocab_size
-        initializer = tf.contrib.layers.xavier_initializer()
+        self.dtype = tf.float64
+        initializer = tf.contrib.layers.xavier_initializer(dtype=self.dtype)
 
         self.hidden_size = hidden_size
         self.vocab_size = V.vocab_size
         self.time_steps = time_steps
+
         # Model Variables
         if down_project:
-            self.W_p = tf.Variable(initializer((hidden_size, down_projection_size)), name="W_p") # projection matrix
-            self.biases_p = tf.Variable(initializer([down_projection_size]), name="biases_p")
-            self.W = tf.Variable(initializer((down_projection_size, vocab_size)), name="W") # weights
+            self.W_p = tf.Variable(initializer((hidden_size, down_projection_size)), name="W_p", dtype=self.dtype) # projection matrix
+            self.biases_p = tf.Variable(initializer([down_projection_size]), name="biases_p", dtype=self.dtype)
+            self.W = tf.Variable(initializer((down_projection_size, vocab_size)), name="W", dtype=self.dtype) # weights
         else:
-            self.W = tf.Variable(initializer((hidden_size, vocab_size)), name="W") # weights
+            self.W = tf.Variable(initializer((hidden_size, vocab_size)), name="W", dtype=self.dtype) # weights
 
-        self.biases = tf.Variable(initializer([vocab_size]), name="biases")
+        self.biases = tf.Variable(initializer([vocab_size]), name="biases", dtype=self.dtype)
 
         if load_external_embedding: # we're loading the embedding matrix
             matrix = load_embedding(V.token2id, embedding_path, embedding_size, vocab_size) # load embedding matrix from file
-            self.embedding_matrix = tf.Variable(matrix, name="embedding") # make it trainable too (further train embeddings)
+            self.embedding_matrix = tf.Variable(matrix, name="embedding", dtype=self.dtype) # make it trainable too (further train embeddings)
         else: # not loading external embedding => make embedding_matrix a tf.Variable (i,e to be trainable)
-            self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding")
+            self.embedding_matrix = tf.Variable(initializer((vocab_size, embedding_size)), name="embedding", dtype=self.dtype)
         
         # Create Model graph
         self.input_x = tf.placeholder(tf.int32, [None, time_steps]) # the input words of shape [batch_size, time_steps]
         self.input_y = tf.placeholder(tf.int32, [None, time_steps]) # the target words of shape [batch_size, time_steps]
         embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x) # the embedded input of shape [batch_size, time_steps, embedding_size]
-        embedded_x = tf.cast(embedded_x, tf.float32) # cast needed fot LSTMCell next, otherwise error
 
-        self.rnn = LSTMCell(hidden_size, initializer=initializer) # LSTM cell with hidden state of size hidden_size
+        self.rnn = LSTMCell(hidden_size, initializer=initializer, dtype=self.dtype) # LSTM cell with hidden state of size hidden_size
 
-        self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], tf.float32) # LSTM cell initial state
+        self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], dtype=self.dtype) # LSTM cell initial state
 
         logits = None
 
