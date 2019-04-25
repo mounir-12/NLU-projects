@@ -21,6 +21,7 @@ n_lines = None
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
 eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
+test_path = os.path.join(os.getcwd(), "data", "sentences_test.txt")
 embedding_path = os.path.join(os.getcwd(), "data", "wordembeddings-dim100.word2vec")
 sentence_len = 30 # padded sentence length including EOS and BOS
 vocab_size = 20000 # vocabulary size
@@ -100,6 +101,10 @@ C_train.build_data_from_vocabulary(V_train, write_to_file="corpus_train.pkl") # 
 
 C_eval = Corpus(eval_path, sentence_len, read_from_file="corpus_eval.pkl", n_sentences=n_lines) # create evaluation corpus from evaluation file
 C_eval.build_data_from_vocabulary(V_train, write_to_file="corpus_eval.pkl") # build corpus data matrix from vocabulary, write object to disk
+
+C_test = Corpus(test_path, sentence_len, read_from_file="corpus_test.pkl", n_sentences=n_lines) # create test corpus from test file
+C_test.build_data_from_vocabulary(V_train, write_to_file="corpus_test.pkl") # build corpus data matrix from vocabulary, write object to disk
+
 print("Total time (s): ", time() - t, "\n")
 
 print("Vocab size: ", V_train.vocab_size)
@@ -109,8 +114,8 @@ print("Eval data matrix shape: ", C_eval.data.shape)
 # Train and Eval data
 train_x_batched, train_y_batched = get_data(C_train, shuffle=True, batch_size=batch_size) # training data, shuffled, batched
 eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size) # eval data no shuffling or batching
-test_x = C_eval.data[:, :-1] # unbatched data to compute perplexity
-test_y = C_eval.data[:, 1:] # unbatched data to compute perplexity
+test_x = C_test.data[:, :-1] # unbatched data to compute perplexity
+test_y = C_test.data[:, 1:] # unbatched data to compute perplexity
 
 # Constants
 vocab_size = V_train.vocab_size # get true vocab size
