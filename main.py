@@ -15,7 +15,7 @@ tf.set_random_seed(9)
 # ------values in comment for cluster deployement-------
 batch_size = 64
 num_epochs = 1 # to be chosen
-eval_every = 8
+eval_every = 100
 n_lines = None 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
