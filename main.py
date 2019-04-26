@@ -1,32 +1,61 @@
-import os, math, datetime
-import numpy as np
+import datetime
+import os
+from argparse import ArgumentParser
 from time import time
+
+import math
+import numpy as np
 import tensorflow as tf
-# import tensorflow.contrib.eager as tfe
 
 from lang_new import Vocabulary, Corpus
 from model import LSTM
 
+parser = ArgumentParser()
+parser.add_argument("-l", "--lines", type=int,
+                    help="Number of lines to read. If not provided, reads the whole file")
 
-# tfe.enable_eager_execution()
-tf.set_random_seed(9)
+parser.add_argument("-bs", "--batch-size", type=int, default=32,
+                    help="Train batch size")
+parser.add_argument("-e", "--epochs", type=int, default=1,
+                    help="Training epochs")
+
+parser.add_argument("-pe", "--print-every", type=int, default=100,
+                    help="Number of samples between info printing")
+parser.add_argument("-ve", "--val-every", type=int, default=1000,
+                    help="Number of samples between validation error computation")
+
+parser.add_argument('-t', "--task", choices=["1a", "1b", "1c", "2"], required=True,
+                    help="The task to run")
+
+parser.add_argument("-rs", "--random-seed", type=int, default=9,
+                    help="Random seed")
+
+args = parser.parse_args()
+
+tf.set_random_seed(args.random_seed)
+np.random.seed(args.random_seed)
 
 # --------------------------------------------------------CONSTANTS---------------------------------------------------------------------
 # ------values in comment for cluster deployement-------
-batch_size = 64
-num_epochs = 1 # to be chosen
-eval_every = 1000
-print_every = 100 # limit the number of prints during training
-n_lines = None
-max_length = 20 #maximum number of words per sentence during completion 
+batch_size = args.batch_size
+num_epochs = args.epochs
+eval_every = args.val_every
+print_every = args.print_every  # limit the number of prints during training
+n_lines = args.lines
+max_length = 20  # maximum number of words per sentence during completion
 # ------------------------------------------------------
-train_path = os.path.join(os.getcwd(), "data", "sentences.train")
-eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
-test_path = os.path.join(os.getcwd(), "data", "sentences_test.txt")
-embedding_path = os.path.join(os.getcwd(), "data", "wordembeddings-dim100.word2vec")
-sentence_len = 30 # padded sentence length including EOS and BOS
-vocab_size = 20000 # vocabulary size
+task = args.task
+
+train_path = os.path.join("data", "sentences.train")
+eval_path = os.path.join("data", "sentences.eval")
+test_path = os.path.join("data", "sentences_test.txt")
+embedding_path = os.path.join("data", "wordembeddings-dim100.word2vec")
+
+sentence_len = 30  # padded sentence length including EOS and BOS
+vocab_size = 20000  # vocabulary size
 clip_grad_norm = 5
+
+
 # ------------------------------------------------------FUNCTIONS---------------------------------------------------------------------
 
 def get_data(corpus, shuffle=False, batch_size=None):
@@ -37,25 +66,29 @@ def get_data(corpus, shuffle=False, batch_size=None):
         data = data[shuffle_indices]
     x = data[:, :-1]
     y = data[:, 1:]
-    num_batches = 1 # default value
+    num_batches = 1  # default value
     if batch_size is not None:
-        num_batches = int(math.ceil(data_size/batch_size))
-    x = np.array_split(x, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
-    y = np.array_split(y, num_batches) # split into num_batches batches (last batch size may differ from previous ones)
+        num_batches = int(math.ceil(data_size / batch_size))
+    x = np.array_split(x, num_batches)  # split into num_batches batches (last batch size may differ from previous ones)
+    y = np.array_split(y, num_batches)  # split into num_batches batches (last batch size may differ from previous ones)
     return np.array(x), np.array(y)
 
+
 # Trains the model and returns perplexity values on the eval sentences
-def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="model.ckpt", eval_every=-1):
+def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched,
+                model_ckpt_name="model.ckpt", eval_every=-1):
     # Training loop
     models_dir = os.path.join(os.getcwd(), "models")
-    model_path = os.path.join(models_dir, model_ckpt_name) # path of file to save model
-    num_batches_train = train_x_batched.shape[0] # nb of batches in the training set
-    num_batches_eval = eval_x_batched.shape[0] # nb of batches in the eval set
-    
+    model_path = os.path.join(models_dir, model_ckpt_name)  # path of file to save model
+    num_batches_train = train_x_batched.shape[0]  # nb of batches in the training set
+    num_batches_eval = eval_x_batched.shape[0]  # nb of batches in the eval set
+
     # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
-    if os.path.exists(models_dir) and model.load_model(sess, model_path): # if successfully loaded model
+    if os.path.exists(models_dir) and model.load_model(sess, model_path):  # if successfully loaded model
         step, step_loss = eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches_eval)
-        print("\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches_eval, step, step_loss))
+        print(
+            "\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches_eval,
+                                                                                                      step, step_loss))
         return
 
     # otherwise, train model and save
@@ -67,24 +100,28 @@ def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_
             _, step, step_loss = model.train_step(sess, train_x_batched[b], train_y_batched[b])
             if step == 1 or step % print_every == 0:
                 time_str = datetime.datetime.now().isoformat()
-                print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e+1, b+1, time_str, step, step_loss))
-            if eval_every > 0 and step % eval_every == 0: # do not evaluate if eval_every <= 0
-                perps = get_perplexity(model, sess, eval_x_batched, eval_y_batched, V_train) # compute perplexities over eval dataset
+                print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e + 1, b + 1, time_str, step, step_loss))
+            if eval_every > 0 and step % eval_every == 0:  # do not evaluate if eval_every <= 0
+                perps = get_perplexity(model, sess, eval_x_batched, eval_y_batched,
+                                       V_train)  # compute perplexities over eval dataset
                 mean, median = np.mean(perps), np.median(perps)
-                print("\nEvaluation:\n    batches: {}, step: {}, perp_mean: {}, perp_median: {}\n".format(num_batches_eval, step, mean, median))
-    
-    model.save_model(sess, model_path) # save trained model
+                print("\nEvaluation:\n    batches: {}, step: {}, perp_mean: {}, perp_median: {}\n".format(
+                    num_batches_eval, step, mean, median))
+
+    model.save_model(sess, model_path)  # save trained model
+
 
 def eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches):
     sum = 0
     counter = 0
-    for i in range(num_batches): # compute the loss over each batch
+    for i in range(num_batches):  # compute the loss over each batch
         step, step_loss = model.eval_step(sess, eval_x_batched[i], eval_y_batched[i])
-        if(not np.isnan(step_loss)):
+        if (not np.isnan(step_loss)):
             sum += step_loss
             counter += 1
-    step_loss = sum/counter # compute the mean loss over all batches
+    step_loss = sum / counter  # compute the mean loss over all batches
     return step, step_loss
+
 
 def get_perplexity(model, sess, test_x_batched, test_y_batched, V_train):
     num_batches = test_x_batched.shape[0]
@@ -97,26 +134,34 @@ def get_perplexity(model, sess, test_x_batched, test_y_batched, V_train):
             perp = np.concatenate((perp, batch_perp))
     return perp
 
-def write_out(array, file_name): # overwrite file if exists
+
+def write_out(array, file_name):  # overwrite file if exists
     n = array.shape[0]
     with open(file_name, 'w') as output:
-        for row in range(n): #write each row
+        for row in range(n):  # write each row
             output.write(str(array[row]) + '\n')
+
 
 # --------------------------------------------------------START---------------------------------------------------------------------
 # Data IO
 print("\nData IO ...")
 t = time()
-C_train = Corpus(train_path, sentence_len, read_from_file="corpus_train.pkl", n_sentences=n_lines) # create training corpus from training file
-V_train = Vocabulary(vocab_size, read_from_file="vocab.pkl") # object to represent training vocabulary
-V_train.build_from_corpus(C_train, write_to_file="vocab.pkl") # build vocabulary from training corpus
-C_train.build_data_from_vocabulary(V_train, write_to_file="corpus_train.pkl") # build corpus data matrix from vocabulary, write object to disk
+C_train = Corpus(train_path, sentence_len, read_from_file="corpus_train.pkl",
+                 n_sentences=n_lines)  # create training corpus from training file
+V_train = Vocabulary(vocab_size, read_from_file="vocab.pkl")  # object to represent training vocabulary
+V_train.build_from_corpus(C_train, write_to_file="vocab.pkl")  # build vocabulary from training corpus
+C_train.build_data_from_vocabulary(V_train,
+                                   write_to_file="corpus_train.pkl")  # build corpus data matrix from vocabulary, write object to disk
 
-C_eval = Corpus(eval_path, sentence_len, read_from_file="corpus_eval.pkl", n_sentences=n_lines) # create evaluation corpus from evaluation file
-C_eval.build_data_from_vocabulary(V_train, write_to_file="corpus_eval.pkl") # build corpus data matrix from vocabulary, write object to disk
+C_eval = Corpus(eval_path, sentence_len, read_from_file="corpus_eval.pkl",
+                n_sentences=n_lines)  # create evaluation corpus from evaluation file
+C_eval.build_data_from_vocabulary(V_train,
+                                  write_to_file="corpus_eval.pkl")  # build corpus data matrix from vocabulary, write object to disk
 
-C_test = Corpus(test_path, sentence_len, read_from_file="corpus_test.pkl", n_sentences=n_lines) # create test corpus from test file
-C_test.build_data_from_vocabulary(V_train, write_to_file="corpus_test.pkl") # build corpus data matrix from vocabulary, write object to disk
+C_test = Corpus(test_path, sentence_len, read_from_file="corpus_test.pkl",
+                n_sentences=n_lines)  # create test corpus from test file
+C_test.build_data_from_vocabulary(V_train,
+                                  write_to_file="corpus_test.pkl")  # build corpus data matrix from vocabulary, write object to disk
 
 print("Total time (s): ", time() - t, "\n")
 
@@ -125,13 +170,15 @@ print("Train data matrix shape: ", C_train.data.shape)
 print("Eval data matrix shape: ", C_eval.data.shape)
 
 # Train and Eval data
-train_x_batched, train_y_batched = get_data(C_train, shuffle=True, batch_size=batch_size) # training data, shuffled, batched
-eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size) # eval data batched no shuffling
-test_x_batched, test_y_batched = get_data(C_test, batch_size=batch_size) # test data batched no shuffling (used for perplexity computation)
+train_x_batched, train_y_batched = get_data(C_train, shuffle=True,
+                                            batch_size=batch_size)  # training data, shuffled, batched
+eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size)  # eval data batched no shuffling
+test_x_batched, test_y_batched = get_data(C_test,
+                                          batch_size=batch_size)  # test data batched no shuffling (used for perplexity computation)
 
 # Constants
-vocab_size = V_train.vocab_size # get true vocab size
-time_steps = sentence_len-1
+vocab_size = V_train.vocab_size  # get true vocab size
+time_steps = sentence_len - 1
 
 # Tensorboard constants
 timestamp = str(int(time()))
@@ -139,73 +186,84 @@ out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs", timestamp))
 train_summary_dir = os.path.join(out_dir, "summaries", "train")
 
 # Models
-with tf.Graph().as_default(): # create graph for Experiment A
-    with tf.Session() as sess:
-        print("\nRunning Experiment A ...")
-        # input("Press Enter to continue...")
-        modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
-        train_model(modelA, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelA.ckpt", eval_every=eval_every)
-        perp = get_perplexity(modelA, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
-        write_out(perp, "group17.perplexityA")
+if task == "1a":
+    with tf.Graph().as_default():  # create graph for Experiment A
+        with tf.Session() as sess:
+            print("\nRunning Experiment A ...")
+            # input("Press Enter to continue...")
+            modelA = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
+            train_model(modelA, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched,
+                        model_ckpt_name="modelA.ckpt", eval_every=eval_every)
+            perp = get_perplexity(modelA, sess, test_x_batched, test_y_batched,
+                                  V_train)  # compute perplexities on test set
+            write_out(perp, "group17.perplexityA")
+elif task == "1b":
+    with tf.Graph().as_default():  # create graph for Experiment B
+        with tf.Session() as sess:
+            print("\nRunning Experiment B ...")
+            # input("Press Enter to continue...")
+            modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm,
+                          load_external_embedding=True, embedding_path=embedding_path)
+            train_model(modelB, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched,
+                        model_ckpt_name="modelB.ckpt", eval_every=eval_every)
+            perp = get_perplexity(modelB, sess, test_x_batched, test_y_batched,
+                                  V_train)  # compute perplexities on test set
+            write_out(perp, "group17.perplexityB")
+elif task == "1c":
+    with tf.Graph().as_default():  # create graph for Experiment C
+        with tf.Session() as sess:
+            print("\nRunning Experiment C ...")
+            # input("Press Enter to continue...")
+            modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps,
+                          clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
+            train_model(modelC, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched,
+                        model_ckpt_name="modelC.ckpt", eval_every=eval_every)
+            perp = get_perplexity(modelC, sess, test_x_batched, test_y_batched,
+                                  V_train)  # compute perplexities on test set
+            write_out(perp, "group17.perplexityC")
+elif task == "2":
+    with tf.Graph().as_default():  # create graph for task 2
+        model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
+        print("\nRunning Task 2 ...")
+        prompt_path = os.path.join(os.getcwd(), "data/sentences.continuation")
+        prompts = []
+        with open(prompt_path) as sentences:
+            for sentence in sentences:
+                tokens = sentence.strip().split(" ")
+                temp = [V_train.token2id[V_train.BOS_token]]
+                for token in tokens:
+                    try:
+                        temp.append(V_train.token2id[token])
+                    except KeyError as outlier:
+                        print('The word ' + token + ' doesn\'t exist in the corpus')
+                        temp.append(V_train.token2id[V_train.UNK_token])
+                prompts.append(temp)
 
-with tf.Graph().as_default(): # create graph for Experiment B
-    with tf.Session() as sess:
-        print("\nRunning Experiment B ...")
-        # input("Press Enter to continue...")
-        modelB = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm, load_external_embedding=True, embedding_path=embedding_path)
-        train_model(modelB, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelB.ckpt", eval_every=eval_every)
-        perp = get_perplexity(modelB, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
-        write_out(perp, "group17.perplexityB")
+        model_ckpt_name = "modelA.ckpt"
+        models_dir = os.path.join(os.getcwd(), "models")
+        model_path = os.path.join(models_dir, model_ckpt_name)
+        with tf.Session() as sess:
+            model2.load_model(sess, model_path)
+            print("\nModel Restored")
+            model2.build_sentence_completion_graph()
+            print("\nSentence Completion Graph Built")
+            completed_sentences = []
+            for prompt in prompts:
+                continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
+                prompt_text = []
+                for word in prompt:
+                    prompt_text.append(V_train.id2token[word])
+                # print(prompt_text+continuation)
+                completed_sentences.append(prompt_text + continuation)
 
-with tf.Graph().as_default(): # create graph for Experiment C
-    with tf.Session() as sess:
-        print("\nRunning Experiment C ...")
-        # input("Press Enter to continue...")
-        modelC = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps, clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
-        train_model(modelC, sess, num_epochs, train_x_batched, train_y_batched, eval_x_batched, eval_y_batched, model_ckpt_name="modelC.ckpt", eval_every=eval_every)
-        perp = get_perplexity(modelC, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
-        write_out(perp, "group17.perplexityC")
+        write_path = os.path.join(os.getcwd(), "group17.continuation")
 
-with tf.Graph().as_default(): # create graph for task 2
-    model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
-    print("\nRunning Task 2 ...")
-    prompt_path = os.path.join(os.getcwd(), "data/sentences.continuation")
-    prompts = []
-    with open(prompt_path) as sentences:
-        for sentence in sentences:
-            tokens = sentence.strip().split(" ")
-            temp = [V_train.token2id[V_train.BOS_token]]
-            for token in tokens:
-                try:
-                    temp.append(V_train.token2id[token])
-                except KeyError as outlier:
-                    print('The word ' + token + ' doesn\'t exist in the corpus')
-                    temp.append(V_train.token2id[V_train.UNK_token])
-            prompts.append(temp)
+        print("\nWriting Completed Sentences")
 
-    model_ckpt_name = "modelA.ckpt"
-    models_dir = os.path.join(os.getcwd(), "models")
-    model_path = os.path.join(models_dir, model_ckpt_name)
-    with tf.Session() as sess:
-        model2.load_model(sess, model_path)
-        print("\nModel Restored")
-        model2.build_sentence_completion_graph()
-        print("\nSentence Completion Graph Built")
-        completed_sentences = []
-        for prompt in prompts:
-            continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
-            prompt_text = []
-            for word in prompt:
-                prompt_text.append(V_train.id2token[word])
-            # print(prompt_text+continuation)
-            completed_sentences.append(prompt_text+continuation)
-
-    write_path = os.path.join(os.getcwd(), "group17.continuation")
-
-    print("\nWriting Completed Sentences")
-
-    with open(write_path, "w") as file:
-        for sentence in completed_sentences:
-            for word in sentence:
-                file.write(word+' ')
-            file.write('\n')
+        with open(write_path, "w") as file:
+            for sentence in completed_sentences:
+                for word in sentence:
+                    file.write(word + ' ')
+                file.write('\n')
+else:
+    raise ValueError("Wut unrecognized task {}".format(task))
