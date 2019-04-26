@@ -269,6 +269,8 @@ elif task == "2":
         with open(write_path, "w") as file:
             for sentence in completed_sentences:
                 for word in sentence:
+                    if(word == '<pad>' or word == '<bos>'):
+                        continue
                     file.write(word + ' ')
                 file.write('\n')
 else:

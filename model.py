@@ -155,7 +155,7 @@ class LSTM:
 
             next_probabs, current_state = sess.run([self.next_probabs, self.next_state], feed_dict)
             current_word = np.argmax(next_probabs)
-            if(current_word == V.token2id[V.EOS_token] or current_word == V.token2id[V.PAD_token]):
+            if(current_word == V.token2id[V.EOS_token]):
                 break
 
         return predicted_continuation
