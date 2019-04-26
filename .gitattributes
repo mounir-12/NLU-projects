@@ -1,0 +1,10 @@
+models/checkpoint filter=lfs diff=lfs merge=lfs -text
+models/modelC.ckpt.index filter=lfs diff=lfs merge=lfs -text
+models/modelC.ckpt.meta filter=lfs diff=lfs merge=lfs -text
+models/modelA.ckpt.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
+models/modelA.ckpt.index filter=lfs diff=lfs merge=lfs -text
+models/modelA.ckpt.meta filter=lfs diff=lfs merge=lfs -text
+models/modelB.ckpt.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
+models/modelB.ckpt.index filter=lfs diff=lfs merge=lfs -text
+models/modelB.ckpt.meta filter=lfs diff=lfs merge=lfs -text
+models/modelC.ckpt.data-00000-of-00001 filter=lfs diff=lfs merge=lfs -text
