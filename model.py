@@ -114,28 +114,12 @@ class LSTM:
         return perp
 
     def build_sentence_completion_graph(self):
-        self.sentence_length = tf.placeholder(tf.int32)
-        self.input_x = tf.placeholder(tf.int32, None)
 
-        embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x)
+        self.c_in = tf.placeholder(tf.float32, shape=[1, self.rnn.state_size.c], name='c_in')
+        self.h_in = tf.placeholder(tf.float32, shape=[1, self.rnn.state_size.h], name='h_in')
 
-        i = tf.constant(0)
-        state = self.rnn.zero_state()
-        while_condition = lambda i: tf.less(i, self.sentence_length)
-        def body(i):
-            output, state = self.rnn(embedded_x[i], state)
-            tf.add(i, 1) # increment i
-            return [output, state]
-
-        # perform the loop:
-        prompt_output, self.prompt_state = tf.while_loop(while_condition, body, [i])
-
-        prompt_logit = tf.matmul(next_output, self.W) + self.biases
-
-        self.prompt_probabs = tf.nn.softmax(prompt_logit)
-
-        self.int_state = tf.placeholder(tf.float32, None)
-        self.current_word = tf.placeholder(tf.int32)
+        self.int_state = tf.contrib.rnn.LSTMStateTuple(self.c_in, self.h_in)
+        self.current_word = tf.placeholder(tf.int32, [1])
         self.current_embed = tf.nn.embedding_lookup(self.embedding_matrix, self.current_word)
 
         next_output, self.next_state = self.rnn(self.current_embed, self.int_state)
@@ -145,22 +129,33 @@ class LSTM:
         self.next_probabs = tf.nn.softmax(next_logit)
 
 
-    def sentence_continuation(self, sess, prompt, V):
+    def sentence_continuation(self, sess, prompt, V, max_length):
+
+        current_state = self.rnn.zero_state(1, tf.float32)
+        c_init = np.zeros((1, self.rnn.state_size.c), np.float32)
+        h_init = np.zeros((1, self.rnn.state_size.h), np.float32)
+        current_state = [c_init, h_init]
         prompt_length = len(prompt)
-        feed_dict={sentence_length: prompt_length, self.input_x: prompt}
-        next_probabs, current_state = sess.run([self.prompt_probabs, self.prompt_state], feed_dict)
+        for word in prompt:
+            current_c, current_h = current_state
+            feed_dict = {self.c_in: current_c, self.h_in: current_h, self.current_word: [word]}
+            next_probabs, current_state = sess.run([self.next_probabs, self.next_state], feed_dict)
+
         current_word = np.argmax(next_probabs)
+
 
         predicted_continuation = []
 
         for i in range(max_length-prompt_length):
-            predicted_continuation.append(V.id2token(current_word))
+            predicted_continuation.append(V.id2token[current_word])
 
-            feed_dict = {self.int_state: current_state, self.current_word: current_word}
+            current_c, current_h = current_state
 
-            next_probabs, current_state = sess.run([self.next_probabs, sel.next_state], feed_dict)
+            feed_dict = {self.c_in: current_c, self.h_in: current_h, self.current_word: [current_word]}
+
+            next_probabs, current_state = sess.run([self.next_probabs, self.next_state], feed_dict)
             current_word = np.argmax(next_probabs)
-            if(current_word == V.token2id('<eos>')):
+            if(current_word == V.token2id[V.EOS_token]):
                 break
 
         return predicted_continuation

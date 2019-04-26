@@ -17,7 +17,8 @@ batch_size = 64
 num_epochs = 1 # to be chosen
 eval_every = 1000
 print_every = 100 # limit the number of prints during training
-n_lines = None 
+n_lines = None
+max_length = 20 #maximum number of words per sentence during completion 
 # ------------------------------------------------------
 train_path = os.path.join(os.getcwd(), "data", "sentences.train")
 eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
@@ -165,16 +166,23 @@ with tf.Graph().as_default(): # create graph for Experiment C
         perp = get_perplexity(modelC, sess, test_x_batched, test_y_batched, V_train) # compute perplexities on test set
         write_out(perp, "group17.perplexityC")
 
-"""
 with tf.Graph().as_default(): # create graph for task 2
     model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
     print("\nRunning Task 2 ...")
-    prompt_path = os.path.join(os.getcwd(), "sentences.continuation")
+    prompt_path = os.path.join(os.getcwd(), "data/sentences.continuation")
     prompts = []
     with open(prompt_path) as sentences:
         for sentence in sentences:
             tokens = sentence.strip().split(" ")
-            prompts.append(token2id(tokens))
+            temp = [V_train.token2id[V_train.BOS_token]]
+            for token in tokens:
+                try:
+                    temp.append(V_train.token2id[token])
+                except KeyError as outlier:
+                    print('The word ' + token + ' doesn\'t exist in the corpus')
+                    temp.append(V_train.token2id[V_train.UNK_token])
+            prompts.append(temp)
+
     model_ckpt_name = "modelA.ckpt"
     models_dir = os.path.join(os.getcwd(), "models")
     model_path = os.path.join(models_dir, model_ckpt_name)
@@ -185,13 +193,19 @@ with tf.Graph().as_default(): # create graph for task 2
         print("\nSentence Completion Graph Built")
         completed_sentences = []
         for prompt in prompts:
-            continuation = model2.sentence_continuation(sess, prompt, V_train)
-            completed_sentences.append(prompt+continuation)
+            continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
+            prompt_text = []
+            for word in prompt:
+                prompt_text.append(V_train.id2token[word])
+            # print(prompt_text+continuation)
+            completed_sentences.append(prompt_text+continuation)
+
     write_path = os.path.join(os.getcwd(), "group17.continuation")
+
     print("\nWriting Completed Sentences")
+
     with open(write_path, "w") as file:
         for sentence in completed_sentences:
             for word in sentence:
                 file.write(word+' ')
             file.write('\n')
-"""
