@@ -14,15 +14,15 @@ parser = ArgumentParser()
 parser.add_argument("-l", "--lines", type=int,
                     help="Number of lines to read. If not provided, reads the whole file")
 
-parser.add_argument("-bs", "--batch-size", type=int, default=32,
+parser.add_argument("-bs", "--batch-size", type=int, default=64,
                     help="Train batch size")
 parser.add_argument("-e", "--epochs", type=int, default=1,
                     help="Training epochs")
 
 parser.add_argument("-pe", "--print-every", type=int, default=100,
-                    help="Number of samples between info printing")
+                    help="Number of steps between info printing")
 parser.add_argument("-ve", "--val-every", type=int, default=1000,
-                    help="Number of samples between validation error computation")
+                    help="Number of steps between evaluation metric computation")
 
 parser.add_argument('-t', "--task", choices=["1a", "1b", "1c", "2"], required=True,
                     help="The task to run")
@@ -248,12 +248,15 @@ elif task == "2":
             model2.build_sentence_completion_graph()
             print("\nSentence Completion Graph Built")
             completed_sentences = []
+            nb_completed = 0
             for prompt in prompts:
                 continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
                 prompt_text = []
                 for word in prompt:
                     prompt_text.append(V_train.id2token[word])
-                # print(prompt_text+continuation)
+                nb_completed += 1
+                if nb_completed == 1 or nb_completed % print_every == 0:
+                    print("Completed {} sentence".format(nb_completed))
                 completed_sentences.append(prompt_text + continuation)
 
         write_path = os.path.join(os.getcwd(), "group17.continuation")
