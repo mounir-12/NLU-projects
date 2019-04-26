@@ -129,8 +129,6 @@ class LSTM:
 
 
     def sentence_continuation(self, sess, prompt, V, max_length):
-
-        current_state = self.rnn.zero_state(1, tf.float32)
         c_init = np.zeros((1, self.rnn.state_size.c), np.float32)
         h_init = np.zeros((1, self.rnn.state_size.h), np.float32)
         current_state = [c_init, h_init]
