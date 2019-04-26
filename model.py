@@ -112,7 +112,7 @@ class LSTM:
 
         return perp
 
-    def build_sentence_completion_graph(self):
+    def build_sentence_completion_graph(self, down_project):
 
         self.c_in = tf.placeholder(tf.float32, shape=[1, self.rnn.state_size.c], name='c_in')
         self.h_in = tf.placeholder(tf.float32, shape=[1, self.rnn.state_size.h], name='h_in')
@@ -123,7 +123,10 @@ class LSTM:
 
         next_output, self.next_state = self.rnn(self.current_embed, self.int_state)
 
-        next_logit = tf.matmul(next_output, self.W) + self.biases
+        if down_project:
+            next_logit = tf.matmul(tf.matmul(next_output, self.W_p) + self.biases_p, self.W) + self.biases
+        else:
+            next_logit = tf.matmul(next_output, self.W) + self.biases
 
         self.next_probabs = tf.nn.softmax(next_logit)
 
@@ -152,7 +155,7 @@ class LSTM:
 
             next_probabs, current_state = sess.run([self.next_probabs, self.next_state], feed_dict)
             current_word = np.argmax(next_probabs)
-            if(current_word == V.token2id[V.EOS_token]):
+            if(current_word == V.token2id[V.EOS_token] or current_word == V.token2id[V.PAD_token]):
                 break
 
         return predicted_continuation

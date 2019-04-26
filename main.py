@@ -240,12 +240,15 @@ elif task == "2":
                 prompts.append(temp)
 
         model_ckpt_name = "modelA.ckpt"
+        down_project = False
+        # model_ckpt_name = "modelC.ckpt"
+        # down_project = True
         models_dir = os.path.join(os.getcwd(), "models")
         model_path = os.path.join(models_dir, model_ckpt_name)
         with tf.Session() as sess:
             model2.load_model(sess, model_path)
             print("\nModel Restored")
-            model2.build_sentence_completion_graph()
+            model2.build_sentence_completion_graph(down_project)
             print("\nSentence Completion Graph Built")
             completed_sentences = []
             nb_completed = 0
