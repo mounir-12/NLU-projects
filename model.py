@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.contrib.rnn import LSTMCell
+from tensorflow.nn.rnn_cell import LSTMCell as Cell
 import numpy as np
 from load_embedding import load_embedding
 
@@ -39,7 +39,7 @@ class LSTM:
         self.input_y = tf.placeholder(tf.int32, [None, time_steps]) # the target words of shape [batch_size, time_steps]
         embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x) # the embedded input of shape [batch_size, time_steps, embedding_size]
 
-        self.rnn = LSTMCell(hidden_size, initializer=initializer, dtype=self.dtype) # LSTM cell with hidden state of size hidden_size
+        self.rnn = Cell(num_units=hidden_size, initializer=initializer, dtype=self.dtype, name="cell") # LSTM cell with hidden state of size hidden_size
 
         self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], dtype=self.dtype) # LSTM cell initial state
 
@@ -59,9 +59,7 @@ class LSTM:
                 logits = tf.concat((logits, logit), axis=1)
 
         self.logits = logits
-        self.probas = tf.nn.softmax(logits, axis=2, name="probabilities") # for each sentence of the batch and for each "input word" in the sentence 
-                                                                          # at timestep t, output a probability distribution over the vocabulary
-                                                                          # of the "output word" at timestep t
+
         self.final_state = state
 
         # Optimizer and loss
@@ -78,7 +76,8 @@ class LSTM:
 
     def compute_loss(self, logits, labels):
         # with tf.GradientTape() as tape:
-        return tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=labels))
+        self.losses = tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits, labels=labels)
+        return tf.reduce_sum(self.losses)
 
     def get_train_op(self): # perform gradient clipping and return train operation
         grads_and_vars = self.optimizer.compute_gradients(self.loss) # compute gradient of loss function, returns list of tensor-variable pair
@@ -99,24 +98,19 @@ class LSTM:
         return sess.run(fetches, feed_dict)
 
     def perplexity(self, sess, input_sentences, output_sentences, V):
-        probas = sess.run(self.probas, feed_dict={self.input_x: input_sentences})
+        losses_vals = sess.run(self.losses, feed_dict={self.input_x: input_sentences, self.input_y: input_sentences})
         
         s = output_sentences.shape[0] # nb of sentences
         w = output_sentences.shape[1] # nb of words per sentence
         perp = np.zeros(s)
+        pad_id = V.token2id[V.PAD_token] # the id of the PAD token
 
         for i in range(s): # loop over output sentences i, we consider output sentences since <EOS> is used in perplexity computation while
                            # <BOS> isn't (since model shouldn't predict <BOS>)
-            temp = 1
-            n = 0
-            for t in range(w): # for each output sentence i, loop over timesteps t
-                token_id = output_sentences[i, t] # get token_id first
-                if V.id2token[token_id] == V.PAD_token: # skip PAD tokens
-                    continue
-                n += 1
-                temp*=probas[i, t, token_id]
-            perp[i] = (1/temp)**(1/n) # n doesn't count PAD symbols.
-        
+            indices = np.where(output_sentences[i] != pad_id) # retrieve indices in the output sentence where the token is not PAD
+            exponent = np.mean(losses_vals[indices]) # compute the mean, only sum the losses vals at the specified indices
+            perp[i] = np.exp(exponent) # use exp() since the losses are computed using Napierian logarithm ln()
+
         return perp
 
     def build_sentence_completion_graph(self):
