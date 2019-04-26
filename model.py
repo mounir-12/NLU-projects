@@ -101,7 +101,6 @@ class LSTM:
         losses_vals = sess.run(self.losses, feed_dict={self.input_x: input_sentences, self.input_y: input_sentences})
         
         s = output_sentences.shape[0] # nb of sentences
-        w = output_sentences.shape[1] # nb of words per sentence
         perp = np.zeros(s)
         pad_id = V.token2id[V.PAD_token] # the id of the PAD token
 
