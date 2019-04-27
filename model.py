@@ -121,8 +121,8 @@ class LSTM:
 
         for i in range(s): # loop over output sentences i, we consider output sentences since <EOS> is used in perplexity computation while
                            # <BOS> isn't (since model shouldn't predict <BOS>)
-            indices = np.where(output_sentences[i] != pad_id) # retrieve indices in the output sentence where the token is not PAD
-            exponent = np.mean(losses_vals[indices]) # compute the mean, only sum the losses vals at the specified indices
+            indices = np.where(output_sentences[i] != pad_id) # retrieve indices in the output sentence i where the token is not PAD
+            exponent = np.mean(losses_vals[i][indices]) # compute the mean, only sum the losses vals of sentence i at the specified indices
             perp[i] = np.exp(exponent) # use exp() since the losses are computed using Napierian logarithm ln()
 
         return perp
