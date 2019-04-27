@@ -100,6 +100,20 @@ class LSTM:
 
     def perplexity(self, sess, input_sentences, output_sentences, V):
         losses_vals = sess.run(self.losses, feed_dict={self.input_x: input_sentences, self.input_y: output_sentences})
+        """
+        # Sanitation code to check self.losses        
+        probas = tf.nn.softmax(self.logits, axis=2)
+        probas_vals = sess.run(probas, feed_dict={self.input_x: input_sentences})
+        l = probas_vals.shape[0]
+        c = probas_vals.shape[1]
+        for i in range(l):
+            for j in range(c):
+                w = output_sentences[i, j]
+                p = probas_vals[i, j, w]
+                log_p_neg = -np.log(p) # nepierian logarithm
+                loss = losses_vals[i, j]
+                print("log_p_neg: {}, loss: {}, diff: {}".format(log_p_neg, loss, loss - log_p_neg))
+        """
         
         s = output_sentences.shape[0] # nb of sentences
         perp = np.zeros(s)
