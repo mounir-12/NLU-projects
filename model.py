@@ -138,8 +138,9 @@ class LSTM:
         h_init = np.zeros((1, self.rnn.state_size.h), np.float32)
         current_state = [c_init, h_init]
         prompt_length = len(prompt) # length of the prompt (without BOS)
-
-	prompt = [V.token2id[V_train.BOS_token]] + prompt # extend prompt to add BOS token
+	
+        prompt = [V.token2id[V.BOS_token]] + prompt # extend prompt to add BOS token
+        
         for word in prompt:
             current_c, current_h = current_state
             feed_dict = {self.c_in: current_c, self.h_in: current_h, self.current_word: [word]}
