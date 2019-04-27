@@ -47,6 +47,7 @@ eval_every = args.val_every
 print_every = args.print_every  # limit the number of prints during training
 save_every = args.save_every
 n_lines = args.lines
+print("Variables: batch_size: {}, num_epochs: {}, eval_every: {}, print_every: {}, save_every: {}, n_lines: {}".format(batch_size, num_epochs, eval_every, print_every, save_every, n_lines))
 max_length = 20  # maximum number of words per sentence during completion
 # ------------------------------------------------------
 task = args.task

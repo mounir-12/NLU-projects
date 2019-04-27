@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.nn.rnn_cell import LSTMCell as Cell
+from tensorflow.contrib.rnn import LSTMCell as Cell
 import numpy as np
 from load_embedding import load_embedding
 
@@ -40,7 +40,7 @@ class LSTM:
         self.input_y = tf.placeholder(tf.int32, [None, time_steps]) # the target words of shape [batch_size, time_steps]
         embedded_x = tf.nn.embedding_lookup(self.embedding_matrix, self.input_x) # the embedded input of shape [batch_size, time_steps, embedding_size]
 
-        self.rnn = Cell(num_units=hidden_size, initializer=initializer, dtype=self.dtype, name="cell") # LSTM cell with hidden state of size hidden_size
+        self.rnn = Cell(num_units=hidden_size, initializer=initializer, name="cell") # LSTM cell with hidden state of size hidden_size
 
         self.initial_state = state = self.rnn.zero_state(tf.shape(embedded_x)[0], dtype=self.dtype) # LSTM cell initial state
 
@@ -189,7 +189,7 @@ class LSTM:
             self.saver.restore(sess, path)
             print("Model restored from %s" %path)
             return True
-        except ValueError:
+        except:
             print("Couldn't restore model")
             return False
 
