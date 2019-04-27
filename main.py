@@ -241,7 +241,7 @@ elif task == "2":
         with open(prompt_path) as sentences:
             for sentence in sentences:
                 tokens = sentence.strip().split(" ")
-                temp = [V_train.token2id[V_train.BOS_token]]
+                temp = []
                 for token in tokens:
                     try:
                         temp.append(V_train.token2id[token])
