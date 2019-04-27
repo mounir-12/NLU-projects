@@ -1,5 +1,6 @@
 import datetime
 import os
+import sys
 from argparse import ArgumentParser
 from time import time
 
@@ -23,12 +24,15 @@ parser.add_argument("-pe", "--print-every", type=int, default=100,
                     help="Number of steps between info printing")
 parser.add_argument("-ve", "--val-every", type=int, default=1000,
                     help="Number of steps between evaluation metric computation")
+parser.add_argument("-se", "--save-every", type=int, default=1000,
+                    help="Number of steps between model checkpoint saving")
 
 parser.add_argument('-t', "--task", choices=["1a", "1b", "1c", "2"], required=True,
                     help="The task to run")
 
 parser.add_argument("-rs", "--random-seed", type=int, default=9,
                     help="Random seed")
+
 
 args = parser.parse_args()
 
@@ -41,19 +45,22 @@ batch_size = args.batch_size
 num_epochs = args.epochs
 eval_every = args.val_every
 print_every = args.print_every  # limit the number of prints during training
+save_every = args.save_every
 n_lines = args.lines
 max_length = 20  # maximum number of words per sentence during completion
 # ------------------------------------------------------
 task = args.task
 
-train_path = os.path.join("data", "sentences.train")
-eval_path = os.path.join("data", "sentences.eval")
-test_path = os.path.join("data", "sentences_test.txt")
-embedding_path = os.path.join("data", "wordembeddings-dim100.word2vec")
+train_path = os.path.join(os.getcwd(), "data", "sentences.train")
+eval_path = os.path.join(os.getcwd(), "data", "sentences.eval")
+test_path = os.path.join(os.getcwd(), "data", "sentences_test.txt")
+embedding_path = os.path.join(os.getcwd(), "data", "wordembeddings-dim100.word2vec")
+prompt_path = os.path.join(os.getcwd(), "data", "sentences.continuation")
 
 sentence_len = 30  # padded sentence length including EOS and BOS
 vocab_size = 20000  # vocabulary size
 clip_grad_norm = 5
+model_task2 = "modelC.ckpt"
 
 
 # ------------------------------------------------------FUNCTIONS---------------------------------------------------------------------
@@ -86,9 +93,12 @@ def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_
     # train_summary_writer = tf.summary.FileWriter(train_summary_dir, sess.graph)
     if os.path.exists(models_dir) and model.load_model(sess, model_path):  # if successfully loaded model
         step, step_loss = eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches_eval)
+        perps = get_perplexity(model, sess, eval_x_batched, eval_y_batched,
+                                       V_train)  # compute perplexities over eval dataset
+        mean, median = np.mean(perps), np.median(perps)
         print(
-            "\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}\n".format(num_batches_eval,
-                                                                                                      step, step_loss))
+            "\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}, perp_mean: {}, perp_median {}\n"
+            .format(num_batches_eval, step, step_loss, mean, median))
         return
 
     # otherwise, train model and save
@@ -101,6 +111,8 @@ def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_
             if step == 1 or step % print_every == 0:
                 time_str = datetime.datetime.now().isoformat()
                 print("epoch {}, batch {}:\n{}: step {}, loss {}".format(e + 1, b + 1, time_str, step, step_loss))
+            if step % save_every == 0:
+                model.save_model(sess, model_path)  # save trained model
             if eval_every > 0 and step % eval_every == 0:  # do not evaluate if eval_every <= 0
                 perps = get_perplexity(model, sess, eval_x_batched, eval_y_batched,
                                        V_train)  # compute perplexities over eval dataset
@@ -223,9 +235,8 @@ elif task == "1c":
             write_out(perp, "group17.perplexityC")
 elif task == "2":
     with tf.Graph().as_default():  # create graph for task 2
-        model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
         print("\nRunning Task 2 ...")
-        prompt_path = os.path.join(os.getcwd(), "data/sentences.continuation")
+        # Read sentences to complete
         prompts = []
         with open(prompt_path) as sentences:
             for sentence in sentences:
@@ -235,26 +246,36 @@ elif task == "2":
                     try:
                         temp.append(V_train.token2id[token])
                     except KeyError as outlier:
-                        print('The word ' + token + ' doesn\'t exist in the corpus')
+                        print('The word ' + token + ' doesn\'t exist in the vocabulary')
                         temp.append(V_train.token2id[V_train.UNK_token])
                 prompts.append(temp)
 
-        model_ckpt_name = "modelA.ckpt"
-        down_project = False
-        # model_ckpt_name = "modelC.ckpt"
-        # down_project = True
+        # Pick the model to use
         models_dir = os.path.join(os.getcwd(), "models")
-        model_path = os.path.join(models_dir, model_ckpt_name)
+        model_path = os.path.join(models_dir, model_task2)
+        if model_task2 == "modelA.ckpt":
+            model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm)
+        elif model_task2 == "modelB.ckpt":
+            model2 = LSTM(V_train, embedding_size=100, hidden_size=512, time_steps=time_steps, clip_norm=clip_grad_norm,
+                          load_external_embedding=True, embedding_path=embedding_path)
+        elif model_task2 == "modelC.ckpt":
+            model2 = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps,
+                          clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
+        
         with tf.Session() as sess:
-            model2.load_model(sess, model_path)
-            print("\nModel Restored")
-            model2.build_sentence_completion_graph(down_project)
+            # Load model
+            if not os.path.exists(models_dir) or not model2.load_model(sess, model_path):  # if couldn't load model
+                print("Please train the model first.")
+                sys.exit(-1)
+
+            # Complete sentences
+            model2.build_sentence_completion_graph()
             print("\nSentence Completion Graph Built")
             completed_sentences = []
             nb_completed = 0
             for prompt in prompts:
                 continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
-                prompt_text = []
+                prompt_text = [] # list of words of the provided sentence prefix
                 for word in prompt:
                     prompt_text.append(V_train.id2token[word])
                 nb_completed += 1
@@ -262,14 +283,13 @@ elif task == "2":
                     print("Completed {} sentence".format(nb_completed))
                 completed_sentences.append(prompt_text + continuation)
 
+        # Write out completed sentences
         write_path = os.path.join(os.getcwd(), "group17.continuation")
-
         print("\nWriting Completed Sentences")
-
         with open(write_path, "w") as file:
             for sentence in completed_sentences:
                 for word in sentence:
-                    if(word == '<pad>' or word == '<bos>'):
+                    if(word == V_train.PAD_token or word == '<bos>'):
                         continue
                     file.write(word + ' ')
                 file.write('\n')

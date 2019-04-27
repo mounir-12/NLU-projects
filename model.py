@@ -17,6 +17,7 @@ class LSTM:
         self.hidden_size = hidden_size
         self.vocab_size = V.vocab_size
         self.time_steps = time_steps
+        self.down_project = down_project
 
         # Model Variables
         if down_project:
@@ -112,18 +113,18 @@ class LSTM:
 
         return perp
 
-    def build_sentence_completion_graph(self, down_project):
+    def build_sentence_completion_graph(self):
 
         self.c_in = tf.placeholder(tf.float32, shape=[1, self.rnn.state_size.c], name='c_in')
         self.h_in = tf.placeholder(tf.float32, shape=[1, self.rnn.state_size.h], name='h_in')
 
-        self.int_state = tf.contrib.rnn.LSTMStateTuple(self.c_in, self.h_in)
+        self.int_state = tf.contrib.rnn.LSTMStateTuple(self.c_in, self.h_in) # internal state
         self.current_word = tf.placeholder(tf.int32, [1])
         self.current_embed = tf.nn.embedding_lookup(self.embedding_matrix, self.current_word)
 
         next_output, self.next_state = self.rnn(self.current_embed, self.int_state)
 
-        if down_project:
+        if self.down_project:
             next_logit = tf.matmul(tf.matmul(next_output, self.W_p) + self.biases_p, self.W) + self.biases
         else:
             next_logit = tf.matmul(next_output, self.W) + self.biases
@@ -132,6 +133,7 @@ class LSTM:
 
 
     def sentence_continuation(self, sess, prompt, V, max_length):
+        # prompt: prefix to be completed
         c_init = np.zeros((1, self.rnn.state_size.c), np.float32)
         h_init = np.zeros((1, self.rnn.state_size.h), np.float32)
         current_state = [c_init, h_init]
@@ -172,7 +174,5 @@ class LSTM:
             return True
         except ValueError:
             print("Couldn't restore model")
-            return False     
+            return False
 
-    def __call__(self, sess, x, y):
-        return self.train_step(sess, x, y)
