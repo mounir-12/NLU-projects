@@ -99,7 +99,7 @@ class LSTM:
         return sess.run(fetches, feed_dict)
 
     def perplexity(self, sess, input_sentences, output_sentences, V):
-        losses_vals = sess.run(self.losses, feed_dict={self.input_x: input_sentences, self.input_y: input_sentences})
+        losses_vals = sess.run(self.losses, feed_dict={self.input_x: input_sentences, self.input_y: output_sentences})
         
         s = output_sentences.shape[0] # nb of sentences
         perp = np.zeros(s)

@@ -139,7 +139,7 @@ def get_perplexity(model, sess, test_x_batched, test_y_batched, V_train):
     num_batches = test_x_batched.shape[0]
     perp = None
     for i in range(num_batches):
-        batch_perp = model.perplexity(sess, test_x_batched[i], test_x_batched[i], V_train)
+        batch_perp = model.perplexity(sess, test_x_batched[i], test_y_batched[i], V_train)
         if perp is None:
             perp = batch_perp
         else:
@@ -289,7 +289,7 @@ elif task == "2":
         with open(write_path, "w") as file:
             for sentence in completed_sentences:
                 for word in sentence:
-                    if(word == V_train.PAD_token or word == '<bos>'):
+                    if(word == V_train.PAD_token or word == V_train.BOS_token):
                         continue
                     file.write(word + ' ')
                 file.write('\n')
