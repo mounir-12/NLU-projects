@@ -63,6 +63,25 @@ class Vocabulary:
             print("Done.")
         # -------------------------------------------------------------------------------------------------------
         
+    def get_tokens_ids(self, tokens): # transform a list of tokens to the corresponding list of ids
+        temp = []
+        for token in tokens:
+            try:
+                temp.append(self.token2id[token])
+            except KeyError as outlier:
+                print('The word ' + token + ' doesn\'t exist in the vocabulary')
+                temp.append(self.token2id[self.UNK_token])
+        return temp
+
+    def get_ids_tokens(self, ids): # transform a list of ids to the corresponding list of tokens
+        temp = []
+        for id in ids:
+            try:
+                temp.append(self.id2token[id])
+            except KeyError as outlier:
+                print('The id ' + id + ' doesn\'t exist in the vocabulary')
+                temp.append(self.UNK_token)
+        return temp
         
 class Corpus:
     def __init__(self, path, sentence_len, read_from_file=None, n_sentences=None):

@@ -152,8 +152,7 @@ def write_out(array, file_name):  # overwrite file if exists
     with open(file_name, 'w') as output:
         for row in range(n):  # write each row
             output.write(str(array[row]) + '\n')
-
-
+    
 # --------------------------------------------------------START---------------------------------------------------------------------
 # Data IO
 print("\nData IO ...")
@@ -237,18 +236,11 @@ elif task == "2":
     with tf.Graph().as_default():  # create graph for task 2
         print("\nRunning Task 2 ...")
         # Read sentences to complete
-        prompts = []
-        with open(prompt_path) as sentences:
-            for sentence in sentences:
+        sentences = []
+        with open(prompt_path) as sentences_file:
+            for sentence in sentences_file:
                 tokens = sentence.strip().split(" ")
-                temp = []
-                for token in tokens:
-                    try:
-                        temp.append(V_train.token2id[token])
-                    except KeyError as outlier:
-                        print('The word ' + token + ' doesn\'t exist in the vocabulary')
-                        temp.append(V_train.token2id[V_train.UNK_token])
-                prompts.append(temp)
+                sentences.append(tokens)
 
         # Pick the model to use
         models_dir = os.path.join(os.getcwd(), "models")
@@ -273,15 +265,13 @@ elif task == "2":
             print("\nSentence Completion Graph Built")
             completed_sentences = []
             nb_completed = 0
-            for prompt in prompts:
+            for sentence in sentences: # for each tokenized sentence
+                prompt = V_train.get_tokens_ids(sentence)
                 continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
-                prompt_text = [] # list of words of the provided sentence prefix
-                for word in prompt:
-                    prompt_text.append(V_train.id2token[word])
                 nb_completed += 1
                 if nb_completed == 1 or nb_completed % print_every == 0:
                     print("Completed {} sentence".format(nb_completed))
-                completed_sentences.append(prompt_text + continuation)
+                completed_sentences.append(sentence + continuation)
 
         # Write out completed sentences
         write_path = os.path.join(os.getcwd(), "group17.continuation")
