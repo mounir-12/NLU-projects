@@ -19,7 +19,10 @@
   `python main.py -task x`
 
 
-After the model has been trained over the sentences `./data/sentences.test`, perplexity values for sentences `./data/sentences.test` will be saved at `./group17.preplexityX`. The trained model is saved at `./models/modelX.ckpt`
+After the model has been trained over the sentences `./data/sentences.train`, perplexity values for sentences `./data/sentences.test` will be saved at `./group17.preplexityX`. The trained model is saved at `./models/modelX.ckpt`
+
+
+If the training data is changed, remove the created folder `./lang` inorder to rebuild the vocabulary. Also if you wish to retrain the model, remove the corresponding model checkpoints (ckpt files) in `./models` else training will be skipped and only the perplexity computation is performed.
 
 **Sentence Continuation**
   To perform sentence continuation, there must be a trained model `./models/modelC.ckpt` available. To perform sentence continuation for prompts `sentencces.continuation`, use the command:
