@@ -27,4 +27,4 @@ After the model has been trained over the sentences `./data/sentences.test`, per
 
   `python main.py --task 2`
 
-  After the continuations have been computed, the full sentences can be found at `./group17.continuation`
+  After the continuations have been computed, the full sentences can be found at `./output/group17.continuation`
