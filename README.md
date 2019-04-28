@@ -1,5 +1,5 @@
-# Natural Language Understanding 2017
-## Project 1: Language Modeling with Recurrent Neural Networks in Tensorflow and Continuation of Sentences
+# Natural Language Understanding 2019
+## Project 1: Language Modeling with Recurrent Neural Networks and Sentence Continuation
 
 ### Authors:
  - Srikanth Sarma     sgurram@student.ethz.ch
