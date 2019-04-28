@@ -16,14 +16,15 @@
 
   To train model x (1a, 1b, 1c, 2), use the command:
 
-  `python main.py -t x`
+  `python main.py --task x`
 
 
 After the model has been trained over the sentences `./data/sentences.test`, perplexity values for sentences `./data/sentences.test` will be saved at `./group17.preplexityX`. The trained model is saved at `./models/modelX.ckpt`
 
-**Sentence Continuation**
+**Sentence Continuation:**
+  
   To perform sentence continuation, there must be a trained model `./models/modelC.ckpt` available. To perform sentence continuation for prompts `sentencces.continuation`, use the command:
 
-  `python main.py -t 2`
+  `python main.py --task 2`
 
   After the continuations have been computed, the full sentences can be found at `./group17.continuation`
