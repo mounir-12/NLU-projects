@@ -148,9 +148,16 @@ def get_perplexity(model, sess, test_x_batched, test_y_batched, V_train):
     return perp
 
 
-def write_out(array, file_name):  # overwrite file if exists
+def write_out(array, file_name):
+    """
+    Writes the given array in a file with the given name inside the output folder.
+    If 'filename' already exists, it will be overwritten.
+
+    :param array: data to write
+    :param file_name: name of the file
+    """
     n = array.shape[0]
-    with open(file_name, 'w') as output:
+    with open(os.path.join('output', file_name), 'w') as output:
         for row in range(n):  # write each row
             output.write(str(array[row]) + '\n')
 
@@ -275,7 +282,7 @@ elif task == "2":
                 completed_sentences.append(sentence + continuation)
 
         # Write out completed sentences
-        write_path = os.path.join(os.getcwd(), "group17.continuation")
+        write_path = os.path.join(os.getcwd(), "output", "group17.continuation")
         print("\nWriting Completed Sentences")
         with open(write_path, "w") as file:
             for sentence in completed_sentences:
