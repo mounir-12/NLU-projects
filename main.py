@@ -8,7 +8,7 @@ import math
 import numpy as np
 import tensorflow as tf
 
-from lang_new import Vocabulary, Corpus
+from lang import Vocabulary, Corpus
 from model import LSTM
 
 parser = ArgumentParser()
@@ -33,7 +33,6 @@ parser.add_argument('-t', "--task", choices=["1a", "1b", "1c", "2"], required=Tr
 parser.add_argument("-rs", "--random-seed", type=int, default=9,
                     help="Random seed")
 
-
 args = parser.parse_args()
 
 tf.set_random_seed(args.random_seed)
@@ -47,7 +46,8 @@ eval_every = args.val_every
 print_every = args.print_every  # limit the number of prints during training
 save_every = args.save_every
 n_lines = args.lines
-print("Variables: batch_size: {}, num_epochs: {}, eval_every: {}, print_every: {}, save_every: {}, n_lines: {}".format(batch_size, num_epochs, eval_every, print_every, save_every, n_lines))
+print("Variables: batch_size: {}, num_epochs: {}, eval_every: {}, print_every: {}, save_every: {}, n_lines: {}".format(
+    batch_size, num_epochs, eval_every, print_every, save_every, n_lines))
 max_length = 20  # maximum number of words per sentence during completion
 # ------------------------------------------------------
 task = args.task
@@ -95,11 +95,11 @@ def train_model(model, sess, num_epochs, train_x_batched, train_y_batched, eval_
     if os.path.exists(models_dir) and model.load_model(sess, model_path):  # if successfully loaded model
         step, step_loss = eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches_eval)
         perps = get_perplexity(model, sess, eval_x_batched, eval_y_batched,
-                                       V_train)  # compute perplexities over eval dataset
+                               V_train)  # compute perplexities over eval dataset
         mean, median = np.mean(perps), np.median(perps)
-        print(
-            "\nEvaluating restored model on eval dataset:\n   batches: {}, step {}, loss {}, perp_mean: {}, perp_median {}\n"
-            .format(num_batches_eval, step, step_loss, mean, median))
+        print("\nEvaluating restored model on eval dataset:"
+              "\n   batches: {}, step {}, loss {}, perp_mean: {}, perp_median {}\n".format(num_batches_eval, step,
+                                                                                           step_loss, mean, median))
         return
 
     # otherwise, train model and save
@@ -129,7 +129,7 @@ def eval_model(model, sess, eval_x_batched, eval_y_batched, num_batches):
     counter = 0
     for i in range(num_batches):  # compute the loss over each batch
         step, step_loss = model.eval_step(sess, eval_x_batched[i], eval_y_batched[i])
-        if (not np.isnan(step_loss)):
+        if not np.isnan(step_loss):
             sum += step_loss
             counter += 1
     step_loss = sum / counter  # compute the mean loss over all batches
@@ -153,7 +153,8 @@ def write_out(array, file_name):  # overwrite file if exists
     with open(file_name, 'w') as output:
         for row in range(n):  # write each row
             output.write(str(array[row]) + '\n')
-    
+
+
 # --------------------------------------------------------START---------------------------------------------------------------------
 # Data IO
 print("\nData IO ...")
@@ -184,10 +185,9 @@ print("Eval data matrix shape: ", C_eval.data.shape)
 # Train and Eval data
 train_x_batched, train_y_batched = get_data(C_train, shuffle=True,
                                             batch_size=batch_size)  # training data, shuffled, batched
-eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size)  # eval data batched no shuffling
-test_x_batched, test_y_batched = get_data(C_test,
-                                          batch_size=batch_size)  # test data batched no shuffling (used for perplexity computation)
-
+# eval and test data batched but not shuffled
+eval_x_batched, eval_y_batched = get_data(C_eval, batch_size=batch_size)
+test_x_batched, test_y_batched = get_data(C_test, batch_size=batch_size)
 # Constants
 vocab_size = V_train.vocab_size  # get true vocab size
 time_steps = sentence_len - 1
@@ -254,7 +254,7 @@ elif task == "2":
         elif model_task2 == "modelC.ckpt":
             model2 = LSTM(V_train, embedding_size=100, hidden_size=1024, time_steps=time_steps,
                           clip_norm=clip_grad_norm, down_project=True, down_projection_size=512)
-        
+
         with tf.Session() as sess:
             # Load model
             if not os.path.exists(models_dir) or not model2.load_model(sess, model_path):  # if couldn't load model
@@ -266,7 +266,7 @@ elif task == "2":
             print("\nSentence Completion Graph Built")
             completed_sentences = []
             nb_completed = 0
-            for sentence in sentences: # for each tokenized sentence
+            for sentence in sentences:  # for each tokenized sentence
                 prompt = V_train.get_tokens_ids(sentence)
                 continuation = model2.sentence_continuation(sess, prompt, V_train, max_length)
                 nb_completed += 1
@@ -280,7 +280,7 @@ elif task == "2":
         with open(write_path, "w") as file:
             for sentence in completed_sentences:
                 for word in sentence:
-                    if(word == V_train.PAD_token or word == V_train.BOS_token):
+                    if word == V_train.PAD_token or word == V_train.BOS_token:
                         continue
                     file.write(word + ' ')
                 file.write('\n')
