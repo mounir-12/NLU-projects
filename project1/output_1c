@@ -1,0 +1,3923 @@
+Sender: LSF System <lsfadmin@lo-s4-035>
+Subject: Job 1839719: <python3 main.py -t 1c -e 5> in cluster <leonhard> Done
+
+Job <python3 main.py -t 1c -e 5> was submitted from host <lo-login-01> by user <mamrani> in cluster <leonhard> at Sat Apr 27 18:21:39 2019
+Job was executed on host(s) <20*lo-s4-035>, in queue <gpu.4h>, as user <mamrani> in cluster <leonhard> at Sat Apr 27 21:43:41 2019
+</cluster/home/mamrani> was used as the home directory.
+</cluster/home/mamrani/1.NLU/2.Project> was used as the working directory.
+Started at Sat Apr 27 21:43:41 2019
+Terminated at Sun Apr 28 01:36:35 2019
+Results reported at Sun Apr 28 01:36:35 2019
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 main.py -t 1c -e 5
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   12452.62 sec.
+    Max Memory :                                 5683 MB
+    Average Memory :                             5383.24 MB
+    Total Requested Memory :                     20480.00 MB
+    Delta Memory :                               14797.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                90
+    Run time :                                   14001 sec.
+    Turnaround time :                            26096 sec.
+
+The output (if any) follows:
+
+WARNING:tensorflow:From /cluster/apps/python/3.6.4/lib64/python3.6/site-packages/tensorflow/contrib/learn/python/learn/datasets/base.py:198: retry (from tensorflow.contrib.learn.python.learn.datasets.base) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use the retry module or similar alternatives.
+2019-04-27 21:44:01.042151: I tensorflow/core/platform/cpu_feature_guard.cc:140] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-04-27 21:44:01.357793: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1344] Found device 0 with properties: 
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:04:00.0
+totalMemory: 10.92GiB freeMemory: 10.77GiB
+2019-04-27 21:44:01.357853: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1423] Adding visible gpu devices: 0
+2019-04-27 21:44:02.750404: I tensorflow/core/common_runtime/gpu/gpu_device.cc:911] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-04-27 21:44:02.750483: I tensorflow/core/common_runtime/gpu/gpu_device.cc:917]      0 
+2019-04-27 21:44:02.750501: I tensorflow/core/common_runtime/gpu/gpu_device.cc:930] 0:   N 
+2019-04-27 21:44:02.752289: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1041] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10430 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:04:00.0, compute capability: 6.1)
+2019-04-27 21:44:11.392731: W tensorflow/core/framework/op_kernel.cc:1273] OP_REQUIRES failed at save_restore_tensor.cc:170 : Not found: Unsuccessful TensorSliceReader constructor: Failed to find any matching files for /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+Variables: batch_size: 64, num_epochs: 5, eval_every: 1000, print_every: 100, save_every: 1000, n_lines: None
+
+Data IO ...
+Found Corpus File, Reading Corpus Object ...
+Done.
+Found Vocabulary file, Reading Vocabulary Object ...
+Done.
+Building Vocabulary from Corpus ...
+Already built. Done.
+Building Data Matrix ...
+Already built. Done.
+Found Corpus File, Reading Corpus Object ...
+Done.
+Building Data Matrix ...
+Already built. Done.
+Found Corpus File, Reading Corpus Object ...
+Done.
+Building Data Matrix ...
+Already built. Done.
+Total time (s):  7.443116903305054 
+
+Vocab size:  20004
+Train data matrix shape:  (1969833, 30)
+Eval data matrix shape:  (9846, 30)
+
+Running Experiment C ...
+Couldn't restore model
+Training model ...
+epoch 1, batch 1:
+2019-04-27T21:44:13.691117: step 1, loss 18394.689453125
+epoch 1, batch 100:
+2019-04-27T21:44:21.668383: step 100, loss 4709.39111328125
+epoch 1, batch 200:
+2019-04-27T21:44:29.723003: step 200, loss 5106.9384765625
+epoch 1, batch 300:
+2019-04-27T21:44:37.776277: step 300, loss 4150.16796875
+epoch 1, batch 400:
+2019-04-27T21:44:45.841078: step 400, loss 4230.568359375
+epoch 1, batch 500:
+2019-04-27T21:44:53.895446: step 500, loss 4054.157958984375
+epoch 1, batch 600:
+2019-04-27T21:45:01.971129: step 600, loss 4097.6025390625
+epoch 1, batch 700:
+2019-04-27T21:45:10.067825: step 700, loss 3461.98681640625
+epoch 1, batch 800:
+2019-04-27T21:45:18.140048: step 800, loss 4031.06689453125
+epoch 1, batch 900:
+2019-04-27T21:45:26.197864: step 900, loss 4296.00146484375
+epoch 1, batch 1000:
+2019-04-27T21:45:34.282513: step 1000, loss 3857.802001953125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 1000, perp_mean: 206.19848926259132, perp_median: 121.7317008972168
+
+epoch 1, batch 1100:
+2019-04-27T21:45:54.317627: step 1100, loss 3885.9404296875
+epoch 1, batch 1200:
+2019-04-27T21:46:02.400341: step 1200, loss 3735.0654296875
+epoch 1, batch 1300:
+2019-04-27T21:46:10.500555: step 1300, loss 3776.627685546875
+epoch 1, batch 1400:
+2019-04-27T21:46:18.568097: step 1400, loss 3481.394287109375
+epoch 1, batch 1500:
+2019-04-27T21:46:26.649380: step 1500, loss 4095.5087890625
+epoch 1, batch 1600:
+2019-04-27T21:46:34.740996: step 1600, loss 3849.94482421875
+epoch 1, batch 1700:
+2019-04-27T21:46:42.833243: step 1700, loss 3282.349609375
+epoch 1, batch 1800:
+2019-04-27T21:46:50.897839: step 1800, loss 3562.24267578125
+epoch 1, batch 1900:
+2019-04-27T21:46:58.987888: step 1900, loss 3696.22265625
+epoch 1, batch 2000:
+2019-04-27T21:47:07.088174: step 2000, loss 3183.757568359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 2000, perp_mean: 160.9333175415918, perp_median: 100.3587532043457
+
+epoch 1, batch 2100:
+2019-04-27T21:47:24.559534: step 2100, loss 3229.389892578125
+epoch 1, batch 2200:
+2019-04-27T21:47:32.636882: step 2200, loss 3632.099365234375
+epoch 1, batch 2300:
+2019-04-27T21:47:40.738942: step 2300, loss 3342.72802734375
+epoch 1, batch 2400:
+2019-04-27T21:47:48.825340: step 2400, loss 4164.72607421875
+epoch 1, batch 2500:
+2019-04-27T21:47:56.913296: step 2500, loss 3815.652099609375
+epoch 1, batch 2600:
+2019-04-27T21:48:04.974031: step 2600, loss 3463.39404296875
+epoch 1, batch 2700:
+2019-04-27T21:48:13.039055: step 2700, loss 3456.90185546875
+epoch 1, batch 2800:
+2019-04-27T21:48:21.098574: step 2800, loss 4059.958984375
+epoch 1, batch 2900:
+2019-04-27T21:48:29.140981: step 2900, loss 3090.85595703125
+epoch 1, batch 3000:
+2019-04-27T21:48:37.188014: step 3000, loss 3960.27978515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 3000, perp_mean: 134.01734488985778, perp_median: 83.81853866577148
+
+epoch 1, batch 3100:
+2019-04-27T21:48:55.763465: step 3100, loss 3181.34619140625
+epoch 1, batch 3200:
+2019-04-27T21:49:03.807048: step 3200, loss 3427.716064453125
+epoch 1, batch 3300:
+2019-04-27T21:49:11.855748: step 3300, loss 3193.22607421875
+epoch 1, batch 3400:
+2019-04-27T21:49:19.932851: step 3400, loss 3365.28173828125
+epoch 1, batch 3500:
+2019-04-27T21:49:27.989020: step 3500, loss 3610.8544921875
+epoch 1, batch 3600:
+2019-04-27T21:49:36.051192: step 3600, loss 3460.839111328125
+epoch 1, batch 3700:
+2019-04-27T21:49:44.110401: step 3700, loss 3247.273681640625
+epoch 1, batch 3800:
+2019-04-27T21:49:52.155563: step 3800, loss 3464.2744140625
+epoch 1, batch 3900:
+2019-04-27T21:50:00.234862: step 3900, loss 3622.55908203125
+epoch 1, batch 4000:
+2019-04-27T21:50:08.312005: step 4000, loss 3774.373046875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 4000, perp_mean: 162.2136947500277, perp_median: 94.40952682495117
+
+epoch 1, batch 4100:
+2019-04-27T21:50:27.697279: step 4100, loss 3604.610595703125
+epoch 1, batch 4200:
+2019-04-27T21:50:35.751567: step 4200, loss 4041.096923828125
+epoch 1, batch 4300:
+2019-04-27T21:50:43.834482: step 4300, loss 3128.2099609375
+epoch 1, batch 4400:
+2019-04-27T21:50:51.924332: step 4400, loss 3511.171875
+epoch 1, batch 4500:
+2019-04-27T21:50:59.992831: step 4500, loss 3359.748779296875
+epoch 1, batch 4600:
+2019-04-27T21:51:08.046806: step 4600, loss 2775.240234375
+epoch 1, batch 4700:
+2019-04-27T21:51:16.092523: step 4700, loss 3727.632568359375
+epoch 1, batch 4800:
+2019-04-27T21:51:24.135875: step 4800, loss 3025.076904296875
+epoch 1, batch 4900:
+2019-04-27T21:51:32.177192: step 4900, loss 3678.578857421875
+epoch 1, batch 5000:
+2019-04-27T21:51:40.220721: step 5000, loss 3485.932861328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 5000, perp_mean: 114.71564342809504, perp_median: 69.0042610168457
+
+epoch 1, batch 5100:
+2019-04-27T21:51:58.485436: step 5100, loss 3376.5263671875
+epoch 1, batch 5200:
+2019-04-27T21:52:06.525879: step 5200, loss 3597.24951171875
+epoch 1, batch 5300:
+2019-04-27T21:52:14.576696: step 5300, loss 3024.158447265625
+epoch 1, batch 5400:
+2019-04-27T21:52:22.607531: step 5400, loss 3004.206787109375
+epoch 1, batch 5500:
+2019-04-27T21:52:30.645233: step 5500, loss 3445.296630859375
+epoch 1, batch 5600:
+2019-04-27T21:52:38.682124: step 5600, loss 2891.8544921875
+epoch 1, batch 5700:
+2019-04-27T21:52:46.715371: step 5700, loss 3339.0166015625
+epoch 1, batch 5800:
+2019-04-27T21:52:54.752338: step 5800, loss 3461.171875
+epoch 1, batch 5900:
+2019-04-27T21:53:02.806582: step 5900, loss 3590.292724609375
+epoch 1, batch 6000:
+2019-04-27T21:53:10.849818: step 6000, loss 3068.258056640625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 6000, perp_mean: 111.39321309664665, perp_median: 64.61795806884766
+
+epoch 1, batch 6100:
+2019-04-27T21:53:28.273024: step 6100, loss 3518.4560546875
+epoch 1, batch 6200:
+2019-04-27T21:53:36.330055: step 6200, loss 3578.020751953125
+epoch 1, batch 6300:
+2019-04-27T21:53:44.383667: step 6300, loss 3562.49560546875
+epoch 1, batch 6400:
+2019-04-27T21:53:52.441520: step 6400, loss 3112.14208984375
+epoch 1, batch 6500:
+2019-04-27T21:54:00.493043: step 6500, loss 3075.857421875
+epoch 1, batch 6600:
+2019-04-27T21:54:08.550347: step 6600, loss 3120.159912109375
+epoch 1, batch 6700:
+2019-04-27T21:54:16.602534: step 6700, loss 3721.92578125
+epoch 1, batch 6800:
+2019-04-27T21:54:24.642777: step 6800, loss 3261.20947265625
+epoch 1, batch 6900:
+2019-04-27T21:54:32.717440: step 6900, loss 3014.427978515625
+epoch 1, batch 7000:
+2019-04-27T21:54:40.798298: step 7000, loss 3557.0634765625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 7000, perp_mean: 101.68516597013127, perp_median: 62.45016860961914
+
+epoch 1, batch 7100:
+2019-04-27T21:54:59.141917: step 7100, loss 2997.13818359375
+epoch 1, batch 7200:
+2019-04-27T21:55:07.222161: step 7200, loss 3235.896484375
+epoch 1, batch 7300:
+2019-04-27T21:55:15.286886: step 7300, loss 3408.34375
+epoch 1, batch 7400:
+2019-04-27T21:55:23.387140: step 7400, loss 3517.186279296875
+epoch 1, batch 7500:
+2019-04-27T21:55:31.484610: step 7500, loss 2877.7294921875
+epoch 1, batch 7600:
+2019-04-27T21:55:39.555629: step 7600, loss 2785.35986328125
+epoch 1, batch 7700:
+2019-04-27T21:55:47.622074: step 7700, loss 3251.080322265625
+epoch 1, batch 7800:
+2019-04-27T21:55:55.687973: step 7800, loss 3289.22119140625
+epoch 1, batch 7900:
+2019-04-27T21:56:03.752631: step 7900, loss 3736.6044921875
+epoch 1, batch 8000:
+2019-04-27T21:56:11.815585: step 8000, loss 3258.419189453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 8000, perp_mean: 99.12146408061973, perp_median: 59.801504135131836
+
+epoch 1, batch 8100:
+2019-04-27T21:56:30.173439: step 8100, loss 2960.254638671875
+epoch 1, batch 8200:
+2019-04-27T21:56:38.248954: step 8200, loss 3425.496826171875
+epoch 1, batch 8300:
+2019-04-27T21:56:46.310045: step 8300, loss 3224.36181640625
+epoch 1, batch 8400:
+2019-04-27T21:56:54.386446: step 8400, loss 3617.3828125
+epoch 1, batch 8500:
+2019-04-27T21:57:02.465485: step 8500, loss 3324.96044921875
+epoch 1, batch 8600:
+2019-04-27T21:57:10.516559: step 8600, loss 3003.742431640625
+epoch 1, batch 8700:
+2019-04-27T21:57:18.595488: step 8700, loss 3229.89306640625
+epoch 1, batch 8800:
+2019-04-27T21:57:26.661046: step 8800, loss 3010.5703125
+epoch 1, batch 8900:
+2019-04-27T21:57:34.738982: step 8900, loss 3423.419189453125
+epoch 1, batch 9000:
+2019-04-27T21:57:42.809251: step 9000, loss 2936.72314453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 9000, perp_mean: 96.00284260109433, perp_median: 57.9551944732666
+
+epoch 1, batch 9100:
+2019-04-27T21:58:01.260279: step 9100, loss 3469.01123046875
+epoch 1, batch 9200:
+2019-04-27T21:58:09.325458: step 9200, loss 3179.64990234375
+epoch 1, batch 9300:
+2019-04-27T21:58:17.377510: step 9300, loss 2904.801025390625
+epoch 1, batch 9400:
+2019-04-27T21:58:25.434800: step 9400, loss 2315.08935546875
+epoch 1, batch 9500:
+2019-04-27T21:58:33.496073: step 9500, loss 3346.17431640625
+epoch 1, batch 9600:
+2019-04-27T21:58:41.547076: step 9600, loss 3052.729248046875
+epoch 1, batch 9700:
+2019-04-27T21:58:49.603741: step 9700, loss 3349.803466796875
+epoch 1, batch 9800:
+2019-04-27T21:58:57.664599: step 9800, loss 3039.89013671875
+epoch 1, batch 9900:
+2019-04-27T21:59:05.721980: step 9900, loss 3302.673095703125
+epoch 1, batch 10000:
+2019-04-27T21:59:13.782153: step 10000, loss 3287.4833984375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 10000, perp_mean: 92.90437559392088, perp_median: 56.35543441772461
+
+epoch 1, batch 10100:
+2019-04-27T21:59:31.317034: step 10100, loss 3140.8271484375
+epoch 1, batch 10200:
+2019-04-27T21:59:39.363866: step 10200, loss 3634.44091796875
+epoch 1, batch 10300:
+2019-04-27T21:59:47.391564: step 10300, loss 2881.141845703125
+epoch 1, batch 10400:
+2019-04-27T21:59:55.443885: step 10400, loss 2877.048828125
+epoch 1, batch 10500:
+2019-04-27T22:00:03.510900: step 10500, loss 3009.600830078125
+epoch 1, batch 10600:
+2019-04-27T22:00:11.555149: step 10600, loss 3043.95068359375
+epoch 1, batch 10700:
+2019-04-27T22:00:19.611985: step 10700, loss 3034.676513671875
+epoch 1, batch 10800:
+2019-04-27T22:00:27.668300: step 10800, loss 3019.676513671875
+epoch 1, batch 10900:
+2019-04-27T22:00:35.712215: step 10900, loss 3212.832763671875
+epoch 1, batch 11000:
+2019-04-27T22:00:43.764447: step 11000, loss 3218.40380859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 11000, perp_mean: 91.23289419973669, perp_median: 55.16935920715332
+
+epoch 1, batch 11100:
+2019-04-27T22:01:02.136737: step 11100, loss 3110.4814453125
+epoch 1, batch 11200:
+2019-04-27T22:01:10.200167: step 11200, loss 3345.44677734375
+epoch 1, batch 11300:
+2019-04-27T22:01:18.254197: step 11300, loss 3240.29931640625
+epoch 1, batch 11400:
+2019-04-27T22:01:26.304450: step 11400, loss 3073.08984375
+epoch 1, batch 11500:
+2019-04-27T22:01:34.339898: step 11500, loss 3062.822998046875
+epoch 1, batch 11600:
+2019-04-27T22:01:42.388535: step 11600, loss 3008.75390625
+epoch 1, batch 11700:
+2019-04-27T22:01:50.439084: step 11700, loss 3232.32177734375
+epoch 1, batch 11800:
+2019-04-27T22:01:58.483039: step 11800, loss 3319.231201171875
+epoch 1, batch 11900:
+2019-04-27T22:02:06.513537: step 11900, loss 3341.454345703125
+epoch 1, batch 12000:
+2019-04-27T22:02:14.574126: step 12000, loss 2877.9853515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 12000, perp_mean: 88.12486621952387, perp_median: 52.712371826171875
+
+epoch 1, batch 12100:
+2019-04-27T22:02:32.903591: step 12100, loss 3021.6015625
+epoch 1, batch 12200:
+2019-04-27T22:02:40.954972: step 12200, loss 3132.653564453125
+epoch 1, batch 12300:
+2019-04-27T22:02:48.999481: step 12300, loss 3262.8330078125
+epoch 1, batch 12400:
+2019-04-27T22:02:57.053956: step 12400, loss 3241.9921875
+epoch 1, batch 12500:
+2019-04-27T22:03:05.102072: step 12500, loss 3007.737548828125
+epoch 1, batch 12600:
+2019-04-27T22:03:13.146732: step 12600, loss 3155.1103515625
+epoch 1, batch 12700:
+2019-04-27T22:03:21.199922: step 12700, loss 2683.13818359375
+epoch 1, batch 12800:
+2019-04-27T22:03:29.245949: step 12800, loss 2998.038818359375
+epoch 1, batch 12900:
+2019-04-27T22:03:37.289407: step 12900, loss 2828.90380859375
+epoch 1, batch 13000:
+2019-04-27T22:03:45.332771: step 13000, loss 3373.074951171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 13000, perp_mean: 86.24347518650517, perp_median: 53.200361251831055
+
+epoch 1, batch 13100:
+2019-04-27T22:04:03.638198: step 13100, loss 3502.11328125
+epoch 1, batch 13200:
+2019-04-27T22:04:11.685215: step 13200, loss 2547.36572265625
+epoch 1, batch 13300:
+2019-04-27T22:04:19.731558: step 13300, loss 3523.666015625
+epoch 1, batch 13400:
+2019-04-27T22:04:27.764790: step 13400, loss 3403.716796875
+epoch 1, batch 13500:
+2019-04-27T22:04:35.827441: step 13500, loss 3254.853271484375
+epoch 1, batch 13600:
+2019-04-27T22:04:43.885338: step 13600, loss 3004.1865234375
+epoch 1, batch 13700:
+2019-04-27T22:04:51.925721: step 13700, loss 3030.78857421875
+epoch 1, batch 13800:
+2019-04-27T22:04:59.953759: step 13800, loss 3258.02783203125
+epoch 1, batch 13900:
+2019-04-27T22:05:07.982812: step 13900, loss 2867.115234375
+epoch 1, batch 14000:
+2019-04-27T22:05:16.024035: step 14000, loss 3411.700439453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 14000, perp_mean: 86.7206656251064, perp_median: 50.88953971862793
+
+epoch 1, batch 14100:
+2019-04-27T22:05:33.394607: step 14100, loss 3457.71435546875
+epoch 1, batch 14200:
+2019-04-27T22:05:41.429878: step 14200, loss 3055.954833984375
+epoch 1, batch 14300:
+2019-04-27T22:05:49.469013: step 14300, loss 3220.24462890625
+epoch 1, batch 14400:
+2019-04-27T22:05:57.509612: step 14400, loss 2758.60546875
+epoch 1, batch 14500:
+2019-04-27T22:06:05.568326: step 14500, loss 3009.46875
+epoch 1, batch 14600:
+2019-04-27T22:06:13.607008: step 14600, loss 3025.5810546875
+epoch 1, batch 14700:
+2019-04-27T22:06:21.635446: step 14700, loss 2877.203369140625
+epoch 1, batch 14800:
+2019-04-27T22:06:29.674209: step 14800, loss 3152.634033203125
+epoch 1, batch 14900:
+2019-04-27T22:06:37.724313: step 14900, loss 3226.623779296875
+epoch 1, batch 15000:
+2019-04-27T22:06:45.767831: step 15000, loss 2863.903564453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 15000, perp_mean: 83.88564056254926, perp_median: 50.53856086730957
+
+epoch 1, batch 15100:
+2019-04-27T22:07:04.026945: step 15100, loss 2889.6650390625
+epoch 1, batch 15200:
+2019-04-27T22:07:12.067238: step 15200, loss 2983.110595703125
+epoch 1, batch 15300:
+2019-04-27T22:07:20.110014: step 15300, loss 3385.442626953125
+epoch 1, batch 15400:
+2019-04-27T22:07:28.152454: step 15400, loss 2728.974609375
+epoch 1, batch 15500:
+2019-04-27T22:07:36.195470: step 15500, loss 3082.0654296875
+epoch 1, batch 15600:
+2019-04-27T22:07:44.232795: step 15600, loss 3047.8310546875
+epoch 1, batch 15700:
+2019-04-27T22:07:52.275673: step 15700, loss 3259.440185546875
+epoch 1, batch 15800:
+2019-04-27T22:08:00.323418: step 15800, loss 2687.082763671875
+epoch 1, batch 15900:
+2019-04-27T22:08:08.369956: step 15900, loss 3204.734130859375
+epoch 1, batch 16000:
+2019-04-27T22:08:16.404550: step 16000, loss 3176.098876953125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 16000, perp_mean: 85.90123971335994, perp_median: 49.52297782897949
+
+epoch 1, batch 16100:
+2019-04-27T22:08:34.635381: step 16100, loss 3378.2783203125
+epoch 1, batch 16200:
+2019-04-27T22:08:42.676870: step 16200, loss 2796.29931640625
+epoch 1, batch 16300:
+2019-04-27T22:08:50.732764: step 16300, loss 3097.58837890625
+epoch 1, batch 16400:
+2019-04-27T22:08:58.785491: step 16400, loss 3338.630859375
+epoch 1, batch 16500:
+2019-04-27T22:09:06.853052: step 16500, loss 3245.791259765625
+epoch 1, batch 16600:
+2019-04-27T22:09:14.893211: step 16600, loss 3385.42822265625
+epoch 1, batch 16700:
+2019-04-27T22:09:22.942288: step 16700, loss 3550.79052734375
+epoch 1, batch 16800:
+2019-04-27T22:09:30.980509: step 16800, loss 3119.624755859375
+epoch 1, batch 16900:
+2019-04-27T22:09:39.033930: step 16900, loss 3105.019287109375
+epoch 1, batch 17000:
+2019-04-27T22:09:47.086742: step 17000, loss 3078.74462890625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 17000, perp_mean: 81.40646081195477, perp_median: 48.56440353393555
+
+epoch 1, batch 17100:
+2019-04-27T22:10:05.236369: step 17100, loss 2969.145263671875
+epoch 1, batch 17200:
+2019-04-27T22:10:13.253925: step 17200, loss 3001.4521484375
+epoch 1, batch 17300:
+2019-04-27T22:10:21.275132: step 17300, loss 2793.299560546875
+epoch 1, batch 17400:
+2019-04-27T22:10:29.323053: step 17400, loss 2960.098388671875
+epoch 1, batch 17500:
+2019-04-27T22:10:37.361815: step 17500, loss 2797.5087890625
+epoch 1, batch 17600:
+2019-04-27T22:10:45.386339: step 17600, loss 2755.7919921875
+epoch 1, batch 17700:
+2019-04-27T22:10:53.427138: step 17700, loss 2738.378662109375
+epoch 1, batch 17800:
+2019-04-27T22:11:01.476229: step 17800, loss 2850.524169921875
+epoch 1, batch 17900:
+2019-04-27T22:11:09.518810: step 17900, loss 3457.94482421875
+epoch 1, batch 18000:
+2019-04-27T22:11:17.557653: step 18000, loss 2830.552490234375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 18000, perp_mean: 81.55160830697949, perp_median: 48.45435905456543
+
+epoch 1, batch 18100:
+2019-04-27T22:11:35.818021: step 18100, loss 3141.93359375
+epoch 1, batch 18200:
+2019-04-27T22:11:43.854458: step 18200, loss 3231.0556640625
+epoch 1, batch 18300:
+2019-04-27T22:11:51.904633: step 18300, loss 3125.013916015625
+epoch 1, batch 18400:
+2019-04-27T22:11:59.948201: step 18400, loss 3217.45458984375
+epoch 1, batch 18500:
+2019-04-27T22:12:07.983748: step 18500, loss 3127.207275390625
+epoch 1, batch 18600:
+2019-04-27T22:12:16.030079: step 18600, loss 2914.14404296875
+epoch 1, batch 18700:
+2019-04-27T22:12:24.055409: step 18700, loss 3361.43603515625
+epoch 1, batch 18800:
+2019-04-27T22:12:32.090647: step 18800, loss 2908.62353515625
+epoch 1, batch 18900:
+2019-04-27T22:12:40.136616: step 18900, loss 3026.59326171875
+epoch 1, batch 19000:
+2019-04-27T22:12:48.176803: step 19000, loss 2901.587158203125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 19000, perp_mean: 81.23292408848158, perp_median: 47.979299545288086
+
+epoch 1, batch 19100:
+2019-04-27T22:13:05.605855: step 19100, loss 2813.19970703125
+epoch 1, batch 19200:
+2019-04-27T22:13:13.633010: step 19200, loss 3188.663818359375
+epoch 1, batch 19300:
+2019-04-27T22:13:21.664198: step 19300, loss 2869.185546875
+epoch 1, batch 19400:
+2019-04-27T22:13:29.715812: step 19400, loss 2985.574462890625
+epoch 1, batch 19500:
+2019-04-27T22:13:37.748993: step 19500, loss 3574.61767578125
+epoch 1, batch 19600:
+2019-04-27T22:13:45.788134: step 19600, loss 2918.212890625
+epoch 1, batch 19700:
+2019-04-27T22:13:53.834756: step 19700, loss 3477.85986328125
+epoch 1, batch 19800:
+2019-04-27T22:14:01.860957: step 19800, loss 3379.998046875
+epoch 1, batch 19900:
+2019-04-27T22:14:09.902260: step 19900, loss 3196.99169921875
+epoch 1, batch 20000:
+2019-04-27T22:14:17.942332: step 20000, loss 3408.217529296875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 20000, perp_mean: 79.60509436522318, perp_median: 47.35976600646973
+
+epoch 1, batch 20100:
+2019-04-27T22:14:36.062541: step 20100, loss 3325.2412109375
+epoch 1, batch 20200:
+2019-04-27T22:14:44.087392: step 20200, loss 2864.0205078125
+epoch 1, batch 20300:
+2019-04-27T22:14:52.117911: step 20300, loss 3031.957763671875
+epoch 1, batch 20400:
+2019-04-27T22:15:00.160442: step 20400, loss 2542.2763671875
+epoch 1, batch 20500:
+2019-04-27T22:15:08.207570: step 20500, loss 2547.152587890625
+epoch 1, batch 20600:
+2019-04-27T22:15:16.242645: step 20600, loss 3506.872314453125
+epoch 1, batch 20700:
+2019-04-27T22:15:24.285761: step 20700, loss 2888.71484375
+epoch 1, batch 20800:
+2019-04-27T22:15:32.338797: step 20800, loss 3105.111083984375
+epoch 1, batch 20900:
+2019-04-27T22:15:40.394098: step 20900, loss 3202.681396484375
+epoch 1, batch 21000:
+2019-04-27T22:15:48.426111: step 21000, loss 2989.202880859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 21000, perp_mean: 79.04704260777682, perp_median: 47.33355140686035
+
+epoch 1, batch 21100:
+2019-04-27T22:16:06.688567: step 21100, loss 2924.15625
+epoch 1, batch 21200:
+2019-04-27T22:16:14.736862: step 21200, loss 3389.538330078125
+epoch 1, batch 21300:
+2019-04-27T22:16:22.777570: step 21300, loss 3002.71044921875
+epoch 1, batch 21400:
+2019-04-27T22:16:30.826893: step 21400, loss 2524.902099609375
+epoch 1, batch 21500:
+2019-04-27T22:16:38.875717: step 21500, loss 2813.2470703125
+epoch 1, batch 21600:
+2019-04-27T22:16:46.907015: step 21600, loss 3137.345947265625
+epoch 1, batch 21700:
+2019-04-27T22:16:54.955908: step 21700, loss 2960.3232421875
+epoch 1, batch 21800:
+2019-04-27T22:17:03.003978: step 21800, loss 3901.4912109375
+epoch 1, batch 21900:
+2019-04-27T22:17:11.046600: step 21900, loss 2557.7978515625
+epoch 1, batch 22000:
+2019-04-27T22:17:19.085527: step 22000, loss 2901.816162109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 22000, perp_mean: 78.28559196149095, perp_median: 46.995662689208984
+
+epoch 1, batch 22100:
+2019-04-27T22:17:37.591629: step 22100, loss 3299.317626953125
+epoch 1, batch 22200:
+2019-04-27T22:17:45.638858: step 22200, loss 2879.875
+epoch 1, batch 22300:
+2019-04-27T22:17:53.688937: step 22300, loss 2936.001220703125
+epoch 1, batch 22400:
+2019-04-27T22:18:01.731279: step 22400, loss 2895.067626953125
+epoch 1, batch 22500:
+2019-04-27T22:18:09.771888: step 22500, loss 2818.173828125
+epoch 1, batch 22600:
+2019-04-27T22:18:17.799485: step 22600, loss 2717.478759765625
+epoch 1, batch 22700:
+2019-04-27T22:18:25.842606: step 22700, loss 3055.611572265625
+epoch 1, batch 22800:
+2019-04-27T22:18:33.884989: step 22800, loss 2913.974609375
+epoch 1, batch 22900:
+2019-04-27T22:18:41.930137: step 22900, loss 2931.6572265625
+epoch 1, batch 23000:
+2019-04-27T22:18:49.969899: step 23000, loss 2665.257568359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 23000, perp_mean: 76.39501587351285, perp_median: 46.715206146240234
+
+epoch 1, batch 23100:
+2019-04-27T22:19:08.269278: step 23100, loss 3028.472412109375
+epoch 1, batch 23200:
+2019-04-27T22:19:16.310383: step 23200, loss 3003.763427734375
+epoch 1, batch 23300:
+2019-04-27T22:19:24.335584: step 23300, loss 3100.3837890625
+epoch 1, batch 23400:
+2019-04-27T22:19:32.388384: step 23400, loss 3090.180419921875
+epoch 1, batch 23500:
+2019-04-27T22:19:40.430729: step 23500, loss 3129.056396484375
+epoch 1, batch 23600:
+2019-04-27T22:19:48.473312: step 23600, loss 2769.009521484375
+epoch 1, batch 23700:
+2019-04-27T22:19:56.517327: step 23700, loss 2883.65380859375
+epoch 1, batch 23800:
+2019-04-27T22:20:04.555858: step 23800, loss 2868.95556640625
+epoch 1, batch 23900:
+2019-04-27T22:20:12.601351: step 23900, loss 2823.2626953125
+epoch 1, batch 24000:
+2019-04-27T22:20:20.637618: step 24000, loss 2685.167236328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 24000, perp_mean: 79.07297989208476, perp_median: 45.595808029174805
+
+epoch 1, batch 24100:
+2019-04-27T22:20:38.027530: step 24100, loss 3138.152099609375
+epoch 1, batch 24200:
+2019-04-27T22:20:46.068153: step 24200, loss 3197.03076171875
+epoch 1, batch 24300:
+2019-04-27T22:20:54.113897: step 24300, loss 3376.79150390625
+epoch 1, batch 24400:
+2019-04-27T22:21:02.161157: step 24400, loss 3102.3740234375
+epoch 1, batch 24500:
+2019-04-27T22:21:10.200876: step 24500, loss 2632.756591796875
+epoch 1, batch 24600:
+2019-04-27T22:21:18.240035: step 24600, loss 3298.255126953125
+epoch 1, batch 24700:
+2019-04-27T22:21:26.291394: step 24700, loss 3295.50927734375
+epoch 1, batch 24800:
+2019-04-27T22:21:34.303718: step 24800, loss 3288.47998046875
+epoch 1, batch 24900:
+2019-04-27T22:21:42.349530: step 24900, loss 3159.173095703125
+epoch 1, batch 25000:
+2019-04-27T22:21:50.400103: step 25000, loss 3111.900634765625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 25000, perp_mean: 75.01020670781018, perp_median: 45.38406753540039
+
+epoch 1, batch 25100:
+2019-04-27T22:22:08.760631: step 25100, loss 2577.373291015625
+epoch 1, batch 25200:
+2019-04-27T22:22:16.793133: step 25200, loss 2606.088134765625
+epoch 1, batch 25300:
+2019-04-27T22:22:24.833283: step 25300, loss 2808.94873046875
+epoch 1, batch 25400:
+2019-04-27T22:22:32.866481: step 25400, loss 3235.044921875
+epoch 1, batch 25500:
+2019-04-27T22:22:40.913124: step 25500, loss 3068.92529296875
+epoch 1, batch 25600:
+2019-04-27T22:22:48.961759: step 25600, loss 2546.530517578125
+epoch 1, batch 25700:
+2019-04-27T22:22:57.010897: step 25700, loss 3018.102783203125
+epoch 1, batch 25800:
+2019-04-27T22:23:05.050673: step 25800, loss 2849.167724609375
+epoch 1, batch 25900:
+2019-04-27T22:23:13.090636: step 25900, loss 2725.878662109375
+epoch 1, batch 26000:
+2019-04-27T22:23:21.132139: step 26000, loss 3121.7392578125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 26000, perp_mean: 76.23372976521566, perp_median: 44.460105895996094
+
+epoch 1, batch 26100:
+2019-04-27T22:23:39.350598: step 26100, loss 2635.91015625
+epoch 1, batch 26200:
+2019-04-27T22:23:47.385000: step 26200, loss 3046.434326171875
+epoch 1, batch 26300:
+2019-04-27T22:23:55.439998: step 26300, loss 2934.701171875
+epoch 1, batch 26400:
+2019-04-27T22:24:03.488125: step 26400, loss 2831.02978515625
+epoch 1, batch 26500:
+2019-04-27T22:24:11.523393: step 26500, loss 3327.314453125
+epoch 1, batch 26600:
+2019-04-27T22:24:19.553443: step 26600, loss 2797.0087890625
+epoch 1, batch 26700:
+2019-04-27T22:24:27.605363: step 26700, loss 3274.542236328125
+epoch 1, batch 26800:
+2019-04-27T22:24:35.654400: step 26800, loss 3016.765380859375
+epoch 1, batch 26900:
+2019-04-27T22:24:43.691594: step 26900, loss 3116.41015625
+epoch 1, batch 27000:
+2019-04-27T22:24:51.734088: step 27000, loss 2755.2880859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 27000, perp_mean: 74.8946904028525, perp_median: 44.26460647583008
+
+epoch 1, batch 27100:
+2019-04-27T22:25:10.084275: step 27100, loss 2934.863037109375
+epoch 1, batch 27200:
+2019-04-27T22:25:18.141006: step 27200, loss 3011.2783203125
+epoch 1, batch 27300:
+2019-04-27T22:25:26.200645: step 27300, loss 2923.55810546875
+epoch 1, batch 27400:
+2019-04-27T22:25:34.270025: step 27400, loss 3176.461181640625
+epoch 1, batch 27500:
+2019-04-27T22:25:42.339046: step 27500, loss 2970.0029296875
+epoch 1, batch 27600:
+2019-04-27T22:25:50.395776: step 27600, loss 2881.921142578125
+epoch 1, batch 27700:
+2019-04-27T22:25:58.454408: step 27700, loss 2623.89794921875
+epoch 1, batch 27800:
+2019-04-27T22:26:06.485010: step 27800, loss 3049.24169921875
+epoch 1, batch 27900:
+2019-04-27T22:26:14.549099: step 27900, loss 2894.11328125
+epoch 1, batch 28000:
+2019-04-27T22:26:22.598933: step 28000, loss 3209.535888671875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 28000, perp_mean: 75.27645365236107, perp_median: 44.29572105407715
+
+epoch 1, batch 28100:
+2019-04-27T22:26:40.957680: step 28100, loss 2827.54052734375
+epoch 1, batch 28200:
+2019-04-27T22:26:48.999743: step 28200, loss 2783.21826171875
+epoch 1, batch 28300:
+2019-04-27T22:26:57.044668: step 28300, loss 2726.8603515625
+epoch 1, batch 28400:
+2019-04-27T22:27:05.088452: step 28400, loss 3520.618896484375
+epoch 1, batch 28500:
+2019-04-27T22:27:13.138239: step 28500, loss 2745.623291015625
+epoch 1, batch 28600:
+2019-04-27T22:27:21.173253: step 28600, loss 3614.4140625
+epoch 1, batch 28700:
+2019-04-27T22:27:29.226699: step 28700, loss 3145.424560546875
+epoch 1, batch 28800:
+2019-04-27T22:27:37.247249: step 28800, loss 2875.184814453125
+epoch 1, batch 28900:
+2019-04-27T22:27:45.274318: step 28900, loss 3404.60302734375
+epoch 1, batch 29000:
+2019-04-27T22:27:53.308061: step 29000, loss 3085.3798828125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 29000, perp_mean: 74.61459339211052, perp_median: 44.18527603149414
+
+epoch 1, batch 29100:
+2019-04-27T22:28:11.610170: step 29100, loss 2977.337158203125
+epoch 1, batch 29200:
+2019-04-27T22:28:19.655149: step 29200, loss 2744.661865234375
+epoch 1, batch 29300:
+2019-04-27T22:28:27.703998: step 29300, loss 3343.423583984375
+epoch 1, batch 29400:
+2019-04-27T22:28:35.746633: step 29400, loss 3077.09716796875
+epoch 1, batch 29500:
+2019-04-27T22:28:43.773265: step 29500, loss 3177.559326171875
+epoch 1, batch 29600:
+2019-04-27T22:28:51.824110: step 29600, loss 2401.2412109375
+epoch 1, batch 29700:
+2019-04-27T22:28:59.873384: step 29700, loss 2915.720703125
+epoch 1, batch 29800:
+2019-04-27T22:29:07.907402: step 29800, loss 3098.235595703125
+epoch 1, batch 29900:
+2019-04-27T22:29:15.964752: step 29900, loss 2630.675048828125
+epoch 1, batch 30000:
+2019-04-27T22:29:23.983354: step 30000, loss 2911.050048828125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 30000, perp_mean: 74.30477642704263, perp_median: 43.864994049072266
+
+epoch 1, batch 30100:
+2019-04-27T22:29:41.506428: step 30100, loss 2940.89697265625
+epoch 1, batch 30200:
+2019-04-27T22:29:49.541943: step 30200, loss 3074.466796875
+epoch 1, batch 30300:
+2019-04-27T22:29:57.583691: step 30300, loss 2486.56787109375
+epoch 1, batch 30400:
+2019-04-27T22:30:05.617851: step 30400, loss 3198.628662109375
+epoch 1, batch 30500:
+2019-04-27T22:30:13.671002: step 30500, loss 3202.8916015625
+epoch 1, batch 30600:
+2019-04-27T22:30:21.711746: step 30600, loss 3154.2705078125
+epoch 1, batch 30700:
+2019-04-27T22:30:29.756181: step 30700, loss 3027.23974609375
+epoch 2, batch 21:
+2019-04-27T22:30:37.763768: step 30800, loss 2969.22900390625
+epoch 2, batch 121:
+2019-04-27T22:30:45.803759: step 30900, loss 2688.96435546875
+epoch 2, batch 221:
+2019-04-27T22:30:53.849456: step 31000, loss 2826.12109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 31000, perp_mean: 74.34359797683402, perp_median: 43.475088119506836
+
+epoch 2, batch 321:
+2019-04-27T22:31:11.953433: step 31100, loss 2986.2412109375
+epoch 2, batch 421:
+2019-04-27T22:31:19.979984: step 31200, loss 2950.80615234375
+epoch 2, batch 521:
+2019-04-27T22:31:28.020534: step 31300, loss 2807.742431640625
+epoch 2, batch 621:
+2019-04-27T22:31:36.036196: step 31400, loss 3151.009765625
+epoch 2, batch 721:
+2019-04-27T22:31:44.081416: step 31500, loss 3225.204345703125
+epoch 2, batch 821:
+2019-04-27T22:31:52.120946: step 31600, loss 3229.666259765625
+epoch 2, batch 921:
+2019-04-27T22:32:00.158979: step 31700, loss 2641.09033203125
+epoch 2, batch 1021:
+2019-04-27T22:32:08.194256: step 31800, loss 2808.14111328125
+epoch 2, batch 1121:
+2019-04-27T22:32:16.242453: step 31900, loss 3051.27099609375
+epoch 2, batch 1221:
+2019-04-27T22:32:24.293217: step 32000, loss 3053.7490234375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 32000, perp_mean: 71.96041749580928, perp_median: 43.783620834350586
+
+epoch 2, batch 1321:
+2019-04-27T22:32:42.571825: step 32100, loss 3201.474853515625
+epoch 2, batch 1421:
+2019-04-27T22:32:50.622465: step 32200, loss 2880.60205078125
+epoch 2, batch 1521:
+2019-04-27T22:32:58.667811: step 32300, loss 2502.13427734375
+epoch 2, batch 1621:
+2019-04-27T22:33:06.714821: step 32400, loss 3463.51318359375
+epoch 2, batch 1721:
+2019-04-27T22:33:14.764805: step 32500, loss 3012.365966796875
+epoch 2, batch 1821:
+2019-04-27T22:33:22.804261: step 32600, loss 2851.520263671875
+epoch 2, batch 1921:
+2019-04-27T22:33:30.839647: step 32700, loss 2805.75634765625
+epoch 2, batch 2021:
+2019-04-27T22:33:38.885726: step 32800, loss 2668.99462890625
+epoch 2, batch 2121:
+2019-04-27T22:33:46.929154: step 32900, loss 3100.119384765625
+epoch 2, batch 2221:
+2019-04-27T22:33:54.959639: step 33000, loss 3445.819580078125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 33000, perp_mean: 71.95563135584413, perp_median: 43.029815673828125
+
+epoch 2, batch 2321:
+2019-04-27T22:34:13.514539: step 33100, loss 2676.024658203125
+epoch 2, batch 2421:
+2019-04-27T22:34:21.555509: step 33200, loss 2955.908935546875
+epoch 2, batch 2521:
+2019-04-27T22:34:29.593635: step 33300, loss 3068.3779296875
+epoch 2, batch 2621:
+2019-04-27T22:34:37.638487: step 33400, loss 3072.98046875
+epoch 2, batch 2721:
+2019-04-27T22:34:45.689726: step 33500, loss 2651.80419921875
+epoch 2, batch 2821:
+2019-04-27T22:34:53.738326: step 33600, loss 3022.9072265625
+epoch 2, batch 2921:
+2019-04-27T22:35:01.785018: step 33700, loss 3220.924560546875
+epoch 2, batch 3021:
+2019-04-27T22:35:09.874789: step 33800, loss 3495.8095703125
+epoch 2, batch 3121:
+2019-04-27T22:35:17.928750: step 33900, loss 2734.355224609375
+epoch 2, batch 3221:
+2019-04-27T22:35:25.988330: step 34000, loss 3001.98291015625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 34000, perp_mean: 72.69929401066496, perp_median: 43.06587600708008
+
+epoch 2, batch 3321:
+2019-04-27T22:35:43.350712: step 34100, loss 3328.2841796875
+epoch 2, batch 3421:
+2019-04-27T22:35:51.390039: step 34200, loss 2648.108642578125
+epoch 2, batch 3521:
+2019-04-27T22:35:59.437439: step 34300, loss 2843.55029296875
+epoch 2, batch 3621:
+2019-04-27T22:36:07.468191: step 34400, loss 2964.893310546875
+epoch 2, batch 3721:
+2019-04-27T22:36:15.507337: step 34500, loss 2920.09716796875
+epoch 2, batch 3821:
+2019-04-27T22:36:23.542031: step 34600, loss 2696.800048828125
+epoch 2, batch 3921:
+2019-04-27T22:36:31.575924: step 34700, loss 3579.274658203125
+epoch 2, batch 4021:
+2019-04-27T22:36:39.621571: step 34800, loss 2902.13232421875
+epoch 2, batch 4121:
+2019-04-27T22:36:47.668392: step 34900, loss 3065.1591796875
+epoch 2, batch 4221:
+2019-04-27T22:36:55.723094: step 35000, loss 3186.960693359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 35000, perp_mean: 71.29171628469426, perp_median: 43.06843948364258
+
+epoch 2, batch 4321:
+2019-04-27T22:37:14.034679: step 35100, loss 3033.754638671875
+epoch 2, batch 4421:
+2019-04-27T22:37:22.088457: step 35200, loss 2515.183349609375
+epoch 2, batch 4521:
+2019-04-27T22:37:30.128036: step 35300, loss 3349.294921875
+epoch 2, batch 4621:
+2019-04-27T22:37:38.197854: step 35400, loss 3287.02001953125
+epoch 2, batch 4721:
+2019-04-27T22:37:46.259092: step 35500, loss 2596.77197265625
+epoch 2, batch 4821:
+2019-04-27T22:37:54.325730: step 35600, loss 3609.43115234375
+epoch 2, batch 4921:
+2019-04-27T22:38:02.377791: step 35700, loss 3166.25048828125
+epoch 2, batch 5021:
+2019-04-27T22:38:10.461328: step 35800, loss 2349.869140625
+epoch 2, batch 5121:
+2019-04-27T22:38:18.492875: step 35900, loss 2887.1435546875
+epoch 2, batch 5221:
+2019-04-27T22:38:26.544505: step 36000, loss 2977.3447265625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 36000, perp_mean: 71.53059962954241, perp_median: 43.47746467590332
+
+epoch 2, batch 5321:
+2019-04-27T22:38:44.832418: step 36100, loss 3101.240234375
+epoch 2, batch 5421:
+2019-04-27T22:38:52.878950: step 36200, loss 3228.02294921875
+epoch 2, batch 5521:
+2019-04-27T22:39:00.932228: step 36300, loss 2643.404296875
+epoch 2, batch 5621:
+2019-04-27T22:39:08.990715: step 36400, loss 3000.28564453125
+epoch 2, batch 5721:
+2019-04-27T22:39:17.047352: step 36500, loss 2859.749267578125
+epoch 2, batch 5821:
+2019-04-27T22:39:25.090885: step 36600, loss 3324.2431640625
+epoch 2, batch 5921:
+2019-04-27T22:39:33.166419: step 36700, loss 2926.7978515625
+epoch 2, batch 6021:
+2019-04-27T22:39:41.237157: step 36800, loss 3377.71728515625
+epoch 2, batch 6121:
+2019-04-27T22:39:49.301097: step 36900, loss 2540.9375
+epoch 2, batch 6221:
+2019-04-27T22:39:57.376893: step 37000, loss 3102.99951171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 37000, perp_mean: 70.29052437860356, perp_median: 42.76467323303223
+
+epoch 2, batch 6321:
+2019-04-27T22:40:15.838114: step 37100, loss 2506.749267578125
+epoch 2, batch 6421:
+2019-04-27T22:40:23.884665: step 37200, loss 2998.73583984375
+epoch 2, batch 6521:
+2019-04-27T22:40:31.911427: step 37300, loss 2972.916748046875
+epoch 2, batch 6621:
+2019-04-27T22:40:39.965100: step 37400, loss 2759.335693359375
+epoch 2, batch 6721:
+2019-04-27T22:40:48.014284: step 37500, loss 3265.547119140625
+epoch 2, batch 6821:
+2019-04-27T22:40:56.061892: step 37600, loss 3097.989013671875
+epoch 2, batch 6921:
+2019-04-27T22:41:04.100291: step 37700, loss 2906.87841796875
+epoch 2, batch 7021:
+2019-04-27T22:41:12.136997: step 37800, loss 2851.6943359375
+epoch 2, batch 7121:
+2019-04-27T22:41:20.185398: step 37900, loss 3087.38916015625
+epoch 2, batch 7221:
+2019-04-27T22:41:28.245037: step 38000, loss 2859.0205078125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 38000, perp_mean: 70.56715787836093, perp_median: 42.251630783081055
+
+epoch 2, batch 7321:
+2019-04-27T22:41:46.567470: step 38100, loss 2738.72119140625
+epoch 2, batch 7421:
+2019-04-27T22:41:54.623503: step 38200, loss 3420.490478515625
+epoch 2, batch 7521:
+2019-04-27T22:42:02.663206: step 38300, loss 3111.905517578125
+epoch 2, batch 7621:
+2019-04-27T22:42:10.719957: step 38400, loss 3122.043212890625
+epoch 2, batch 7721:
+2019-04-27T22:42:18.771643: step 38500, loss 2882.05029296875
+epoch 2, batch 7821:
+2019-04-27T22:42:26.814930: step 38600, loss 3198.685546875
+epoch 2, batch 7921:
+2019-04-27T22:42:34.865239: step 38700, loss 2923.959716796875
+epoch 2, batch 8021:
+2019-04-27T22:42:42.916582: step 38800, loss 3162.555419921875
+epoch 2, batch 8121:
+2019-04-27T22:42:50.957826: step 38900, loss 2853.08544921875
+epoch 2, batch 8221:
+2019-04-27T22:42:58.997354: step 39000, loss 2677.378662109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 39000, perp_mean: 70.53089135342827, perp_median: 41.96397018432617
+
+epoch 2, batch 8321:
+2019-04-27T22:43:16.477855: step 39100, loss 2965.87841796875
+epoch 2, batch 8421:
+2019-04-27T22:43:24.516272: step 39200, loss 3111.1728515625
+epoch 2, batch 8521:
+2019-04-27T22:43:32.544467: step 39300, loss 2839.4609375
+epoch 2, batch 8621:
+2019-04-27T22:43:40.579944: step 39400, loss 2815.911865234375
+epoch 2, batch 8721:
+2019-04-27T22:43:48.603253: step 39500, loss 2803.113037109375
+epoch 2, batch 8821:
+2019-04-27T22:43:56.648960: step 39600, loss 2742.2607421875
+epoch 2, batch 8921:
+2019-04-27T22:44:04.699040: step 39700, loss 2576.708740234375
+epoch 2, batch 9021:
+2019-04-27T22:44:12.745007: step 39800, loss 3009.940673828125
+epoch 2, batch 9121:
+2019-04-27T22:44:20.808026: step 39900, loss 3074.65869140625
+epoch 2, batch 9221:
+2019-04-27T22:44:28.854898: step 40000, loss 2928.3037109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 40000, perp_mean: 72.39721259342178, perp_median: 42.019338607788086
+
+epoch 2, batch 9321:
+2019-04-27T22:44:47.195755: step 40100, loss 2786.0458984375
+epoch 2, batch 9421:
+2019-04-27T22:44:55.238486: step 40200, loss 3099.72900390625
+epoch 2, batch 9521:
+2019-04-27T22:45:03.279641: step 40300, loss 3235.61376953125
+epoch 2, batch 9621:
+2019-04-27T22:45:11.317176: step 40400, loss 2963.992919921875
+epoch 2, batch 9721:
+2019-04-27T22:45:19.373537: step 40500, loss 2692.921142578125
+epoch 2, batch 9821:
+2019-04-27T22:45:27.420200: step 40600, loss 3268.21142578125
+epoch 2, batch 9921:
+2019-04-27T22:45:35.465937: step 40700, loss 2800.976318359375
+epoch 2, batch 10021:
+2019-04-27T22:45:43.523634: step 40800, loss 2800.310302734375
+epoch 2, batch 10121:
+2019-04-27T22:45:51.550747: step 40900, loss 2904.283203125
+epoch 2, batch 10221:
+2019-04-27T22:45:59.606552: step 41000, loss 3382.330078125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 41000, perp_mean: 71.05897257123661, perp_median: 41.3380126953125
+
+epoch 2, batch 10321:
+2019-04-27T22:46:18.011902: step 41100, loss 3249.283203125
+epoch 2, batch 10421:
+2019-04-27T22:46:26.042122: step 41200, loss 2695.286865234375
+epoch 2, batch 10521:
+2019-04-27T22:46:34.068908: step 41300, loss 2829.975830078125
+epoch 2, batch 10621:
+2019-04-27T22:46:42.096052: step 41400, loss 2898.543701171875
+epoch 2, batch 10721:
+2019-04-27T22:46:50.128017: step 41500, loss 2745.334716796875
+epoch 2, batch 10821:
+2019-04-27T22:46:58.174660: step 41600, loss 2900.421142578125
+epoch 2, batch 10921:
+2019-04-27T22:47:06.205763: step 41700, loss 2643.74365234375
+epoch 2, batch 11021:
+2019-04-27T22:47:14.236607: step 41800, loss 2799.867919921875
+epoch 2, batch 11121:
+2019-04-27T22:47:22.276843: step 41900, loss 3308.43603515625
+epoch 2, batch 11221:
+2019-04-27T22:47:30.310874: step 42000, loss 2906.64697265625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 42000, perp_mean: 70.63763527906016, perp_median: 41.43457221984863
+
+epoch 2, batch 11321:
+2019-04-27T22:47:48.689929: step 42100, loss 2835.8037109375
+epoch 2, batch 11421:
+2019-04-27T22:47:56.735466: step 42200, loss 2774.69775390625
+epoch 2, batch 11521:
+2019-04-27T22:48:04.786565: step 42300, loss 3234.1884765625
+epoch 2, batch 11621:
+2019-04-27T22:48:12.812311: step 42400, loss 2827.239013671875
+epoch 2, batch 11721:
+2019-04-27T22:48:20.861644: step 42500, loss 3258.21728515625
+epoch 2, batch 11821:
+2019-04-27T22:48:28.917828: step 42600, loss 2873.966796875
+epoch 2, batch 11921:
+2019-04-27T22:48:36.960400: step 42700, loss 2974.38037109375
+epoch 2, batch 12021:
+2019-04-27T22:48:44.994880: step 42800, loss 3314.881103515625
+epoch 2, batch 12121:
+2019-04-27T22:48:53.058448: step 42900, loss 2998.212890625
+epoch 2, batch 12221:
+2019-04-27T22:49:01.104073: step 43000, loss 3450.190185546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 43000, perp_mean: 72.03909081714608, perp_median: 41.3297004699707
+
+epoch 2, batch 12321:
+2019-04-27T22:49:18.459220: step 43100, loss 3142.92431640625
+epoch 2, batch 12421:
+2019-04-27T22:49:26.495436: step 43200, loss 3083.90185546875
+epoch 2, batch 12521:
+2019-04-27T22:49:34.543896: step 43300, loss 3062.52490234375
+epoch 2, batch 12621:
+2019-04-27T22:49:42.602795: step 43400, loss 2812.563720703125
+epoch 2, batch 12721:
+2019-04-27T22:49:50.637846: step 43500, loss 3208.94482421875
+epoch 2, batch 12821:
+2019-04-27T22:49:58.673936: step 43600, loss 3083.77392578125
+epoch 2, batch 12921:
+2019-04-27T22:50:06.718152: step 43700, loss 2862.017578125
+epoch 2, batch 13021:
+2019-04-27T22:50:14.760971: step 43800, loss 2791.3134765625
+epoch 2, batch 13121:
+2019-04-27T22:50:22.797864: step 43900, loss 2764.867919921875
+epoch 2, batch 13221:
+2019-04-27T22:50:30.837435: step 44000, loss 2717.31787109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 44000, perp_mean: 71.90300322795771, perp_median: 40.69961929321289
+
+epoch 2, batch 13321:
+2019-04-27T22:50:49.254533: step 44100, loss 2702.337890625
+epoch 2, batch 13421:
+2019-04-27T22:50:57.305206: step 44200, loss 2921.6083984375
+epoch 2, batch 13521:
+2019-04-27T22:51:05.338851: step 44300, loss 2822.607421875
+epoch 2, batch 13621:
+2019-04-27T22:51:13.372391: step 44400, loss 2587.708251953125
+epoch 2, batch 13721:
+2019-04-27T22:51:21.415575: step 44500, loss 3504.569580078125
+epoch 2, batch 13821:
+2019-04-27T22:51:29.452646: step 44600, loss 2817.533203125
+epoch 2, batch 13921:
+2019-04-27T22:51:37.504051: step 44700, loss 3183.860595703125
+epoch 2, batch 14021:
+2019-04-27T22:51:45.530830: step 44800, loss 2992.98583984375
+epoch 2, batch 14121:
+2019-04-27T22:51:53.561389: step 44900, loss 2960.87060546875
+epoch 2, batch 14221:
+2019-04-27T22:52:01.609804: step 45000, loss 2752.52783203125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 45000, perp_mean: 70.20494891130753, perp_median: 41.01177406311035
+
+epoch 2, batch 14321:
+2019-04-27T22:52:19.878148: step 45100, loss 3339.8525390625
+epoch 2, batch 14421:
+2019-04-27T22:52:27.919201: step 45200, loss 2948.162353515625
+epoch 2, batch 14521:
+2019-04-27T22:52:35.962639: step 45300, loss 3146.43408203125
+epoch 2, batch 14621:
+2019-04-27T22:52:43.999120: step 45400, loss 3573.571533203125
+epoch 2, batch 14721:
+2019-04-27T22:52:52.028142: step 45500, loss 2812.39697265625
+epoch 2, batch 14821:
+2019-04-27T22:53:00.073479: step 45600, loss 2897.4833984375
+epoch 2, batch 14921:
+2019-04-27T22:53:08.123702: step 45700, loss 3232.14697265625
+epoch 2, batch 15021:
+2019-04-27T22:53:16.180462: step 45800, loss 3347.5478515625
+epoch 2, batch 15121:
+2019-04-27T22:53:24.218801: step 45900, loss 3142.128173828125
+epoch 2, batch 15221:
+2019-04-27T22:53:32.261566: step 46000, loss 2841.794677734375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 46000, perp_mean: 67.80413024521881, perp_median: 40.87750816345215
+
+epoch 2, batch 15321:
+2019-04-27T22:53:50.627061: step 46100, loss 2826.404296875
+epoch 2, batch 15421:
+2019-04-27T22:53:58.667667: step 46200, loss 3080.548095703125
+epoch 2, batch 15521:
+2019-04-27T22:54:06.719229: step 46300, loss 2984.798828125
+epoch 2, batch 15621:
+2019-04-27T22:54:14.782160: step 46400, loss 2537.17529296875
+epoch 2, batch 15721:
+2019-04-27T22:54:22.829102: step 46500, loss 3022.420166015625
+epoch 2, batch 15821:
+2019-04-27T22:54:30.871569: step 46600, loss 3110.639404296875
+epoch 2, batch 15921:
+2019-04-27T22:54:38.906835: step 46700, loss 3294.01904296875
+epoch 2, batch 16021:
+2019-04-27T22:54:46.948649: step 46800, loss 3003.234130859375
+epoch 2, batch 16121:
+2019-04-27T22:54:54.986741: step 46900, loss 2949.1611328125
+epoch 2, batch 16221:
+2019-04-27T22:55:03.032167: step 47000, loss 3196.31689453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 47000, perp_mean: 69.35614741738434, perp_median: 40.85782241821289
+
+epoch 2, batch 16321:
+2019-04-27T22:55:21.351427: step 47100, loss 2698.102294921875
+epoch 2, batch 16421:
+2019-04-27T22:55:29.401405: step 47200, loss 3257.015380859375
+epoch 2, batch 16521:
+2019-04-27T22:55:37.444375: step 47300, loss 2599.029541015625
+epoch 2, batch 16621:
+2019-04-27T22:55:45.485169: step 47400, loss 2741.62646484375
+epoch 2, batch 16721:
+2019-04-27T22:55:53.531624: step 47500, loss 2751.03076171875
+epoch 2, batch 16821:
+2019-04-27T22:56:01.585573: step 47600, loss 2962.577392578125
+epoch 2, batch 16921:
+2019-04-27T22:56:09.624760: step 47700, loss 3055.4423828125
+epoch 2, batch 17021:
+2019-04-27T22:56:17.659714: step 47800, loss 2817.57080078125
+epoch 2, batch 17121:
+2019-04-27T22:56:25.698915: step 47900, loss 2929.058349609375
+epoch 2, batch 17221:
+2019-04-27T22:56:33.728942: step 48000, loss 2932.353271484375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 48000, perp_mean: 68.9424225345826, perp_median: 40.743629455566406
+
+epoch 2, batch 17321:
+2019-04-27T22:56:51.099441: step 48100, loss 2934.80517578125
+epoch 2, batch 17421:
+2019-04-27T22:56:59.150793: step 48200, loss 3068.459228515625
+epoch 2, batch 17521:
+2019-04-27T22:57:07.201825: step 48300, loss 2498.140869140625
+epoch 2, batch 17621:
+2019-04-27T22:57:15.262881: step 48400, loss 3109.17529296875
+epoch 2, batch 17721:
+2019-04-27T22:57:23.324642: step 48500, loss 3240.63525390625
+epoch 2, batch 17821:
+2019-04-27T22:57:31.372239: step 48600, loss 3272.383544921875
+epoch 2, batch 17921:
+2019-04-27T22:57:39.422639: step 48700, loss 3247.120849609375
+epoch 2, batch 18021:
+2019-04-27T22:57:47.459566: step 48800, loss 2905.28076171875
+epoch 2, batch 18121:
+2019-04-27T22:57:55.509538: step 48900, loss 2446.48046875
+epoch 2, batch 18221:
+2019-04-27T22:58:03.558750: step 49000, loss 2805.056884765625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 49000, perp_mean: 68.15259440974833, perp_median: 40.79366683959961
+
+epoch 2, batch 18321:
+2019-04-27T22:58:21.831420: step 49100, loss 2863.145751953125
+epoch 2, batch 18421:
+2019-04-27T22:58:29.887310: step 49200, loss 2598.102294921875
+epoch 2, batch 18521:
+2019-04-27T22:58:37.923824: step 49300, loss 2846.929931640625
+epoch 2, batch 18621:
+2019-04-27T22:58:45.969881: step 49400, loss 3055.2666015625
+epoch 2, batch 18721:
+2019-04-27T22:58:54.010509: step 49500, loss 3082.680419921875
+epoch 2, batch 18821:
+2019-04-27T22:59:02.044232: step 49600, loss 2861.881591796875
+epoch 2, batch 18921:
+2019-04-27T22:59:10.101898: step 49700, loss 2795.35107421875
+epoch 2, batch 19021:
+2019-04-27T22:59:18.126341: step 49800, loss 2988.000244140625
+epoch 2, batch 19121:
+2019-04-27T22:59:26.180491: step 49900, loss 2773.901123046875
+epoch 2, batch 19221:
+2019-04-27T22:59:34.220352: step 50000, loss 2621.19873046875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 50000, perp_mean: 67.99001364738942, perp_median: 40.28754234313965
+
+epoch 2, batch 19321:
+2019-04-27T22:59:52.590705: step 50100, loss 3378.4658203125
+epoch 2, batch 19421:
+2019-04-27T23:00:00.635809: step 50200, loss 3088.100341796875
+epoch 2, batch 19521:
+2019-04-27T23:00:08.686609: step 50300, loss 3006.231689453125
+epoch 2, batch 19621:
+2019-04-27T23:00:16.733920: step 50400, loss 3108.508056640625
+epoch 2, batch 19721:
+2019-04-27T23:00:24.786345: step 50500, loss 2871.02880859375
+epoch 2, batch 19821:
+2019-04-27T23:00:32.829469: step 50600, loss 2677.499267578125
+epoch 2, batch 19921:
+2019-04-27T23:00:40.868862: step 50700, loss 2567.1640625
+epoch 2, batch 20021:
+2019-04-27T23:00:48.914617: step 50800, loss 2915.702880859375
+epoch 2, batch 20121:
+2019-04-27T23:00:56.951859: step 50900, loss 2852.07763671875
+epoch 2, batch 20221:
+2019-04-27T23:01:04.994484: step 51000, loss 3150.7275390625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 51000, perp_mean: 67.65515872123594, perp_median: 40.45712471008301
+
+epoch 2, batch 20321:
+2019-04-27T23:01:23.315501: step 51100, loss 2750.464111328125
+epoch 2, batch 20421:
+2019-04-27T23:01:31.354816: step 51200, loss 2416.220703125
+epoch 2, batch 20521:
+2019-04-27T23:01:39.389965: step 51300, loss 2951.9560546875
+epoch 2, batch 20621:
+2019-04-27T23:01:47.436289: step 51400, loss 2696.904052734375
+epoch 2, batch 20721:
+2019-04-27T23:01:55.476165: step 51500, loss 3041.3701171875
+epoch 2, batch 20821:
+2019-04-27T23:02:03.530488: step 51600, loss 2665.01025390625
+epoch 2, batch 20921:
+2019-04-27T23:02:11.595459: step 51700, loss 3061.29736328125
+epoch 2, batch 21021:
+2019-04-27T23:02:19.650981: step 51800, loss 2713.061279296875
+epoch 2, batch 21121:
+2019-04-27T23:02:27.675100: step 51900, loss 2966.158447265625
+epoch 2, batch 21221:
+2019-04-27T23:02:35.719058: step 52000, loss 3174.17333984375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 52000, perp_mean: 67.15658394772905, perp_median: 40.77574157714844
+
+epoch 2, batch 21321:
+2019-04-27T23:02:53.111925: step 52100, loss 2825.336181640625
+epoch 2, batch 21421:
+2019-04-27T23:03:01.166358: step 52200, loss 2824.704833984375
+epoch 2, batch 21521:
+2019-04-27T23:03:09.204463: step 52300, loss 3309.39599609375
+epoch 2, batch 21621:
+2019-04-27T23:03:17.265939: step 52400, loss 3065.7119140625
+epoch 2, batch 21721:
+2019-04-27T23:03:25.301643: step 52500, loss 2880.7041015625
+epoch 2, batch 21821:
+2019-04-27T23:03:33.337782: step 52600, loss 2519.6767578125
+epoch 2, batch 21921:
+2019-04-27T23:03:41.383027: step 52700, loss 2994.36474609375
+epoch 2, batch 22021:
+2019-04-27T23:03:49.417208: step 52800, loss 2897.306884765625
+epoch 2, batch 22121:
+2019-04-27T23:03:57.468277: step 52900, loss 2895.40087890625
+epoch 2, batch 22221:
+2019-04-27T23:04:05.514042: step 53000, loss 2783.5986328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 53000, perp_mean: 67.66827953907864, perp_median: 40.386709213256836
+
+epoch 2, batch 22321:
+2019-04-27T23:04:23.803799: step 53100, loss 2729.9453125
+epoch 2, batch 22421:
+2019-04-27T23:04:31.833018: step 53200, loss 2693.45556640625
+epoch 2, batch 22521:
+2019-04-27T23:04:39.878120: step 53300, loss 2825.76123046875
+epoch 2, batch 22621:
+2019-04-27T23:04:47.913060: step 53400, loss 2612.089599609375
+epoch 2, batch 22721:
+2019-04-27T23:04:55.957328: step 53500, loss 3352.76513671875
+epoch 2, batch 22821:
+2019-04-27T23:05:04.002035: step 53600, loss 3326.6767578125
+epoch 2, batch 22921:
+2019-04-27T23:05:12.036115: step 53700, loss 3265.091064453125
+epoch 2, batch 23021:
+2019-04-27T23:05:20.073436: step 53800, loss 2547.646484375
+epoch 2, batch 23121:
+2019-04-27T23:05:28.132317: step 53900, loss 2967.0986328125
+epoch 2, batch 23221:
+2019-04-27T23:05:36.178676: step 54000, loss 3061.4560546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 54000, perp_mean: 67.5716149954202, perp_median: 40.132625579833984
+
+epoch 2, batch 23321:
+2019-04-27T23:05:54.518223: step 54100, loss 2906.0810546875
+epoch 2, batch 23421:
+2019-04-27T23:06:02.571163: step 54200, loss 2713.58642578125
+epoch 2, batch 23521:
+2019-04-27T23:06:10.612780: step 54300, loss 2758.8515625
+epoch 2, batch 23621:
+2019-04-27T23:06:18.654820: step 54400, loss 3005.62451171875
+epoch 2, batch 23721:
+2019-04-27T23:06:26.687970: step 54500, loss 2811.811279296875
+epoch 2, batch 23821:
+2019-04-27T23:06:34.742866: step 54600, loss 2791.53564453125
+epoch 2, batch 23921:
+2019-04-27T23:06:42.789316: step 54700, loss 3168.6572265625
+epoch 2, batch 24021:
+2019-04-27T23:06:50.820253: step 54800, loss 3409.963623046875
+epoch 2, batch 24121:
+2019-04-27T23:06:58.866398: step 54900, loss 3004.609375
+epoch 2, batch 24221:
+2019-04-27T23:07:06.914476: step 55000, loss 2950.0986328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 55000, perp_mean: 67.49568000647103, perp_median: 40.3416748046875
+
+epoch 2, batch 24321:
+2019-04-27T23:07:25.177876: step 55100, loss 2787.82763671875
+epoch 2, batch 24421:
+2019-04-27T23:07:33.229435: step 55200, loss 3066.206298828125
+epoch 2, batch 24521:
+2019-04-27T23:07:41.268611: step 55300, loss 2977.51416015625
+epoch 2, batch 24621:
+2019-04-27T23:07:49.318366: step 55400, loss 3106.3037109375
+epoch 2, batch 24721:
+2019-04-27T23:07:57.369489: step 55500, loss 2900.380615234375
+epoch 2, batch 24821:
+2019-04-27T23:08:05.413710: step 55600, loss 3016.759033203125
+epoch 2, batch 24921:
+2019-04-27T23:08:13.460546: step 55700, loss 2928.248291015625
+epoch 2, batch 25021:
+2019-04-27T23:08:21.502617: step 55800, loss 2933.13623046875
+epoch 2, batch 25121:
+2019-04-27T23:08:29.542874: step 55900, loss 2681.459228515625
+epoch 2, batch 25221:
+2019-04-27T23:08:37.584267: step 56000, loss 2859.1826171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 56000, perp_mean: 67.00694781819084, perp_median: 40.11355400085449
+
+epoch 2, batch 25321:
+2019-04-27T23:08:55.116440: step 56100, loss 2849.742431640625
+epoch 2, batch 25421:
+2019-04-27T23:09:03.169070: step 56200, loss 2887.5224609375
+epoch 2, batch 25521:
+2019-04-27T23:09:11.204358: step 56300, loss 2953.701416015625
+epoch 2, batch 25621:
+2019-04-27T23:09:19.245080: step 56400, loss 2948.92626953125
+epoch 2, batch 25721:
+2019-04-27T23:09:27.284045: step 56500, loss 2840.744873046875
+epoch 2, batch 25821:
+2019-04-27T23:09:35.317672: step 56600, loss 3352.6005859375
+epoch 2, batch 25921:
+2019-04-27T23:09:43.348965: step 56700, loss 2724.95068359375
+epoch 2, batch 26021:
+2019-04-27T23:09:51.376329: step 56800, loss 3074.763671875
+epoch 2, batch 26121:
+2019-04-27T23:09:59.419615: step 56900, loss 2919.685302734375
+epoch 2, batch 26221:
+2019-04-27T23:10:07.512291: step 57000, loss 2261.15771484375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 57000, perp_mean: 67.36415284977389, perp_median: 40.021060943603516
+
+epoch 2, batch 26321:
+2019-04-27T23:10:25.801936: step 57100, loss 2916.5654296875
+epoch 2, batch 26421:
+2019-04-27T23:10:33.895815: step 57200, loss 2973.0380859375
+epoch 2, batch 26521:
+2019-04-27T23:10:41.977112: step 57300, loss 3489.766845703125
+epoch 2, batch 26621:
+2019-04-27T23:10:50.052603: step 57400, loss 2985.922607421875
+epoch 2, batch 26721:
+2019-04-27T23:10:58.115115: step 57500, loss 3103.4453125
+epoch 2, batch 26821:
+2019-04-27T23:11:06.177434: step 57600, loss 3052.8876953125
+epoch 2, batch 26921:
+2019-04-27T23:11:14.216518: step 57700, loss 3151.45361328125
+epoch 2, batch 27021:
+2019-04-27T23:11:22.288158: step 57800, loss 2791.6328125
+epoch 2, batch 27121:
+2019-04-27T23:11:30.347935: step 57900, loss 2701.196533203125
+epoch 2, batch 27221:
+2019-04-27T23:11:38.408424: step 58000, loss 2979.394775390625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 58000, perp_mean: 67.42892971232294, perp_median: 40.41615676879883
+
+epoch 2, batch 27321:
+2019-04-27T23:11:56.815455: step 58100, loss 2994.47216796875
+epoch 2, batch 27421:
+2019-04-27T23:12:04.869957: step 58200, loss 2961.428955078125
+epoch 2, batch 27521:
+2019-04-27T23:12:12.933310: step 58300, loss 2732.249267578125
+epoch 2, batch 27621:
+2019-04-27T23:12:20.985901: step 58400, loss 2962.031982421875
+epoch 2, batch 27721:
+2019-04-27T23:12:29.032714: step 58500, loss 3001.146728515625
+epoch 2, batch 27821:
+2019-04-27T23:12:37.107086: step 58600, loss 2810.71484375
+epoch 2, batch 27921:
+2019-04-27T23:12:45.160272: step 58700, loss 3000.86376953125
+epoch 2, batch 28021:
+2019-04-27T23:12:53.225173: step 58800, loss 2351.88330078125
+epoch 2, batch 28121:
+2019-04-27T23:13:01.329641: step 58900, loss 2933.81298828125
+epoch 2, batch 28221:
+2019-04-27T23:13:09.442546: step 59000, loss 3164.54833984375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 59000, perp_mean: 67.64562376238528, perp_median: 39.83950996398926
+
+epoch 2, batch 28321:
+2019-04-27T23:13:27.778971: step 59100, loss 2420.0654296875
+epoch 2, batch 28421:
+2019-04-27T23:13:35.837048: step 59200, loss 2923.22412109375
+epoch 2, batch 28521:
+2019-04-27T23:13:43.914477: step 59300, loss 3073.567138671875
+epoch 2, batch 28621:
+2019-04-27T23:13:52.004780: step 59400, loss 2847.8115234375
+epoch 2, batch 28721:
+2019-04-27T23:14:00.090224: step 59500, loss 2852.734375
+epoch 2, batch 28821:
+2019-04-27T23:14:08.140794: step 59600, loss 2663.638671875
+epoch 2, batch 28921:
+2019-04-27T23:14:16.190333: step 59700, loss 2998.81298828125
+epoch 2, batch 29021:
+2019-04-27T23:14:24.233456: step 59800, loss 2823.06982421875
+epoch 2, batch 29121:
+2019-04-27T23:14:32.312150: step 59900, loss 2591.6650390625
+epoch 2, batch 29221:
+2019-04-27T23:14:40.357622: step 60000, loss 2716.008056640625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 60000, perp_mean: 67.48949805060079, perp_median: 39.84268379211426
+
+epoch 2, batch 29321:
+2019-04-27T23:14:57.828835: step 60100, loss 2578.60693359375
+epoch 2, batch 29421:
+2019-04-27T23:15:05.871883: step 60200, loss 2942.18701171875
+epoch 2, batch 29521:
+2019-04-27T23:15:13.921924: step 60300, loss 3043.9169921875
+epoch 2, batch 29621:
+2019-04-27T23:15:21.938522: step 60400, loss 2896.66943359375
+epoch 2, batch 29721:
+2019-04-27T23:15:29.974591: step 60500, loss 2384.892822265625
+epoch 2, batch 29821:
+2019-04-27T23:15:38.031776: step 60600, loss 2982.045654296875
+epoch 2, batch 29921:
+2019-04-27T23:15:46.091820: step 60700, loss 2916.775390625
+epoch 2, batch 30021:
+2019-04-27T23:15:54.144423: step 60800, loss 3048.3037109375
+epoch 2, batch 30121:
+2019-04-27T23:16:02.193375: step 60900, loss 2564.963623046875
+epoch 2, batch 30221:
+2019-04-27T23:16:10.244604: step 61000, loss 2684.18115234375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 61000, perp_mean: 67.88985054453723, perp_median: 40.12346839904785
+
+epoch 2, batch 30321:
+2019-04-27T23:16:28.479214: step 61100, loss 3071.881591796875
+epoch 2, batch 30421:
+2019-04-27T23:16:36.533473: step 61200, loss 2868.32958984375
+epoch 2, batch 30521:
+2019-04-27T23:16:44.564600: step 61300, loss 2496.5537109375
+epoch 2, batch 30621:
+2019-04-27T23:16:52.604559: step 61400, loss 2380.604248046875
+epoch 2, batch 30721:
+2019-04-27T23:17:00.633719: step 61500, loss 2688.963134765625
+epoch 3, batch 42:
+2019-04-27T23:17:08.651192: step 61600, loss 3261.074951171875
+epoch 3, batch 142:
+2019-04-27T23:17:16.713927: step 61700, loss 3044.31396484375
+epoch 3, batch 242:
+2019-04-27T23:17:24.758107: step 61800, loss 2518.378662109375
+epoch 3, batch 342:
+2019-04-27T23:17:32.808397: step 61900, loss 3068.37158203125
+epoch 3, batch 442:
+2019-04-27T23:17:40.858152: step 62000, loss 2787.1669921875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 62000, perp_mean: 68.50927209902555, perp_median: 39.659963607788086
+
+epoch 3, batch 542:
+2019-04-27T23:17:59.204238: step 62100, loss 2910.7470703125
+epoch 3, batch 642:
+2019-04-27T23:18:07.249826: step 62200, loss 2794.88427734375
+epoch 3, batch 742:
+2019-04-27T23:18:15.299511: step 62300, loss 2945.296630859375
+epoch 3, batch 842:
+2019-04-27T23:18:23.350621: step 62400, loss 3080.017822265625
+epoch 3, batch 942:
+2019-04-27T23:18:31.390919: step 62500, loss 2780.653564453125
+epoch 3, batch 1042:
+2019-04-27T23:18:39.452015: step 62600, loss 2635.436767578125
+epoch 3, batch 1142:
+2019-04-27T23:18:47.498224: step 62700, loss 3082.528564453125
+epoch 3, batch 1242:
+2019-04-27T23:18:55.548997: step 62800, loss 2626.841796875
+epoch 3, batch 1342:
+2019-04-27T23:19:03.591716: step 62900, loss 3142.4296875
+epoch 3, batch 1442:
+2019-04-27T23:19:11.651838: step 63000, loss 2805.552490234375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 63000, perp_mean: 67.10484389144426, perp_median: 39.68253707885742
+
+epoch 3, batch 1542:
+2019-04-27T23:19:29.978977: step 63100, loss 2623.878173828125
+epoch 3, batch 1642:
+2019-04-27T23:19:38.026133: step 63200, loss 3079.103515625
+epoch 3, batch 1742:
+2019-04-27T23:19:46.053869: step 63300, loss 2743.529541015625
+epoch 3, batch 1842:
+2019-04-27T23:19:54.110034: step 63400, loss 3120.48486328125
+epoch 3, batch 1942:
+2019-04-27T23:20:02.143912: step 63500, loss 3027.603271484375
+epoch 3, batch 2042:
+2019-04-27T23:20:10.193250: step 63600, loss 3116.809814453125
+epoch 3, batch 2142:
+2019-04-27T23:20:18.242494: step 63700, loss 2784.109130859375
+epoch 3, batch 2242:
+2019-04-27T23:20:26.291310: step 63800, loss 3201.287841796875
+epoch 3, batch 2342:
+2019-04-27T23:20:34.345706: step 63900, loss 2606.39501953125
+epoch 3, batch 2442:
+2019-04-27T23:20:42.391803: step 64000, loss 2726.0849609375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 64000, perp_mean: 66.93601493573445, perp_median: 39.51334571838379
+
+epoch 3, batch 2542:
+2019-04-27T23:21:00.767987: step 64100, loss 2653.341796875
+epoch 3, batch 2642:
+2019-04-27T23:21:08.804070: step 64200, loss 3549.4765625
+epoch 3, batch 2742:
+2019-04-27T23:21:16.846804: step 64300, loss 2982.030517578125
+epoch 3, batch 2842:
+2019-04-27T23:21:24.884972: step 64400, loss 2346.349609375
+epoch 3, batch 2942:
+2019-04-27T23:21:32.930449: step 64500, loss 2786.690673828125
+epoch 3, batch 3042:
+2019-04-27T23:21:40.977630: step 64600, loss 2907.2412109375
+epoch 3, batch 3142:
+2019-04-27T23:21:49.013216: step 64700, loss 3034.702880859375
+epoch 3, batch 3242:
+2019-04-27T23:21:57.047918: step 64800, loss 2815.846923828125
+epoch 3, batch 3342:
+2019-04-27T23:22:05.094371: step 64900, loss 3193.65283203125
+epoch 3, batch 3442:
+2019-04-27T23:22:13.148101: step 65000, loss 3180.631103515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 65000, perp_mean: 66.72969703468007, perp_median: 39.659725189208984
+
+epoch 3, batch 3542:
+2019-04-27T23:22:30.600854: step 65100, loss 2550.43310546875
+epoch 3, batch 3642:
+2019-04-27T23:22:38.625571: step 65200, loss 2822.724365234375
+epoch 3, batch 3742:
+2019-04-27T23:22:46.652422: step 65300, loss 2574.553955078125
+epoch 3, batch 3842:
+2019-04-27T23:22:54.700287: step 65400, loss 3175.18359375
+epoch 3, batch 3942:
+2019-04-27T23:23:02.740449: step 65500, loss 2726.876953125
+epoch 3, batch 4042:
+2019-04-27T23:23:10.758807: step 65600, loss 2860.811767578125
+epoch 3, batch 4142:
+2019-04-27T23:23:18.813661: step 65700, loss 2724.535400390625
+epoch 3, batch 4242:
+2019-04-27T23:23:26.863011: step 65800, loss 2887.78466796875
+epoch 3, batch 4342:
+2019-04-27T23:23:34.916859: step 65900, loss 2706.510986328125
+epoch 3, batch 4442:
+2019-04-27T23:23:42.956529: step 66000, loss 3159.44970703125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 66000, perp_mean: 66.13651556145871, perp_median: 39.6038761138916
+
+epoch 3, batch 4542:
+2019-04-27T23:24:01.343175: step 66100, loss 3063.845458984375
+epoch 3, batch 4642:
+2019-04-27T23:24:09.383284: step 66200, loss 2933.70703125
+epoch 3, batch 4742:
+2019-04-27T23:24:17.424028: step 66300, loss 2591.689697265625
+epoch 3, batch 4842:
+2019-04-27T23:24:25.471615: step 66400, loss 2935.80419921875
+epoch 3, batch 4942:
+2019-04-27T23:24:33.519253: step 66500, loss 2833.76416015625
+epoch 3, batch 5042:
+2019-04-27T23:24:41.557156: step 66600, loss 3587.07421875
+epoch 3, batch 5142:
+2019-04-27T23:24:49.601919: step 66700, loss 2981.87646484375
+epoch 3, batch 5242:
+2019-04-27T23:24:57.647457: step 66800, loss 2844.992919921875
+epoch 3, batch 5342:
+2019-04-27T23:25:05.689246: step 66900, loss 3054.3134765625
+epoch 3, batch 5442:
+2019-04-27T23:25:13.730506: step 67000, loss 3079.8857421875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 67000, perp_mean: 66.50933326597067, perp_median: 39.15377998352051
+
+epoch 3, batch 5542:
+2019-04-27T23:25:31.946615: step 67100, loss 3039.1044921875
+epoch 3, batch 5642:
+2019-04-27T23:25:39.978988: step 67200, loss 2856.90185546875
+epoch 3, batch 5742:
+2019-04-27T23:25:48.035151: step 67300, loss 2706.88916015625
+epoch 3, batch 5842:
+2019-04-27T23:25:56.073891: step 67400, loss 2595.570068359375
+epoch 3, batch 5942:
+2019-04-27T23:26:04.116411: step 67500, loss 2734.738525390625
+epoch 3, batch 6042:
+2019-04-27T23:26:12.158722: step 67600, loss 2900.197021484375
+epoch 3, batch 6142:
+2019-04-27T23:26:20.193246: step 67700, loss 2843.88525390625
+epoch 3, batch 6242:
+2019-04-27T23:26:28.219017: step 67800, loss 3127.434326171875
+epoch 3, batch 6342:
+2019-04-27T23:26:36.255837: step 67900, loss 2595.6953125
+epoch 3, batch 6442:
+2019-04-27T23:26:44.308246: step 68000, loss 2717.111328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 68000, perp_mean: 67.47619850535521, perp_median: 39.96670341491699
+
+epoch 3, batch 6542:
+2019-04-27T23:27:02.651261: step 68100, loss 2904.652099609375
+epoch 3, batch 6642:
+2019-04-27T23:27:10.684743: step 68200, loss 2828.072265625
+epoch 3, batch 6742:
+2019-04-27T23:27:18.726619: step 68300, loss 2730.291259765625
+epoch 3, batch 6842:
+2019-04-27T23:27:26.759625: step 68400, loss 2907.7822265625
+epoch 3, batch 6942:
+2019-04-27T23:27:34.802921: step 68500, loss 2664.7109375
+epoch 3, batch 7042:
+2019-04-27T23:27:42.852865: step 68600, loss 3130.8037109375
+epoch 3, batch 7142:
+2019-04-27T23:27:50.881501: step 68700, loss 2934.239990234375
+epoch 3, batch 7242:
+2019-04-27T23:27:58.924255: step 68800, loss 2959.01513671875
+epoch 3, batch 7342:
+2019-04-27T23:28:06.950458: step 68900, loss 2748.53173828125
+epoch 3, batch 7442:
+2019-04-27T23:28:14.993128: step 69000, loss 3185.564453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 69000, perp_mean: 66.5485748116524, perp_median: 39.397308349609375
+
+epoch 3, batch 7542:
+2019-04-27T23:28:32.381518: step 69100, loss 2574.814697265625
+epoch 3, batch 7642:
+2019-04-27T23:28:40.425295: step 69200, loss 2609.7490234375
+epoch 3, batch 7742:
+2019-04-27T23:28:48.469526: step 69300, loss 2490.860595703125
+epoch 3, batch 7842:
+2019-04-27T23:28:56.510227: step 69400, loss 2884.260009765625
+epoch 3, batch 7942:
+2019-04-27T23:29:04.573570: step 69500, loss 3107.26025390625
+epoch 3, batch 8042:
+2019-04-27T23:29:12.612188: step 69600, loss 2596.383056640625
+epoch 3, batch 8142:
+2019-04-27T23:29:20.656574: step 69700, loss 2833.40966796875
+epoch 3, batch 8242:
+2019-04-27T23:29:28.681668: step 69800, loss 2780.8896484375
+epoch 3, batch 8342:
+2019-04-27T23:29:36.716019: step 69900, loss 2997.681884765625
+epoch 3, batch 8442:
+2019-04-27T23:29:44.754881: step 70000, loss 2823.853515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 70000, perp_mean: 66.34867045599925, perp_median: 39.03408432006836
+
+epoch 3, batch 8542:
+2019-04-27T23:30:03.095738: step 70100, loss 2649.61767578125
+epoch 3, batch 8642:
+2019-04-27T23:30:11.142322: step 70200, loss 2545.784423828125
+epoch 3, batch 8742:
+2019-04-27T23:30:19.175116: step 70300, loss 2759.017578125
+epoch 3, batch 8842:
+2019-04-27T23:30:27.214576: step 70400, loss 2669.87060546875
+epoch 3, batch 8942:
+2019-04-27T23:30:35.260112: step 70500, loss 2889.37060546875
+epoch 3, batch 9042:
+2019-04-27T23:30:43.293125: step 70600, loss 2775.84814453125
+epoch 3, batch 9142:
+2019-04-27T23:30:51.339028: step 70700, loss 2383.423583984375
+epoch 3, batch 9242:
+2019-04-27T23:30:59.374533: step 70800, loss 3254.86474609375
+epoch 3, batch 9342:
+2019-04-27T23:31:07.419135: step 70900, loss 2778.645751953125
+epoch 3, batch 9442:
+2019-04-27T23:31:15.459612: step 71000, loss 3166.637451171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 71000, perp_mean: 67.10259762260455, perp_median: 39.24591636657715
+
+epoch 3, batch 9542:
+2019-04-27T23:31:33.794121: step 71100, loss 2857.708740234375
+epoch 3, batch 9642:
+2019-04-27T23:31:41.842769: step 71200, loss 3015.866455078125
+epoch 3, batch 9742:
+2019-04-27T23:31:49.883463: step 71300, loss 2531.376953125
+epoch 3, batch 9842:
+2019-04-27T23:31:57.932224: step 71400, loss 2770.278076171875
+epoch 3, batch 9942:
+2019-04-27T23:32:05.976670: step 71500, loss 2589.9033203125
+epoch 3, batch 10042:
+2019-04-27T23:32:14.027431: step 71600, loss 3253.804931640625
+epoch 3, batch 10142:
+2019-04-27T23:32:22.066010: step 71700, loss 2848.523681640625
+epoch 3, batch 10242:
+2019-04-27T23:32:30.105736: step 71800, loss 2837.568359375
+epoch 3, batch 10342:
+2019-04-27T23:32:38.165434: step 71900, loss 2423.152587890625
+epoch 3, batch 10442:
+2019-04-27T23:32:46.212332: step 72000, loss 2762.940673828125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 72000, perp_mean: 67.09757514559784, perp_median: 39.40848159790039
+
+epoch 3, batch 10542:
+2019-04-27T23:33:04.576230: step 72100, loss 2926.895263671875
+epoch 3, batch 10642:
+2019-04-27T23:33:12.604925: step 72200, loss 3219.74755859375
+epoch 3, batch 10742:
+2019-04-27T23:33:20.632573: step 72300, loss 2770.426025390625
+epoch 3, batch 10842:
+2019-04-27T23:33:28.668567: step 72400, loss 2950.56787109375
+epoch 3, batch 10942:
+2019-04-27T23:33:36.711127: step 72500, loss 2762.669921875
+epoch 3, batch 11042:
+2019-04-27T23:33:44.758784: step 72600, loss 2922.8291015625
+epoch 3, batch 11142:
+2019-04-27T23:33:52.786610: step 72700, loss 2613.93994140625
+epoch 3, batch 11242:
+2019-04-27T23:34:00.833655: step 72800, loss 2596.052001953125
+epoch 3, batch 11342:
+2019-04-27T23:34:08.860765: step 72900, loss 2917.74853515625
+epoch 3, batch 11442:
+2019-04-27T23:34:16.897395: step 73000, loss 2689.94482421875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 73000, perp_mean: 68.72486761924868, perp_median: 39.0229434967041
+
+epoch 3, batch 11542:
+2019-04-27T23:34:35.176314: step 73100, loss 2745.806884765625
+epoch 3, batch 11642:
+2019-04-27T23:34:43.219315: step 73200, loss 2850.008544921875
+epoch 3, batch 11742:
+2019-04-27T23:34:51.272710: step 73300, loss 2969.638671875
+epoch 3, batch 11842:
+2019-04-27T23:34:59.307965: step 73400, loss 3047.47802734375
+epoch 3, batch 11942:
+2019-04-27T23:35:07.346487: step 73500, loss 2882.865478515625
+epoch 3, batch 12042:
+2019-04-27T23:35:15.392075: step 73600, loss 2721.555419921875
+epoch 3, batch 12142:
+2019-04-27T23:35:23.439804: step 73700, loss 2937.0654296875
+epoch 3, batch 12242:
+2019-04-27T23:35:31.482576: step 73800, loss 2825.87548828125
+epoch 3, batch 12342:
+2019-04-27T23:35:39.522115: step 73900, loss 2620.82470703125
+epoch 3, batch 12442:
+2019-04-27T23:35:47.567157: step 74000, loss 2988.2509765625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 74000, perp_mean: 69.86659693917728, perp_median: 39.441009521484375
+
+epoch 3, batch 12542:
+2019-04-27T23:36:04.986482: step 74100, loss 2778.52294921875
+epoch 3, batch 12642:
+2019-04-27T23:36:13.037866: step 74200, loss 3563.170166015625
+epoch 3, batch 12742:
+2019-04-27T23:36:21.083781: step 74300, loss 3111.9375
+epoch 3, batch 12842:
+2019-04-27T23:36:29.122000: step 74400, loss 2827.211181640625
+epoch 3, batch 12942:
+2019-04-27T23:36:37.163810: step 74500, loss 3002.634765625
+epoch 3, batch 13042:
+2019-04-27T23:36:45.203162: step 74600, loss 3096.6787109375
+epoch 3, batch 13142:
+2019-04-27T23:36:53.276543: step 74700, loss 3060.506591796875
+epoch 3, batch 13242:
+2019-04-27T23:37:01.319054: step 74800, loss 2666.83056640625
+epoch 3, batch 13342:
+2019-04-27T23:37:09.370428: step 74900, loss 3182.071533203125
+epoch 3, batch 13442:
+2019-04-27T23:37:17.415421: step 75000, loss 2674.69677734375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 75000, perp_mean: 69.4531377900211, perp_median: 39.14030075073242
+
+epoch 3, batch 13542:
+2019-04-27T23:37:35.642705: step 75100, loss 2478.148193359375
+epoch 3, batch 13642:
+2019-04-27T23:37:43.683543: step 75200, loss 2536.116943359375
+epoch 3, batch 13742:
+2019-04-27T23:37:51.715793: step 75300, loss 2926.52001953125
+epoch 3, batch 13842:
+2019-04-27T23:37:59.749169: step 75400, loss 2899.7998046875
+epoch 3, batch 13942:
+2019-04-27T23:38:07.797264: step 75500, loss 2731.267822265625
+epoch 3, batch 14042:
+2019-04-27T23:38:15.830499: step 75600, loss 3179.45361328125
+epoch 3, batch 14142:
+2019-04-27T23:38:23.887534: step 75700, loss 2876.928955078125
+epoch 3, batch 14242:
+2019-04-27T23:38:31.934263: step 75800, loss 3106.02978515625
+epoch 3, batch 14342:
+2019-04-27T23:38:39.967119: step 75900, loss 2906.388671875
+epoch 3, batch 14442:
+2019-04-27T23:38:48.013487: step 76000, loss 2606.768310546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 76000, perp_mean: 72.69473545177908, perp_median: 39.25712585449219
+
+epoch 3, batch 14542:
+2019-04-27T23:39:06.392884: step 76100, loss 3077.22119140625
+epoch 3, batch 14642:
+2019-04-27T23:39:14.460307: step 76200, loss 2820.441162109375
+epoch 3, batch 14742:
+2019-04-27T23:39:22.521356: step 76300, loss 2492.130859375
+epoch 3, batch 14842:
+2019-04-27T23:39:30.582181: step 76400, loss 2908.4599609375
+epoch 3, batch 14942:
+2019-04-27T23:39:38.660248: step 76500, loss 2592.23095703125
+epoch 3, batch 15042:
+2019-04-27T23:39:46.729091: step 76600, loss 2984.48193359375
+epoch 3, batch 15142:
+2019-04-27T23:39:54.776715: step 76700, loss 2833.0927734375
+epoch 3, batch 15242:
+2019-04-27T23:40:02.828408: step 76800, loss 3058.99560546875
+epoch 3, batch 15342:
+2019-04-27T23:40:10.902397: step 76900, loss 2612.741943359375
+epoch 3, batch 15442:
+2019-04-27T23:40:18.975461: step 77000, loss 2776.17431640625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 77000, perp_mean: 66.12338942593247, perp_median: 38.82084655761719
+
+epoch 3, batch 15542:
+2019-04-27T23:40:37.399973: step 77100, loss 2562.205078125
+epoch 3, batch 15642:
+2019-04-27T23:40:45.470373: step 77200, loss 3219.54296875
+epoch 3, batch 15742:
+2019-04-27T23:40:53.535751: step 77300, loss 2871.141845703125
+epoch 3, batch 15842:
+2019-04-27T23:41:01.624149: step 77400, loss 2898.4775390625
+epoch 3, batch 15942:
+2019-04-27T23:41:09.714303: step 77500, loss 3071.73828125
+epoch 3, batch 16042:
+2019-04-27T23:41:17.793722: step 77600, loss 2929.046875
+epoch 3, batch 16142:
+2019-04-27T23:41:25.889498: step 77700, loss 2802.837158203125
+epoch 3, batch 16242:
+2019-04-27T23:41:33.961875: step 77800, loss 2658.5244140625
+epoch 3, batch 16342:
+2019-04-27T23:41:42.041537: step 77900, loss 2832.222900390625
+epoch 3, batch 16442:
+2019-04-27T23:41:50.127545: step 78000, loss 2430.75830078125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 78000, perp_mean: 66.68349447756212, perp_median: 39.256574630737305
+
+epoch 3, batch 16542:
+2019-04-27T23:42:07.591015: step 78100, loss 3013.97900390625
+epoch 3, batch 16642:
+2019-04-27T23:42:15.645508: step 78200, loss 2802.7841796875
+epoch 3, batch 16742:
+2019-04-27T23:42:23.693281: step 78300, loss 2900.867431640625
+epoch 3, batch 16842:
+2019-04-27T23:42:31.766342: step 78400, loss 2437.708740234375
+epoch 3, batch 16942:
+2019-04-27T23:42:39.819706: step 78500, loss 2650.3720703125
+epoch 3, batch 17042:
+2019-04-27T23:42:47.888148: step 78600, loss 2761.236572265625
+epoch 3, batch 17142:
+2019-04-27T23:42:55.973259: step 78700, loss 3275.2236328125
+epoch 3, batch 17242:
+2019-04-27T23:43:04.040853: step 78800, loss 3459.87939453125
+epoch 3, batch 17342:
+2019-04-27T23:43:12.089739: step 78900, loss 2940.1640625
+epoch 3, batch 17442:
+2019-04-27T23:43:20.151440: step 79000, loss 2559.074951171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 79000, perp_mean: 67.22284171895092, perp_median: 38.96359825134277
+
+epoch 3, batch 17542:
+2019-04-27T23:43:38.540136: step 79100, loss 2681.447509765625
+epoch 3, batch 17642:
+2019-04-27T23:43:46.582020: step 79200, loss 2544.87744140625
+epoch 3, batch 17742:
+2019-04-27T23:43:54.622272: step 79300, loss 2912.06201171875
+epoch 3, batch 17842:
+2019-04-27T23:44:02.662338: step 79400, loss 2798.515625
+epoch 3, batch 17942:
+2019-04-27T23:44:10.721336: step 79500, loss 3422.93798828125
+epoch 3, batch 18042:
+2019-04-27T23:44:18.763910: step 79600, loss 2680.068115234375
+epoch 3, batch 18142:
+2019-04-27T23:44:26.800920: step 79700, loss 3210.11962890625
+epoch 3, batch 18242:
+2019-04-27T23:44:34.858952: step 79800, loss 2809.23388671875
+epoch 3, batch 18342:
+2019-04-27T23:44:42.895997: step 79900, loss 2907.464599609375
+epoch 3, batch 18442:
+2019-04-27T23:44:50.928528: step 80000, loss 2933.153076171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 80000, perp_mean: 67.17013027520046, perp_median: 39.19915771484375
+
+epoch 3, batch 18542:
+2019-04-27T23:45:09.184560: step 80100, loss 2887.87060546875
+epoch 3, batch 18642:
+2019-04-27T23:45:17.232287: step 80200, loss 2814.810791015625
+epoch 3, batch 18742:
+2019-04-27T23:45:25.294101: step 80300, loss 2557.559814453125
+epoch 3, batch 18842:
+2019-04-27T23:45:33.341939: step 80400, loss 2884.673828125
+epoch 3, batch 18942:
+2019-04-27T23:45:41.387214: step 80500, loss 2730.46826171875
+epoch 3, batch 19042:
+2019-04-27T23:45:49.438420: step 80600, loss 2740.144775390625
+epoch 3, batch 19142:
+2019-04-27T23:45:57.489013: step 80700, loss 2721.734619140625
+epoch 3, batch 19242:
+2019-04-27T23:46:05.545085: step 80800, loss 2901.4716796875
+epoch 3, batch 19342:
+2019-04-27T23:46:13.584845: step 80900, loss 2687.985107421875
+epoch 3, batch 19442:
+2019-04-27T23:46:21.652028: step 81000, loss 2497.58984375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 81000, perp_mean: 66.90021981881591, perp_median: 38.85603332519531
+
+epoch 3, batch 19542:
+2019-04-27T23:46:39.907859: step 81100, loss 3290.674560546875
+epoch 3, batch 19642:
+2019-04-27T23:46:47.950420: step 81200, loss 3052.216064453125
+epoch 3, batch 19742:
+2019-04-27T23:46:55.994663: step 81300, loss 2795.110107421875
+epoch 3, batch 19842:
+2019-04-27T23:47:04.039604: step 81400, loss 3055.180419921875
+epoch 3, batch 19942:
+2019-04-27T23:47:12.082507: step 81500, loss 2856.6103515625
+epoch 3, batch 20042:
+2019-04-27T23:47:20.138437: step 81600, loss 2821.010986328125
+epoch 3, batch 20142:
+2019-04-27T23:47:28.177496: step 81700, loss 2944.3076171875
+epoch 3, batch 20242:
+2019-04-27T23:47:36.220528: step 81800, loss 2978.966796875
+epoch 3, batch 20342:
+2019-04-27T23:47:44.267062: step 81900, loss 3117.37744140625
+epoch 3, batch 20442:
+2019-04-27T23:47:52.309482: step 82000, loss 2924.741943359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 82000, perp_mean: 65.85701959205308, perp_median: 38.56911659240723
+
+epoch 3, batch 20542:
+2019-04-27T23:48:10.698361: step 82100, loss 2789.451416015625
+epoch 3, batch 20642:
+2019-04-27T23:48:18.737082: step 82200, loss 2534.672607421875
+epoch 3, batch 20742:
+2019-04-27T23:48:26.769398: step 82300, loss 2975.066162109375
+epoch 3, batch 20842:
+2019-04-27T23:48:34.816103: step 82400, loss 2900.906494140625
+epoch 3, batch 20942:
+2019-04-27T23:48:42.846518: step 82500, loss 2609.19873046875
+epoch 3, batch 21042:
+2019-04-27T23:48:50.888760: step 82600, loss 3015.2880859375
+epoch 3, batch 21142:
+2019-04-27T23:48:58.939338: step 82700, loss 2939.78173828125
+epoch 3, batch 21242:
+2019-04-27T23:49:06.988209: step 82800, loss 3002.821533203125
+epoch 3, batch 21342:
+2019-04-27T23:49:15.000626: step 82900, loss 3148.311279296875
+epoch 3, batch 21442:
+2019-04-27T23:49:23.045302: step 83000, loss 2924.048095703125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 83000, perp_mean: 66.6207155793536, perp_median: 39.33489990234375
+
+epoch 3, batch 21542:
+2019-04-27T23:49:40.477590: step 83100, loss 3075.6513671875
+epoch 3, batch 21642:
+2019-04-27T23:49:48.536822: step 83200, loss 2706.527587890625
+epoch 3, batch 21742:
+2019-04-27T23:49:56.600406: step 83300, loss 3087.7041015625
+epoch 3, batch 21842:
+2019-04-27T23:50:04.647498: step 83400, loss 2786.867431640625
+epoch 3, batch 21942:
+2019-04-27T23:50:12.699002: step 83500, loss 2600.352294921875
+epoch 3, batch 22042:
+2019-04-27T23:50:20.757515: step 83600, loss 2778.450927734375
+epoch 3, batch 22142:
+2019-04-27T23:50:28.785893: step 83700, loss 2975.7890625
+epoch 3, batch 22242:
+2019-04-27T23:50:36.798195: step 83800, loss 3032.137451171875
+epoch 3, batch 22342:
+2019-04-27T23:50:44.850830: step 83900, loss 2885.1572265625
+epoch 3, batch 22442:
+2019-04-27T23:50:52.919572: step 84000, loss 2799.117919921875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 84000, perp_mean: 66.6093710040189, perp_median: 39.03936576843262
+
+epoch 3, batch 22542:
+2019-04-27T23:51:11.392316: step 84100, loss 2612.46435546875
+epoch 3, batch 22642:
+2019-04-27T23:51:19.434803: step 84200, loss 3030.97412109375
+epoch 3, batch 22742:
+2019-04-27T23:51:27.479252: step 84300, loss 2569.47216796875
+epoch 3, batch 22842:
+2019-04-27T23:51:35.526925: step 84400, loss 2928.12353515625
+epoch 3, batch 22942:
+2019-04-27T23:51:43.581465: step 84500, loss 2766.107421875
+epoch 3, batch 23042:
+2019-04-27T23:51:51.625107: step 84600, loss 2428.83935546875
+epoch 3, batch 23142:
+2019-04-27T23:51:59.666302: step 84700, loss 3052.489990234375
+epoch 3, batch 23242:
+2019-04-27T23:52:07.705461: step 84800, loss 2924.8896484375
+epoch 3, batch 23342:
+2019-04-27T23:52:15.735253: step 84900, loss 2515.447265625
+epoch 3, batch 23442:
+2019-04-27T23:52:23.788262: step 85000, loss 2859.6826171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 85000, perp_mean: 66.25096976235221, perp_median: 38.68320083618164
+
+epoch 3, batch 23542:
+2019-04-27T23:52:42.153308: step 85100, loss 2855.10693359375
+epoch 3, batch 23642:
+2019-04-27T23:52:50.174410: step 85200, loss 3269.9951171875
+epoch 3, batch 23742:
+2019-04-27T23:52:58.210555: step 85300, loss 3012.373046875
+epoch 3, batch 23842:
+2019-04-27T23:53:06.238275: step 85400, loss 2461.94482421875
+epoch 3, batch 23942:
+2019-04-27T23:53:14.275125: step 85500, loss 3363.759033203125
+epoch 3, batch 24042:
+2019-04-27T23:53:22.309765: step 85600, loss 2663.195556640625
+epoch 3, batch 24142:
+2019-04-27T23:53:30.350189: step 85700, loss 2621.84228515625
+epoch 3, batch 24242:
+2019-04-27T23:53:38.400761: step 85800, loss 2848.014892578125
+epoch 3, batch 24342:
+2019-04-27T23:53:46.441046: step 85900, loss 2963.51220703125
+epoch 3, batch 24442:
+2019-04-27T23:53:54.480794: step 86000, loss 2630.68798828125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 86000, perp_mean: 66.41784455537457, perp_median: 38.634408950805664
+
+epoch 3, batch 24542:
+2019-04-27T23:54:12.756266: step 86100, loss 3030.452392578125
+epoch 3, batch 24642:
+2019-04-27T23:54:20.779082: step 86200, loss 2486.536865234375
+epoch 3, batch 24742:
+2019-04-27T23:54:28.816981: step 86300, loss 2914.924072265625
+epoch 3, batch 24842:
+2019-04-27T23:54:36.861510: step 86400, loss 3159.357666015625
+epoch 3, batch 24942:
+2019-04-27T23:54:44.914834: step 86500, loss 2851.32861328125
+epoch 3, batch 25042:
+2019-04-27T23:54:52.943286: step 86600, loss 3048.85986328125
+epoch 3, batch 25142:
+2019-04-27T23:55:00.985009: step 86700, loss 2465.505126953125
+epoch 3, batch 25242:
+2019-04-27T23:55:09.019996: step 86800, loss 2787.895263671875
+epoch 3, batch 25342:
+2019-04-27T23:55:17.056874: step 86900, loss 2560.546875
+epoch 3, batch 25442:
+2019-04-27T23:55:25.096529: step 87000, loss 3168.49609375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 87000, perp_mean: 66.3507757143061, perp_median: 38.809953689575195
+
+epoch 3, batch 25542:
+2019-04-27T23:55:43.492732: step 87100, loss 3085.977783203125
+epoch 3, batch 25642:
+2019-04-27T23:55:51.528245: step 87200, loss 2861.034423828125
+epoch 3, batch 25742:
+2019-04-27T23:55:59.575722: step 87300, loss 2654.926513671875
+epoch 3, batch 25842:
+2019-04-27T23:56:07.607004: step 87400, loss 3015.0830078125
+epoch 3, batch 25942:
+2019-04-27T23:56:15.652733: step 87500, loss 2922.06201171875
+epoch 3, batch 26042:
+2019-04-27T23:56:23.689827: step 87600, loss 2649.1015625
+epoch 3, batch 26142:
+2019-04-27T23:56:31.733012: step 87700, loss 2417.751220703125
+epoch 3, batch 26242:
+2019-04-27T23:56:39.781886: step 87800, loss 2659.279296875
+epoch 3, batch 26342:
+2019-04-27T23:56:47.826158: step 87900, loss 2679.272705078125
+epoch 3, batch 26442:
+2019-04-27T23:56:55.853255: step 88000, loss 2935.20361328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 88000, perp_mean: 67.4665841135629, perp_median: 38.74811553955078
+
+epoch 3, batch 26542:
+2019-04-27T23:57:13.369329: step 88100, loss 2747.00732421875
+epoch 3, batch 26642:
+2019-04-27T23:57:21.398594: step 88200, loss 3299.11328125
+epoch 3, batch 26742:
+2019-04-27T23:57:29.441469: step 88300, loss 3131.7021484375
+epoch 3, batch 26842:
+2019-04-27T23:57:37.487612: step 88400, loss 2804.8232421875
+epoch 3, batch 26942:
+2019-04-27T23:57:45.537855: step 88500, loss 3157.083740234375
+epoch 3, batch 27042:
+2019-04-27T23:57:53.573225: step 88600, loss 2886.72607421875
+epoch 3, batch 27142:
+2019-04-27T23:58:01.617812: step 88700, loss 2778.964599609375
+epoch 3, batch 27242:
+2019-04-27T23:58:09.676267: step 88800, loss 2928.1337890625
+epoch 3, batch 27342:
+2019-04-27T23:58:17.714064: step 88900, loss 2898.7255859375
+epoch 3, batch 27442:
+2019-04-27T23:58:25.761563: step 89000, loss 2598.36279296875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 89000, perp_mean: 66.77493007987489, perp_median: 38.99113655090332
+
+epoch 3, batch 27542:
+2019-04-27T23:58:44.024362: step 89100, loss 2687.376708984375
+epoch 3, batch 27642:
+2019-04-27T23:58:52.056771: step 89200, loss 2754.284912109375
+epoch 3, batch 27742:
+2019-04-27T23:59:00.091224: step 89300, loss 3213.599853515625
+epoch 3, batch 27842:
+2019-04-27T23:59:08.130304: step 89400, loss 2939.230224609375
+epoch 3, batch 27942:
+2019-04-27T23:59:16.173274: step 89500, loss 2948.080322265625
+epoch 3, batch 28042:
+2019-04-27T23:59:24.207276: step 89600, loss 3015.63525390625
+epoch 3, batch 28142:
+2019-04-27T23:59:32.247920: step 89700, loss 2561.9931640625
+epoch 3, batch 28242:
+2019-04-27T23:59:40.279813: step 89800, loss 2779.350341796875
+epoch 3, batch 28342:
+2019-04-27T23:59:48.312240: step 89900, loss 2841.88037109375
+epoch 3, batch 28442:
+2019-04-27T23:59:56.353675: step 90000, loss 2446.687255859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 90000, perp_mean: 67.94536256073404, perp_median: 38.8346004486084
+
+epoch 3, batch 28542:
+2019-04-28T00:00:14.698754: step 90100, loss 2879.412841796875
+epoch 3, batch 28642:
+2019-04-28T00:00:22.745676: step 90200, loss 3039.29638671875
+epoch 3, batch 28742:
+2019-04-28T00:00:30.783410: step 90300, loss 2899.895263671875
+epoch 3, batch 28842:
+2019-04-28T00:00:38.820212: step 90400, loss 3384.055419921875
+epoch 3, batch 28942:
+2019-04-28T00:00:46.858531: step 90500, loss 2874.68896484375
+epoch 3, batch 29042:
+2019-04-28T00:00:54.894986: step 90600, loss 2563.202392578125
+epoch 3, batch 29142:
+2019-04-28T00:01:02.944281: step 90700, loss 2661.078369140625
+epoch 3, batch 29242:
+2019-04-28T00:01:10.968131: step 90800, loss 2684.980224609375
+epoch 3, batch 29342:
+2019-04-28T00:01:19.013476: step 90900, loss 2264.96630859375
+epoch 3, batch 29442:
+2019-04-28T00:01:27.032481: step 91000, loss 2811.3818359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 91000, perp_mean: 66.88577833481733, perp_median: 39.0374755859375
+
+epoch 3, batch 29542:
+2019-04-28T00:01:45.342461: step 91100, loss 2446.9677734375
+epoch 3, batch 29642:
+2019-04-28T00:01:53.370106: step 91200, loss 3005.57177734375
+epoch 3, batch 29742:
+2019-04-28T00:02:01.403918: step 91300, loss 2980.6318359375
+epoch 3, batch 29842:
+2019-04-28T00:02:09.448909: step 91400, loss 3296.4921875
+epoch 3, batch 29942:
+2019-04-28T00:02:17.494958: step 91500, loss 3231.126708984375
+epoch 3, batch 30042:
+2019-04-28T00:02:25.548399: step 91600, loss 2772.88134765625
+epoch 3, batch 30142:
+2019-04-28T00:02:33.583045: step 91700, loss 3011.98583984375
+epoch 3, batch 30242:
+2019-04-28T00:02:41.612100: step 91800, loss 2826.192626953125
+epoch 3, batch 30342:
+2019-04-28T00:02:49.655660: step 91900, loss 2889.27880859375
+epoch 3, batch 30442:
+2019-04-28T00:02:57.684560: step 92000, loss 2749.76318359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 92000, perp_mean: 67.53504069715211, perp_median: 38.84018135070801
+
+epoch 3, batch 30542:
+2019-04-28T00:03:15.094004: step 92100, loss 2865.995361328125
+epoch 3, batch 30642:
+2019-04-28T00:03:23.132291: step 92200, loss 2715.134033203125
+epoch 3, batch 30742:
+2019-04-28T00:03:31.182010: step 92300, loss 2536.30224609375
+epoch 4, batch 63:
+2019-04-28T00:03:39.186981: step 92400, loss 2467.82568359375
+epoch 4, batch 163:
+2019-04-28T00:03:47.232390: step 92500, loss 2444.767822265625
+epoch 4, batch 263:
+2019-04-28T00:03:55.301980: step 92600, loss 2617.1591796875
+epoch 4, batch 363:
+2019-04-28T00:04:03.349664: step 92700, loss 2546.818359375
+epoch 4, batch 463:
+2019-04-28T00:04:11.402377: step 92800, loss 2954.228759765625
+epoch 4, batch 563:
+2019-04-28T00:04:19.483058: step 92900, loss 2620.608642578125
+epoch 4, batch 663:
+2019-04-28T00:04:27.563386: step 93000, loss 2921.79296875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 93000, perp_mean: 67.92909262482044, perp_median: 38.82420539855957
+
+epoch 4, batch 763:
+2019-04-28T00:04:45.931570: step 93100, loss 2737.375244140625
+epoch 4, batch 863:
+2019-04-28T00:04:53.994143: step 93200, loss 2854.46484375
+epoch 4, batch 963:
+2019-04-28T00:05:02.074726: step 93300, loss 2688.69677734375
+epoch 4, batch 1063:
+2019-04-28T00:05:10.120199: step 93400, loss 3046.03564453125
+epoch 4, batch 1163:
+2019-04-28T00:05:18.170826: step 93500, loss 3212.368896484375
+epoch 4, batch 1263:
+2019-04-28T00:05:26.238739: step 93600, loss 2748.103271484375
+epoch 4, batch 1363:
+2019-04-28T00:05:34.293287: step 93700, loss 2455.24609375
+epoch 4, batch 1463:
+2019-04-28T00:05:42.383309: step 93800, loss 2876.419189453125
+epoch 4, batch 1563:
+2019-04-28T00:05:50.439078: step 93900, loss 2660.2578125
+epoch 4, batch 1663:
+2019-04-28T00:05:58.492671: step 94000, loss 2744.906982421875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 94000, perp_mean: 67.00911748811237, perp_median: 39.16763496398926
+
+epoch 4, batch 1763:
+2019-04-28T00:06:16.908179: step 94100, loss 3122.1640625
+epoch 4, batch 1863:
+2019-04-28T00:06:24.964443: step 94200, loss 2663.24072265625
+epoch 4, batch 1963:
+2019-04-28T00:06:33.027412: step 94300, loss 2771.544921875
+epoch 4, batch 2063:
+2019-04-28T00:06:41.105534: step 94400, loss 2563.809814453125
+epoch 4, batch 2163:
+2019-04-28T00:06:49.179576: step 94500, loss 2755.435546875
+epoch 4, batch 2263:
+2019-04-28T00:06:57.236282: step 94600, loss 2832.98046875
+epoch 4, batch 2363:
+2019-04-28T00:07:05.280699: step 94700, loss 2990.1396484375
+epoch 4, batch 2463:
+2019-04-28T00:07:13.329983: step 94800, loss 2724.851318359375
+epoch 4, batch 2563:
+2019-04-28T00:07:21.374248: step 94900, loss 2217.334716796875
+epoch 4, batch 2663:
+2019-04-28T00:07:29.423312: step 95000, loss 2697.643310546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 95000, perp_mean: 67.68183852052049, perp_median: 38.8135986328125
+
+epoch 4, batch 2763:
+2019-04-28T00:07:47.559291: step 95100, loss 2701.2255859375
+epoch 4, batch 2863:
+2019-04-28T00:07:55.613659: step 95200, loss 2680.4541015625
+epoch 4, batch 2963:
+2019-04-28T00:08:03.670779: step 95300, loss 2839.61376953125
+epoch 4, batch 3063:
+2019-04-28T00:08:11.713830: step 95400, loss 3057.775146484375
+epoch 4, batch 3163:
+2019-04-28T00:08:19.758160: step 95500, loss 2855.19921875
+epoch 4, batch 3263:
+2019-04-28T00:08:27.815606: step 95600, loss 3112.796142578125
+epoch 4, batch 3363:
+2019-04-28T00:08:35.884490: step 95700, loss 3076.7255859375
+epoch 4, batch 3463:
+2019-04-28T00:08:43.924156: step 95800, loss 2897.131103515625
+epoch 4, batch 3563:
+2019-04-28T00:08:51.987475: step 95900, loss 2879.27294921875
+epoch 4, batch 3663:
+2019-04-28T00:09:00.050484: step 96000, loss 2596.065185546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 96000, perp_mean: 66.46935635066579, perp_median: 38.607709884643555
+
+epoch 4, batch 3763:
+2019-04-28T00:09:17.516190: step 96100, loss 2745.2685546875
+epoch 4, batch 3863:
+2019-04-28T00:09:25.595500: step 96200, loss 2713.464111328125
+epoch 4, batch 3963:
+2019-04-28T00:09:33.682971: step 96300, loss 2969.21728515625
+epoch 4, batch 4063:
+2019-04-28T00:09:41.773187: step 96400, loss 2965.71875
+epoch 4, batch 4163:
+2019-04-28T00:09:49.863420: step 96500, loss 2602.4755859375
+epoch 4, batch 4263:
+2019-04-28T00:09:57.957613: step 96600, loss 2868.186279296875
+epoch 4, batch 4363:
+2019-04-28T00:10:06.047570: step 96700, loss 2778.97509765625
+epoch 4, batch 4463:
+2019-04-28T00:10:14.140134: step 96800, loss 3010.480712890625
+epoch 4, batch 4563:
+2019-04-28T00:10:22.235138: step 96900, loss 2990.767822265625
+epoch 4, batch 4663:
+2019-04-28T00:10:30.319630: step 97000, loss 2391.09228515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 97000, perp_mean: 67.49703364771312, perp_median: 38.640010833740234
+
+epoch 4, batch 4763:
+2019-04-28T00:10:49.441670: step 97100, loss 2966.3916015625
+epoch 4, batch 4863:
+2019-04-28T00:10:57.501093: step 97200, loss 2864.761962890625
+epoch 4, batch 4963:
+2019-04-28T00:11:05.545583: step 97300, loss 2739.6298828125
+epoch 4, batch 5063:
+2019-04-28T00:11:13.601709: step 97400, loss 3064.546142578125
+epoch 4, batch 5163:
+2019-04-28T00:11:21.656891: step 97500, loss 3035.8603515625
+epoch 4, batch 5263:
+2019-04-28T00:11:29.713942: step 97600, loss 2741.880615234375
+epoch 4, batch 5363:
+2019-04-28T00:11:37.766167: step 97700, loss 2626.696533203125
+epoch 4, batch 5463:
+2019-04-28T00:11:45.848598: step 97800, loss 3085.587890625
+epoch 4, batch 5563:
+2019-04-28T00:11:53.916985: step 97900, loss 2626.346923828125
+epoch 4, batch 5663:
+2019-04-28T00:12:01.991666: step 98000, loss 2980.170654296875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 98000, perp_mean: 66.23595310997338, perp_median: 38.7960205078125
+
+epoch 4, batch 5763:
+2019-04-28T00:12:20.342125: step 98100, loss 2820.96240234375
+epoch 4, batch 5863:
+2019-04-28T00:12:28.406926: step 98200, loss 2941.923583984375
+epoch 4, batch 5963:
+2019-04-28T00:12:36.467275: step 98300, loss 2931.69921875
+epoch 4, batch 6063:
+2019-04-28T00:12:44.535102: step 98400, loss 2613.61767578125
+epoch 4, batch 6163:
+2019-04-28T00:12:52.597929: step 98500, loss 2477.146240234375
+epoch 4, batch 6263:
+2019-04-28T00:13:00.666141: step 98600, loss 3123.41796875
+epoch 4, batch 6363:
+2019-04-28T00:13:08.729810: step 98700, loss 2628.0673828125
+epoch 4, batch 6463:
+2019-04-28T00:13:16.818706: step 98800, loss 2957.896484375
+epoch 4, batch 6563:
+2019-04-28T00:13:24.881425: step 98900, loss 2840.619140625
+epoch 4, batch 6663:
+2019-04-28T00:13:32.942653: step 99000, loss 3129.87646484375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 99000, perp_mean: 66.49367480838103, perp_median: 38.80374526977539
+
+epoch 4, batch 6763:
+2019-04-28T00:13:51.685151: step 99100, loss 2854.52734375
+epoch 4, batch 6863:
+2019-04-28T00:13:59.743933: step 99200, loss 2876.176025390625
+epoch 4, batch 6963:
+2019-04-28T00:14:07.778832: step 99300, loss 2704.713623046875
+epoch 4, batch 7063:
+2019-04-28T00:14:15.824395: step 99400, loss 2821.962646484375
+epoch 4, batch 7163:
+2019-04-28T00:14:23.880655: step 99500, loss 2713.99462890625
+epoch 4, batch 7263:
+2019-04-28T00:14:31.905910: step 99600, loss 2877.884521484375
+epoch 4, batch 7363:
+2019-04-28T00:14:39.953889: step 99700, loss 2731.065673828125
+epoch 4, batch 7463:
+2019-04-28T00:14:48.011894: step 99800, loss 2760.915283203125
+epoch 4, batch 7563:
+2019-04-28T00:14:56.061916: step 99900, loss 2367.66650390625
+epoch 4, batch 7663:
+2019-04-28T00:15:04.101459: step 100000, loss 2821.5361328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 100000, perp_mean: 66.19251829426922, perp_median: 38.81525993347168
+
+epoch 4, batch 7763:
+2019-04-28T00:15:22.519011: step 100100, loss 2659.32421875
+epoch 4, batch 7863:
+2019-04-28T00:15:30.571902: step 100200, loss 2853.8125
+epoch 4, batch 7963:
+2019-04-28T00:15:38.633069: step 100300, loss 2940.134765625
+epoch 4, batch 8063:
+2019-04-28T00:15:46.669485: step 100400, loss 3044.136962890625
+epoch 4, batch 8163:
+2019-04-28T00:15:54.706586: step 100500, loss 2585.462890625
+epoch 4, batch 8263:
+2019-04-28T00:16:02.744573: step 100600, loss 2946.522216796875
+epoch 4, batch 8363:
+2019-04-28T00:16:10.782677: step 100700, loss 3260.88720703125
+epoch 4, batch 8463:
+2019-04-28T00:16:18.804161: step 100800, loss 2744.70947265625
+epoch 4, batch 8563:
+2019-04-28T00:16:26.843160: step 100900, loss 2718.017578125
+epoch 4, batch 8663:
+2019-04-28T00:16:34.894355: step 101000, loss 2981.5810546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 101000, perp_mean: 67.99742010565713, perp_median: 38.30857849121094
+
+epoch 4, batch 8763:
+2019-04-28T00:16:53.343844: step 101100, loss 2761.56591796875
+epoch 4, batch 8863:
+2019-04-28T00:17:01.381278: step 101200, loss 2650.47607421875
+epoch 4, batch 8963:
+2019-04-28T00:17:09.422073: step 101300, loss 2975.83447265625
+epoch 4, batch 9063:
+2019-04-28T00:17:17.470657: step 101400, loss 2574.440673828125
+epoch 4, batch 9163:
+2019-04-28T00:17:25.512677: step 101500, loss 3049.53515625
+epoch 4, batch 9263:
+2019-04-28T00:17:33.557770: step 101600, loss 2791.4638671875
+epoch 4, batch 9363:
+2019-04-28T00:17:41.598307: step 101700, loss 3361.4541015625
+epoch 4, batch 9463:
+2019-04-28T00:17:49.638955: step 101800, loss 3055.6904296875
+epoch 4, batch 9563:
+2019-04-28T00:17:57.679674: step 101900, loss 2694.3876953125
+epoch 4, batch 9663:
+2019-04-28T00:18:05.729707: step 102000, loss 2628.753662109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 102000, perp_mean: 67.79500820309607, perp_median: 38.45908737182617
+
+epoch 4, batch 9763:
+2019-04-28T00:18:23.141359: step 102100, loss 2667.839111328125
+epoch 4, batch 9863:
+2019-04-28T00:18:31.191331: step 102200, loss 2796.22900390625
+epoch 4, batch 9963:
+2019-04-28T00:18:39.229412: step 102300, loss 3084.64599609375
+epoch 4, batch 10063:
+2019-04-28T00:18:47.275438: step 102400, loss 3086.450439453125
+epoch 4, batch 10163:
+2019-04-28T00:18:55.312291: step 102500, loss 2522.1494140625
+epoch 4, batch 10263:
+2019-04-28T00:19:03.362677: step 102600, loss 3127.034423828125
+epoch 4, batch 10363:
+2019-04-28T00:19:11.409858: step 102700, loss 2823.721435546875
+epoch 4, batch 10463:
+2019-04-28T00:19:19.441621: step 102800, loss 2992.288330078125
+epoch 4, batch 10563:
+2019-04-28T00:19:27.472268: step 102900, loss 2726.8125
+epoch 4, batch 10663:
+2019-04-28T00:19:35.517111: step 103000, loss 2513.558349609375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 103000, perp_mean: 68.98002849935445, perp_median: 39.21457862854004
+
+epoch 4, batch 10763:
+2019-04-28T00:19:53.911906: step 103100, loss 3208.63037109375
+epoch 4, batch 10863:
+2019-04-28T00:20:01.963268: step 103200, loss 2584.1357421875
+epoch 4, batch 10963:
+2019-04-28T00:20:10.020540: step 103300, loss 2687.727294921875
+epoch 4, batch 11063:
+2019-04-28T00:20:18.059312: step 103400, loss 2819.39404296875
+epoch 4, batch 11163:
+2019-04-28T00:20:26.107304: step 103500, loss 2357.843505859375
+epoch 4, batch 11263:
+2019-04-28T00:20:34.140874: step 103600, loss 2444.04296875
+epoch 4, batch 11363:
+2019-04-28T00:20:42.175644: step 103700, loss 2876.36083984375
+epoch 4, batch 11463:
+2019-04-28T00:20:50.222651: step 103800, loss 3091.726318359375
+epoch 4, batch 11563:
+2019-04-28T00:20:58.266922: step 103900, loss 2628.2529296875
+epoch 4, batch 11663:
+2019-04-28T00:21:06.311917: step 104000, loss 2918.68408203125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 104000, perp_mean: 67.65477890380389, perp_median: 38.2880859375
+
+epoch 4, batch 11763:
+2019-04-28T00:21:24.535767: step 104100, loss 2966.676513671875
+epoch 4, batch 11863:
+2019-04-28T00:21:32.567975: step 104200, loss 2806.06640625
+epoch 4, batch 11963:
+2019-04-28T00:21:40.598782: step 104300, loss 2556.66259765625
+epoch 4, batch 12063:
+2019-04-28T00:21:48.622833: step 104400, loss 3024.682861328125
+epoch 4, batch 12163:
+2019-04-28T00:21:56.664394: step 104500, loss 2655.511962890625
+epoch 4, batch 12263:
+2019-04-28T00:22:04.718806: step 104600, loss 2638.69921875
+epoch 4, batch 12363:
+2019-04-28T00:22:12.758318: step 104700, loss 2737.639892578125
+epoch 4, batch 12463:
+2019-04-28T00:22:20.793736: step 104800, loss 3043.4853515625
+epoch 4, batch 12563:
+2019-04-28T00:22:28.837819: step 104900, loss 3011.717041015625
+epoch 4, batch 12663:
+2019-04-28T00:22:36.863764: step 105000, loss 2416.96240234375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 105000, perp_mean: 70.32576714745146, perp_median: 38.81729698181152
+
+epoch 4, batch 12763:
+2019-04-28T00:22:55.140393: step 105100, loss 2419.8671875
+epoch 4, batch 12863:
+2019-04-28T00:23:03.171443: step 105200, loss 2636.929931640625
+epoch 4, batch 12963:
+2019-04-28T00:23:11.202183: step 105300, loss 2686.22314453125
+epoch 4, batch 13063:
+2019-04-28T00:23:19.248823: step 105400, loss 3161.102783203125
+epoch 4, batch 13163:
+2019-04-28T00:23:27.281822: step 105500, loss 2848.477294921875
+epoch 4, batch 13263:
+2019-04-28T00:23:35.324455: step 105600, loss 2523.981689453125
+epoch 4, batch 13363:
+2019-04-28T00:23:43.372423: step 105700, loss 2926.337890625
+epoch 4, batch 13463:
+2019-04-28T00:23:51.419154: step 105800, loss 2602.723876953125
+epoch 4, batch 13563:
+2019-04-28T00:23:59.462390: step 105900, loss 2757.730712890625
+epoch 4, batch 13663:
+2019-04-28T00:24:07.504605: step 106000, loss 2623.6494140625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 106000, perp_mean: 71.36372712847181, perp_median: 38.512054443359375
+
+epoch 4, batch 13763:
+2019-04-28T00:24:24.918995: step 106100, loss 2574.1201171875
+epoch 4, batch 13863:
+2019-04-28T00:24:32.956106: step 106200, loss 2653.79052734375
+epoch 4, batch 13963:
+2019-04-28T00:24:41.007946: step 106300, loss 3051.78564453125
+epoch 4, batch 14063:
+2019-04-28T00:24:49.049310: step 106400, loss 2717.76416015625
+epoch 4, batch 14163:
+2019-04-28T00:24:57.092753: step 106500, loss 2852.020263671875
+epoch 4, batch 14263:
+2019-04-28T00:25:05.134650: step 106600, loss 2466.4287109375
+epoch 4, batch 14363:
+2019-04-28T00:25:13.190757: step 106700, loss 2832.05126953125
+epoch 4, batch 14463:
+2019-04-28T00:25:21.257104: step 106800, loss 3056.18701171875
+epoch 4, batch 14563:
+2019-04-28T00:25:29.306550: step 106900, loss 2724.568359375
+epoch 4, batch 14663:
+2019-04-28T00:25:37.361498: step 107000, loss 3005.6005859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 107000, perp_mean: 68.9486771745336, perp_median: 38.49660682678223
+
+epoch 4, batch 14763:
+2019-04-28T00:25:55.676495: step 107100, loss 2959.42529296875
+epoch 4, batch 14863:
+2019-04-28T00:26:03.724372: step 107200, loss 2917.318115234375
+epoch 4, batch 14963:
+2019-04-28T00:26:11.775281: step 107300, loss 2998.28515625
+epoch 4, batch 15063:
+2019-04-28T00:26:19.820359: step 107400, loss 2801.420166015625
+epoch 4, batch 15163:
+2019-04-28T00:26:27.844214: step 107500, loss 2689.789306640625
+epoch 4, batch 15263:
+2019-04-28T00:26:35.880265: step 107600, loss 2720.5712890625
+epoch 4, batch 15363:
+2019-04-28T00:26:43.927465: step 107700, loss 3232.62841796875
+epoch 4, batch 15463:
+2019-04-28T00:26:51.967358: step 107800, loss 2903.4736328125
+epoch 4, batch 15563:
+2019-04-28T00:27:00.008145: step 107900, loss 2647.087890625
+epoch 4, batch 15663:
+2019-04-28T00:27:08.042514: step 108000, loss 2885.509765625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 108000, perp_mean: 67.6684999598034, perp_median: 38.52210235595703
+
+epoch 4, batch 15763:
+2019-04-28T00:27:26.407359: step 108100, loss 2998.20703125
+epoch 4, batch 15863:
+2019-04-28T00:27:34.445171: step 108200, loss 2747.77099609375
+epoch 4, batch 15963:
+2019-04-28T00:27:42.479915: step 108300, loss 3032.575927734375
+epoch 4, batch 16063:
+2019-04-28T00:27:50.519580: step 108400, loss 2603.966796875
+epoch 4, batch 16163:
+2019-04-28T00:27:58.574315: step 108500, loss 2790.571044921875
+epoch 4, batch 16263:
+2019-04-28T00:28:06.627085: step 108600, loss 2893.78369140625
+epoch 4, batch 16363:
+2019-04-28T00:28:14.675597: step 108700, loss 2802.23681640625
+epoch 4, batch 16463:
+2019-04-28T00:28:22.714259: step 108800, loss 2951.91796875
+epoch 4, batch 16563:
+2019-04-28T00:28:30.748814: step 108900, loss 2970.704345703125
+epoch 4, batch 16663:
+2019-04-28T00:28:38.786641: step 109000, loss 2879.1875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 109000, perp_mean: 68.12602645845256, perp_median: 38.715728759765625
+
+epoch 4, batch 16763:
+2019-04-28T00:28:56.968837: step 109100, loss 2621.349609375
+epoch 4, batch 16863:
+2019-04-28T00:29:05.004934: step 109200, loss 2995.5537109375
+epoch 4, batch 16963:
+2019-04-28T00:29:13.052701: step 109300, loss 2573.87939453125
+epoch 4, batch 17063:
+2019-04-28T00:29:21.088125: step 109400, loss 2353.96728515625
+epoch 4, batch 17163:
+2019-04-28T00:29:29.112234: step 109500, loss 2717.74755859375
+epoch 4, batch 17263:
+2019-04-28T00:29:37.164311: step 109600, loss 2689.2294921875
+epoch 4, batch 17363:
+2019-04-28T00:29:45.196621: step 109700, loss 2441.37158203125
+epoch 4, batch 17463:
+2019-04-28T00:29:53.228145: step 109800, loss 2928.743896484375
+epoch 4, batch 17563:
+2019-04-28T00:30:01.285800: step 109900, loss 2599.284912109375
+epoch 4, batch 17663:
+2019-04-28T00:30:09.310435: step 110000, loss 2786.62255859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 110000, perp_mean: 67.13203210937718, perp_median: 38.265533447265625
+
+epoch 4, batch 17763:
+2019-04-28T00:30:27.774919: step 110100, loss 2892.081298828125
+epoch 4, batch 17863:
+2019-04-28T00:30:35.831539: step 110200, loss 2783.03759765625
+epoch 4, batch 17963:
+2019-04-28T00:30:43.874562: step 110300, loss 3072.1806640625
+epoch 4, batch 18063:
+2019-04-28T00:30:51.918840: step 110400, loss 2861.55615234375
+epoch 4, batch 18163:
+2019-04-28T00:30:59.959867: step 110500, loss 3171.595703125
+epoch 4, batch 18263:
+2019-04-28T00:31:07.978974: step 110600, loss 2806.867919921875
+epoch 4, batch 18363:
+2019-04-28T00:31:16.014664: step 110700, loss 2822.145263671875
+epoch 4, batch 18463:
+2019-04-28T00:31:24.059216: step 110800, loss 2629.174072265625
+epoch 4, batch 18563:
+2019-04-28T00:31:32.114794: step 110900, loss 2925.376953125
+epoch 4, batch 18663:
+2019-04-28T00:31:40.159636: step 111000, loss 2947.366943359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 111000, perp_mean: 69.0910369390495, perp_median: 38.525047302246094
+
+epoch 4, batch 18763:
+2019-04-28T00:31:57.562483: step 111100, loss 2698.819091796875
+epoch 4, batch 18863:
+2019-04-28T00:32:05.598612: step 111200, loss 2849.0224609375
+epoch 4, batch 18963:
+2019-04-28T00:32:13.640461: step 111300, loss 3358.939208984375
+epoch 4, batch 19063:
+2019-04-28T00:32:21.690484: step 111400, loss 2457.657958984375
+epoch 4, batch 19163:
+2019-04-28T00:32:29.748180: step 111500, loss 2719.187255859375
+epoch 4, batch 19263:
+2019-04-28T00:32:37.795412: step 111600, loss 2459.63232421875
+epoch 4, batch 19363:
+2019-04-28T00:32:45.849562: step 111700, loss 2896.697265625
+epoch 4, batch 19463:
+2019-04-28T00:32:53.882187: step 111800, loss 3141.162109375
+epoch 4, batch 19563:
+2019-04-28T00:33:01.932729: step 111900, loss 2808.00927734375
+epoch 4, batch 19663:
+2019-04-28T00:33:09.981644: step 112000, loss 3035.77978515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 112000, perp_mean: 68.19069478263852, perp_median: 38.50039482116699
+
+epoch 4, batch 19763:
+2019-04-28T00:33:28.288517: step 112100, loss 2513.997802734375
+epoch 4, batch 19863:
+2019-04-28T00:33:36.335059: step 112200, loss 3157.376220703125
+epoch 4, batch 19963:
+2019-04-28T00:33:44.379965: step 112300, loss 2906.196533203125
+epoch 4, batch 20063:
+2019-04-28T00:33:52.433169: step 112400, loss 3035.90380859375
+epoch 4, batch 20163:
+2019-04-28T00:34:00.470428: step 112500, loss 2529.863525390625
+epoch 4, batch 20263:
+2019-04-28T00:34:08.503106: step 112600, loss 2440.368408203125
+epoch 4, batch 20363:
+2019-04-28T00:34:16.556361: step 112700, loss 2940.18603515625
+epoch 4, batch 20463:
+2019-04-28T00:34:24.615417: step 112800, loss 2718.686767578125
+epoch 4, batch 20563:
+2019-04-28T00:34:32.668265: step 112900, loss 2844.70458984375
+epoch 4, batch 20663:
+2019-04-28T00:34:40.697519: step 113000, loss 2831.4619140625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 113000, perp_mean: 67.0594613088623, perp_median: 38.71053886413574
+/cluster/home/mamrani/.local/lib64/python3.6/site-packages/smart_open/ssh.py:34: UserWarning: paramiko missing, opening SSH/SCP/SFTP paths will be disabled.  `pip install paramiko` to suppress
+  warnings.warn('paramiko missing, opening SSH/SCP/SFTP paths will be disabled.  `pip install paramiko` to suppress')
+
+epoch 4, batch 20763:
+2019-04-28T00:34:59.057313: step 113100, loss 2953.12451171875
+epoch 4, batch 20863:
+2019-04-28T00:35:07.107983: step 113200, loss 2894.7373046875
+epoch 4, batch 20963:
+2019-04-28T00:35:15.167484: step 113300, loss 2489.32470703125
+epoch 4, batch 21063:
+2019-04-28T00:35:23.208583: step 113400, loss 3228.333984375
+epoch 4, batch 21163:
+2019-04-28T00:35:31.260652: step 113500, loss 2836.4560546875
+epoch 4, batch 21263:
+2019-04-28T00:35:39.312947: step 113600, loss 2478.46044921875
+epoch 4, batch 21363:
+2019-04-28T00:35:47.353795: step 113700, loss 3014.053466796875
+epoch 4, batch 21463:
+2019-04-28T00:35:55.407605: step 113800, loss 2325.588134765625
+epoch 4, batch 21563:
+2019-04-28T00:36:03.473364: step 113900, loss 2765.2919921875
+epoch 4, batch 21663:
+2019-04-28T00:36:11.530938: step 114000, loss 3249.37060546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 114000, perp_mean: 68.0989449889394, perp_median: 38.55685997009277
+
+epoch 4, batch 21763:
+2019-04-28T00:36:29.928109: step 114100, loss 2584.331787109375
+epoch 4, batch 21863:
+2019-04-28T00:36:37.970790: step 114200, loss 2636.5859375
+epoch 4, batch 21963:
+2019-04-28T00:36:46.018180: step 114300, loss 2912.052978515625
+epoch 4, batch 22063:
+2019-04-28T00:36:54.034937: step 114400, loss 2954.747314453125
+epoch 4, batch 22163:
+2019-04-28T00:37:02.080425: step 114500, loss 2796.70263671875
+epoch 4, batch 22263:
+2019-04-28T00:37:10.118169: step 114600, loss 2482.9521484375
+epoch 4, batch 22363:
+2019-04-28T00:37:18.159054: step 114700, loss 3034.301513671875
+epoch 4, batch 22463:
+2019-04-28T00:37:26.210789: step 114800, loss 2876.90869140625
+epoch 4, batch 22563:
+2019-04-28T00:37:34.259172: step 114900, loss 2788.97314453125
+epoch 4, batch 22663:
+2019-04-28T00:37:42.311809: step 115000, loss 2731.847900390625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 115000, perp_mean: 67.60850313525604, perp_median: 38.57916450500488
+
+epoch 4, batch 22763:
+2019-04-28T00:37:59.791071: step 115100, loss 2767.1669921875
+epoch 4, batch 22863:
+2019-04-28T00:38:07.835084: step 115200, loss 2715.22314453125
+epoch 4, batch 22963:
+2019-04-28T00:38:15.870910: step 115300, loss 3115.39794921875
+epoch 4, batch 23063:
+2019-04-28T00:38:23.917251: step 115400, loss 2555.41357421875
+epoch 4, batch 23163:
+2019-04-28T00:38:31.955926: step 115500, loss 2571.026123046875
+epoch 4, batch 23263:
+2019-04-28T00:38:40.002584: step 115600, loss 2774.925048828125
+epoch 4, batch 23363:
+2019-04-28T00:38:48.046066: step 115700, loss 2439.951171875
+epoch 4, batch 23463:
+2019-04-28T00:38:56.089077: step 115800, loss 2280.054931640625
+epoch 4, batch 23563:
+2019-04-28T00:39:04.134865: step 115900, loss 3240.818359375
+epoch 4, batch 23663:
+2019-04-28T00:39:12.169297: step 116000, loss 2406.093017578125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 116000, perp_mean: 67.72050981470271, perp_median: 38.47724723815918
+
+epoch 4, batch 23763:
+2019-04-28T00:39:30.505017: step 116100, loss 2967.661865234375
+epoch 4, batch 23863:
+2019-04-28T00:39:38.555391: step 116200, loss 2527.24853515625
+epoch 4, batch 23963:
+2019-04-28T00:39:46.601319: step 116300, loss 2960.13720703125
+epoch 4, batch 24063:
+2019-04-28T00:39:54.646781: step 116400, loss 2677.92431640625
+epoch 4, batch 24163:
+2019-04-28T00:40:02.690771: step 116500, loss 2638.791259765625
+epoch 4, batch 24263:
+2019-04-28T00:40:10.726892: step 116600, loss 2796.684814453125
+epoch 4, batch 24363:
+2019-04-28T00:40:18.779183: step 116700, loss 2924.891845703125
+epoch 4, batch 24463:
+2019-04-28T00:40:26.810654: step 116800, loss 2818.5546875
+epoch 4, batch 24563:
+2019-04-28T00:40:34.861563: step 116900, loss 2732.84326171875
+epoch 4, batch 24663:
+2019-04-28T00:40:42.909617: step 117000, loss 2374.54052734375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 117000, perp_mean: 67.49323640268265, perp_median: 38.33101272583008
+
+epoch 4, batch 24763:
+2019-04-28T00:41:01.231233: step 117100, loss 2832.767333984375
+epoch 4, batch 24863:
+2019-04-28T00:41:09.284963: step 117200, loss 2648.98193359375
+epoch 4, batch 24963:
+2019-04-28T00:41:17.329642: step 117300, loss 2551.03173828125
+epoch 4, batch 25063:
+2019-04-28T00:41:25.351605: step 117400, loss 3033.911376953125
+epoch 4, batch 25163:
+2019-04-28T00:41:33.395811: step 117500, loss 3023.298095703125
+epoch 4, batch 25263:
+2019-04-28T00:41:41.415598: step 117600, loss 2864.791748046875
+epoch 4, batch 25363:
+2019-04-28T00:41:49.464091: step 117700, loss 2839.123291015625
+epoch 4, batch 25463:
+2019-04-28T00:41:57.483526: step 117800, loss 2602.80419921875
+epoch 4, batch 25563:
+2019-04-28T00:42:05.515845: step 117900, loss 2706.01806640625
+epoch 4, batch 25663:
+2019-04-28T00:42:13.553404: step 118000, loss 2940.4951171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 118000, perp_mean: 67.52301119349968, perp_median: 38.75456428527832
+
+epoch 4, batch 25763:
+2019-04-28T00:42:31.837403: step 118100, loss 2968.89208984375
+epoch 4, batch 25863:
+2019-04-28T00:42:39.887126: step 118200, loss 2893.748046875
+epoch 4, batch 25963:
+2019-04-28T00:42:47.922655: step 118300, loss 2874.09619140625
+epoch 4, batch 26063:
+2019-04-28T00:42:55.970541: step 118400, loss 2451.34765625
+epoch 4, batch 26163:
+2019-04-28T00:43:03.999744: step 118500, loss 2690.82275390625
+epoch 4, batch 26263:
+2019-04-28T00:43:12.050138: step 118600, loss 2765.5966796875
+epoch 4, batch 26363:
+2019-04-28T00:43:20.104722: step 118700, loss 3058.8212890625
+epoch 4, batch 26463:
+2019-04-28T00:43:28.143665: step 118800, loss 2988.19287109375
+epoch 4, batch 26563:
+2019-04-28T00:43:36.185098: step 118900, loss 2656.7607421875
+epoch 4, batch 26663:
+2019-04-28T00:43:44.236167: step 119000, loss 2717.36328125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 119000, perp_mean: 68.55507011216709, perp_median: 38.26677894592285
+
+epoch 4, batch 26763:
+2019-04-28T00:44:02.643078: step 119100, loss 2834.58203125
+epoch 4, batch 26863:
+2019-04-28T00:44:10.680679: step 119200, loss 2973.7548828125
+epoch 4, batch 26963:
+2019-04-28T00:44:18.721892: step 119300, loss 2404.60400390625
+epoch 4, batch 27063:
+2019-04-28T00:44:26.752238: step 119400, loss 2615.997314453125
+epoch 4, batch 27163:
+2019-04-28T00:44:34.785607: step 119500, loss 2785.93603515625
+epoch 4, batch 27263:
+2019-04-28T00:44:42.829149: step 119600, loss 2483.64404296875
+epoch 4, batch 27363:
+2019-04-28T00:44:50.870941: step 119700, loss 2702.74609375
+epoch 4, batch 27463:
+2019-04-28T00:44:58.918667: step 119800, loss 2875.1455078125
+epoch 4, batch 27563:
+2019-04-28T00:45:06.957098: step 119900, loss 2816.615966796875
+epoch 4, batch 27663:
+2019-04-28T00:45:15.027910: step 120000, loss 2740.3310546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 120000, perp_mean: 68.42995910720323, perp_median: 38.50981521606445
+
+epoch 4, batch 27763:
+2019-04-28T00:45:33.181965: step 120100, loss 2619.370849609375
+epoch 4, batch 27863:
+2019-04-28T00:45:41.233054: step 120200, loss 2930.78955078125
+epoch 4, batch 27963:
+2019-04-28T00:45:49.272932: step 120300, loss 2708.31591796875
+epoch 4, batch 28063:
+2019-04-28T00:45:57.303780: step 120400, loss 2764.00732421875
+epoch 4, batch 28163:
+2019-04-28T00:46:05.347815: step 120500, loss 2786.940185546875
+epoch 4, batch 28263:
+2019-04-28T00:46:13.394331: step 120600, loss 2840.9716796875
+epoch 4, batch 28363:
+2019-04-28T00:46:21.437732: step 120700, loss 2475.353515625
+epoch 4, batch 28463:
+2019-04-28T00:46:29.472675: step 120800, loss 2637.26806640625
+epoch 4, batch 28563:
+2019-04-28T00:46:37.516876: step 120900, loss 2603.14306640625
+epoch 4, batch 28663:
+2019-04-28T00:46:45.553102: step 121000, loss 3106.08984375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 121000, perp_mean: 67.82475640773531, perp_median: 38.120744705200195
+
+epoch 4, batch 28763:
+2019-04-28T00:47:02.851273: step 121100, loss 3265.17041015625
+epoch 4, batch 28863:
+2019-04-28T00:47:10.888064: step 121200, loss 2603.0146484375
+epoch 4, batch 28963:
+2019-04-28T00:47:18.942831: step 121300, loss 2930.05078125
+epoch 4, batch 29063:
+2019-04-28T00:47:26.982029: step 121400, loss 2831.5078125
+epoch 4, batch 29163:
+2019-04-28T00:47:35.024492: step 121500, loss 2706.137451171875
+epoch 4, batch 29263:
+2019-04-28T00:47:43.068411: step 121600, loss 2707.366455078125
+epoch 4, batch 29363:
+2019-04-28T00:47:51.096052: step 121700, loss 2790.363525390625
+epoch 4, batch 29463:
+2019-04-28T00:47:59.135828: step 121800, loss 2754.719482421875
+epoch 4, batch 29563:
+2019-04-28T00:48:07.175588: step 121900, loss 2674.535888671875
+epoch 4, batch 29663:
+2019-04-28T00:48:15.215915: step 122000, loss 2745.934814453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 122000, perp_mean: 68.17041791513299, perp_median: 38.82177543640137
+
+epoch 4, batch 29763:
+2019-04-28T00:48:33.509384: step 122100, loss 2803.309326171875
+epoch 4, batch 29863:
+2019-04-28T00:48:41.542563: step 122200, loss 2701.01025390625
+epoch 4, batch 29963:
+2019-04-28T00:48:49.591184: step 122300, loss 2782.553466796875
+epoch 4, batch 30063:
+2019-04-28T00:48:57.620666: step 122400, loss 2873.561767578125
+epoch 4, batch 30163:
+2019-04-28T00:49:05.667504: step 122500, loss 2811.968017578125
+epoch 4, batch 30263:
+2019-04-28T00:49:13.708203: step 122600, loss 2783.237060546875
+epoch 4, batch 30363:
+2019-04-28T00:49:21.750586: step 122700, loss 2773.95751953125
+epoch 4, batch 30463:
+2019-04-28T00:49:29.800704: step 122800, loss 2473.813720703125
+epoch 4, batch 30563:
+2019-04-28T00:49:37.855630: step 122900, loss 2827.70068359375
+epoch 4, batch 30663:
+2019-04-28T00:49:45.921783: step 123000, loss 3014.922119140625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 123000, perp_mean: 67.4701865892233, perp_median: 38.459049224853516
+
+epoch 4, batch 30763:
+2019-04-28T00:50:04.216595: step 123100, loss 2342.245361328125
+epoch 5, batch 84:
+2019-04-28T00:50:12.256808: step 123200, loss 2737.01611328125
+epoch 5, batch 184:
+2019-04-28T00:50:20.318442: step 123300, loss 2684.39111328125
+epoch 5, batch 284:
+2019-04-28T00:50:28.364312: step 123400, loss 3116.039306640625
+epoch 5, batch 384:
+2019-04-28T00:50:36.409147: step 123500, loss 2348.45166015625
+epoch 5, batch 484:
+2019-04-28T00:50:44.451107: step 123600, loss 2573.505859375
+epoch 5, batch 584:
+2019-04-28T00:50:52.509466: step 123700, loss 2900.39892578125
+epoch 5, batch 684:
+2019-04-28T00:51:00.560254: step 123800, loss 2812.96875
+epoch 5, batch 784:
+2019-04-28T00:51:08.607186: step 123900, loss 2842.53955078125
+epoch 5, batch 884:
+2019-04-28T00:51:16.652578: step 124000, loss 2647.064453125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 124000, perp_mean: 69.43725351300057, perp_median: 38.36256790161133
+
+epoch 5, batch 984:
+2019-04-28T00:51:34.981762: step 124100, loss 3146.468017578125
+epoch 5, batch 1084:
+2019-04-28T00:51:43.025232: step 124200, loss 2670.346923828125
+epoch 5, batch 1184:
+2019-04-28T00:51:51.077839: step 124300, loss 3225.613037109375
+epoch 5, batch 1284:
+2019-04-28T00:51:59.117673: step 124400, loss 3029.853271484375
+epoch 5, batch 1384:
+2019-04-28T00:52:07.154286: step 124500, loss 2301.406494140625
+epoch 5, batch 1484:
+2019-04-28T00:52:15.201137: step 124600, loss 2536.192138671875
+epoch 5, batch 1584:
+2019-04-28T00:52:23.246186: step 124700, loss 2757.073974609375
+epoch 5, batch 1684:
+2019-04-28T00:52:31.290209: step 124800, loss 2760.0009765625
+epoch 5, batch 1784:
+2019-04-28T00:52:39.318180: step 124900, loss 2442.263671875
+epoch 5, batch 1884:
+2019-04-28T00:52:47.350223: step 125000, loss 2609.265625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 125000, perp_mean: 67.51460713220762, perp_median: 38.875417709350586
+
+epoch 5, batch 1984:
+2019-04-28T00:53:04.921344: step 125100, loss 2991.734375
+epoch 5, batch 2084:
+2019-04-28T00:53:12.968221: step 125200, loss 3032.828125
+epoch 5, batch 2184:
+2019-04-28T00:53:21.000809: step 125300, loss 2685.82666015625
+epoch 5, batch 2284:
+2019-04-28T00:53:29.032463: step 125400, loss 2738.16552734375
+epoch 5, batch 2384:
+2019-04-28T00:53:37.069572: step 125500, loss 2853.5087890625
+epoch 5, batch 2484:
+2019-04-28T00:53:45.117931: step 125600, loss 2802.92529296875
+epoch 5, batch 2584:
+2019-04-28T00:53:53.174992: step 125700, loss 2812.364501953125
+epoch 5, batch 2684:
+2019-04-28T00:54:01.228007: step 125800, loss 2854.865234375
+epoch 5, batch 2784:
+2019-04-28T00:54:09.263525: step 125900, loss 2951.40380859375
+epoch 5, batch 2884:
+2019-04-28T00:54:17.311709: step 126000, loss 3056.832275390625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 126000, perp_mean: 68.35642453293816, perp_median: 38.740705490112305
+
+epoch 5, batch 2984:
+2019-04-28T00:54:35.654658: step 126100, loss 2892.141845703125
+epoch 5, batch 3084:
+2019-04-28T00:54:43.684091: step 126200, loss 3184.23681640625
+epoch 5, batch 3184:
+2019-04-28T00:54:51.723089: step 126300, loss 2762.47998046875
+epoch 5, batch 3284:
+2019-04-28T00:54:59.768849: step 126400, loss 2513.845458984375
+epoch 5, batch 3384:
+2019-04-28T00:55:07.794331: step 126500, loss 2569.19189453125
+epoch 5, batch 3484:
+2019-04-28T00:55:15.844937: step 126600, loss 2783.2998046875
+epoch 5, batch 3584:
+2019-04-28T00:55:23.892274: step 126700, loss 2935.927734375
+epoch 5, batch 3684:
+2019-04-28T00:55:31.931869: step 126800, loss 2374.547607421875
+epoch 5, batch 3784:
+2019-04-28T00:55:39.981311: step 126900, loss 2843.396728515625
+epoch 5, batch 3884:
+2019-04-28T00:55:48.017190: step 127000, loss 2911.477783203125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 127000, perp_mean: 68.77175258662723, perp_median: 38.58435821533203
+
+epoch 5, batch 3984:
+2019-04-28T00:56:06.301851: step 127100, loss 2327.66796875
+epoch 5, batch 4084:
+2019-04-28T00:56:14.342866: step 127200, loss 2901.600830078125
+epoch 5, batch 4184:
+2019-04-28T00:56:22.386897: step 127300, loss 2821.10302734375
+epoch 5, batch 4284:
+2019-04-28T00:56:30.434461: step 127400, loss 3124.20947265625
+epoch 5, batch 4384:
+2019-04-28T00:56:38.476780: step 127500, loss 2669.983154296875
+epoch 5, batch 4484:
+2019-04-28T00:56:46.521941: step 127600, loss 2706.40625
+epoch 5, batch 4584:
+2019-04-28T00:56:54.545978: step 127700, loss 2504.470947265625
+epoch 5, batch 4684:
+2019-04-28T00:57:02.579113: step 127800, loss 2439.49462890625
+epoch 5, batch 4784:
+2019-04-28T00:57:10.634050: step 127900, loss 2600.010498046875
+epoch 5, batch 4884:
+2019-04-28T00:57:18.678160: step 128000, loss 2950.521240234375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 128000, perp_mean: 68.11072377350523, perp_median: 38.27915382385254
+
+epoch 5, batch 4984:
+2019-04-28T00:57:36.763080: step 128100, loss 2858.90625
+epoch 5, batch 5084:
+2019-04-28T00:57:44.813619: step 128200, loss 2571.452880859375
+epoch 5, batch 5184:
+2019-04-28T00:57:52.864754: step 128300, loss 3148.158203125
+epoch 5, batch 5284:
+2019-04-28T00:58:00.902392: step 128400, loss 2789.3623046875
+epoch 5, batch 5384:
+2019-04-28T00:58:08.943844: step 128500, loss 2766.93212890625
+epoch 5, batch 5484:
+2019-04-28T00:58:16.992511: step 128600, loss 2666.34716796875
+epoch 5, batch 5584:
+2019-04-28T00:58:25.027289: step 128700, loss 2483.862548828125
+epoch 5, batch 5684:
+2019-04-28T00:58:33.062534: step 128800, loss 2699.813232421875
+epoch 5, batch 5784:
+2019-04-28T00:58:41.102722: step 128900, loss 2845.52392578125
+epoch 5, batch 5884:
+2019-04-28T00:58:49.152882: step 129000, loss 2802.306640625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 129000, perp_mean: 68.25838148247631, perp_median: 38.499244689941406
+
+epoch 5, batch 5984:
+2019-04-28T00:59:06.349090: step 129100, loss 2732.38720703125
+epoch 5, batch 6084:
+2019-04-28T00:59:14.398458: step 129200, loss 2987.99365234375
+epoch 5, batch 6184:
+2019-04-28T00:59:22.457503: step 129300, loss 2797.702880859375
+epoch 5, batch 6284:
+2019-04-28T00:59:30.512737: step 129400, loss 2494.834716796875
+epoch 5, batch 6384:
+2019-04-28T00:59:38.577167: step 129500, loss 2497.250244140625
+epoch 5, batch 6484:
+2019-04-28T00:59:46.643586: step 129600, loss 2800.34912109375
+epoch 5, batch 6584:
+2019-04-28T00:59:54.694089: step 129700, loss 2702.6640625
+epoch 5, batch 6684:
+2019-04-28T01:00:02.750565: step 129800, loss 2581.869140625
+epoch 5, batch 6784:
+2019-04-28T01:00:10.775428: step 129900, loss 2718.697509765625
+epoch 5, batch 6884:
+2019-04-28T01:00:18.820291: step 130000, loss 2696.603515625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 130000, perp_mean: 67.74331237452316, perp_median: 38.983957290649414
+
+epoch 5, batch 6984:
+2019-04-28T01:00:37.240483: step 130100, loss 3129.198974609375
+epoch 5, batch 7084:
+2019-04-28T01:00:45.285778: step 130200, loss 2521.70166015625
+epoch 5, batch 7184:
+2019-04-28T01:00:53.318796: step 130300, loss 2733.784912109375
+epoch 5, batch 7284:
+2019-04-28T01:01:01.367919: step 130400, loss 2626.293212890625
+epoch 5, batch 7384:
+2019-04-28T01:01:09.397298: step 130500, loss 2826.970458984375
+epoch 5, batch 7484:
+2019-04-28T01:01:17.442500: step 130600, loss 2744.2060546875
+epoch 5, batch 7584:
+2019-04-28T01:01:25.480009: step 130700, loss 2257.808349609375
+epoch 5, batch 7684:
+2019-04-28T01:01:33.520127: step 130800, loss 2705.314697265625
+epoch 5, batch 7784:
+2019-04-28T01:01:41.549829: step 130900, loss 2921.51123046875
+epoch 5, batch 7884:
+2019-04-28T01:01:49.570822: step 131000, loss 3025.525146484375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 131000, perp_mean: 68.2898149077979, perp_median: 38.62233543395996
+
+epoch 5, batch 7984:
+2019-04-28T01:02:07.920206: step 131100, loss 2940.44873046875
+epoch 5, batch 8084:
+2019-04-28T01:02:15.969517: step 131200, loss 3085.9873046875
+epoch 5, batch 8184:
+2019-04-28T01:02:24.005375: step 131300, loss 2607.865478515625
+epoch 5, batch 8284:
+2019-04-28T01:02:32.044332: step 131400, loss 2420.946044921875
+epoch 5, batch 8384:
+2019-04-28T01:02:40.077665: step 131500, loss 3061.98388671875
+epoch 5, batch 8484:
+2019-04-28T01:02:48.130426: step 131600, loss 2562.214111328125
+epoch 5, batch 8584:
+2019-04-28T01:02:56.185359: step 131700, loss 2925.9833984375
+epoch 5, batch 8684:
+2019-04-28T01:03:04.234658: step 131800, loss 2785.3623046875
+epoch 5, batch 8784:
+2019-04-28T01:03:12.263369: step 131900, loss 2807.162353515625
+epoch 5, batch 8884:
+2019-04-28T01:03:20.319106: step 132000, loss 3145.356201171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 132000, perp_mean: 68.4502511699946, perp_median: 38.515947341918945
+
+epoch 5, batch 8984:
+2019-04-28T01:03:38.583563: step 132100, loss 2851.134765625
+epoch 5, batch 9084:
+2019-04-28T01:03:46.624949: step 132200, loss 2742.635009765625
+epoch 5, batch 9184:
+2019-04-28T01:03:54.665473: step 132300, loss 2764.343017578125
+epoch 5, batch 9284:
+2019-04-28T01:04:02.708532: step 132400, loss 2972.221435546875
+epoch 5, batch 9384:
+2019-04-28T01:04:10.767968: step 132500, loss 2826.19921875
+epoch 5, batch 9484:
+2019-04-28T01:04:18.817106: step 132600, loss 3104.356201171875
+epoch 5, batch 9584:
+2019-04-28T01:04:26.866106: step 132700, loss 2760.67578125
+epoch 5, batch 9684:
+2019-04-28T01:04:34.921443: step 132800, loss 2506.321044921875
+epoch 5, batch 9784:
+2019-04-28T01:04:42.964044: step 132900, loss 2638.840087890625
+epoch 5, batch 9884:
+2019-04-28T01:04:50.993664: step 133000, loss 2706.308349609375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 133000, perp_mean: 68.61340253003942, perp_median: 38.5314998626709
+
+epoch 5, batch 9984:
+2019-04-28T01:05:08.408109: step 133100, loss 2732.350341796875
+epoch 5, batch 10084:
+2019-04-28T01:05:16.433506: step 133200, loss 2933.628173828125
+epoch 5, batch 10184:
+2019-04-28T01:05:24.485149: step 133300, loss 3024.8388671875
+epoch 5, batch 10284:
+2019-04-28T01:05:32.523339: step 133400, loss 2810.89990234375
+epoch 5, batch 10384:
+2019-04-28T01:05:40.545995: step 133500, loss 2337.286865234375
+epoch 5, batch 10484:
+2019-04-28T01:05:48.589294: step 133600, loss 3006.051025390625
+epoch 5, batch 10584:
+2019-04-28T01:05:56.631127: step 133700, loss 3170.69970703125
+epoch 5, batch 10684:
+2019-04-28T01:06:04.661112: step 133800, loss 2375.8623046875
+epoch 5, batch 10784:
+2019-04-28T01:06:12.701065: step 133900, loss 2997.060546875
+epoch 5, batch 10884:
+2019-04-28T01:06:20.764403: step 134000, loss 2747.85888671875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 134000, perp_mean: 69.67930062880681, perp_median: 38.58841133117676
+
+epoch 5, batch 10984:
+2019-04-28T01:06:39.103177: step 134100, loss 2689.041259765625
+epoch 5, batch 11084:
+2019-04-28T01:06:47.150419: step 134200, loss 2486.93798828125
+epoch 5, batch 11184:
+2019-04-28T01:06:55.196408: step 134300, loss 2520.16357421875
+epoch 5, batch 11284:
+2019-04-28T01:07:03.239267: step 134400, loss 3014.04296875
+epoch 5, batch 11384:
+2019-04-28T01:07:11.277441: step 134500, loss 2682.37841796875
+epoch 5, batch 11484:
+2019-04-28T01:07:19.324511: step 134600, loss 2786.610595703125
+epoch 5, batch 11584:
+2019-04-28T01:07:27.376890: step 134700, loss 2491.91943359375
+epoch 5, batch 11684:
+2019-04-28T01:07:35.421062: step 134800, loss 2761.70751953125
+epoch 5, batch 11784:
+2019-04-28T01:07:43.472125: step 134900, loss 2985.990478515625
+epoch 5, batch 11884:
+2019-04-28T01:07:51.526929: step 135000, loss 2670.314697265625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 135000, perp_mean: 69.16225485462206, perp_median: 38.430145263671875
+
+epoch 5, batch 11984:
+2019-04-28T01:08:09.724970: step 135100, loss 2401.886962890625
+epoch 5, batch 12084:
+2019-04-28T01:08:17.774643: step 135200, loss 2674.50146484375
+epoch 5, batch 12184:
+2019-04-28T01:08:25.824038: step 135300, loss 3049.66552734375
+epoch 5, batch 12284:
+2019-04-28T01:08:33.850888: step 135400, loss 2885.957763671875
+epoch 5, batch 12384:
+2019-04-28T01:08:41.882403: step 135500, loss 2355.722900390625
+epoch 5, batch 12484:
+2019-04-28T01:08:49.931069: step 135600, loss 2227.138916015625
+epoch 5, batch 12584:
+2019-04-28T01:08:57.983798: step 135700, loss 2734.29541015625
+epoch 5, batch 12684:
+2019-04-28T01:09:06.025238: step 135800, loss 2532.370361328125
+epoch 5, batch 12784:
+2019-04-28T01:09:14.068834: step 135900, loss 2956.757568359375
+epoch 5, batch 12884:
+2019-04-28T01:09:22.109275: step 136000, loss 2750.861572265625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 136000, perp_mean: 71.02569893998343, perp_median: 38.59978675842285
+
+epoch 5, batch 12984:
+2019-04-28T01:09:40.427379: step 136100, loss 2952.4697265625
+epoch 5, batch 13084:
+2019-04-28T01:09:48.473051: step 136200, loss 2604.2265625
+epoch 5, batch 13184:
+2019-04-28T01:09:56.521203: step 136300, loss 2835.69775390625
+epoch 5, batch 13284:
+2019-04-28T01:10:04.558208: step 136400, loss 2607.1005859375
+epoch 5, batch 13384:
+2019-04-28T01:10:12.600425: step 136500, loss 2545.34521484375
+epoch 5, batch 13484:
+2019-04-28T01:10:20.651224: step 136600, loss 3077.44580078125
+epoch 5, batch 13584:
+2019-04-28T01:10:28.694675: step 136700, loss 3107.34814453125
+epoch 5, batch 13684:
+2019-04-28T01:10:36.725518: step 136800, loss 2801.606689453125
+epoch 5, batch 13784:
+2019-04-28T01:10:44.763484: step 136900, loss 2954.333984375
+epoch 5, batch 13884:
+2019-04-28T01:10:52.818424: step 137000, loss 3110.8408203125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 137000, perp_mean: 71.35037339834234, perp_median: 38.50612258911133
+
+epoch 5, batch 13984:
+2019-04-28T01:11:11.074612: step 137100, loss 2680.83203125
+epoch 5, batch 14084:
+2019-04-28T01:11:19.130257: step 137200, loss 2349.2109375
+epoch 5, batch 14184:
+2019-04-28T01:11:27.182622: step 137300, loss 2825.521728515625
+epoch 5, batch 14284:
+2019-04-28T01:11:35.212566: step 137400, loss 3061.61083984375
+epoch 5, batch 14384:
+2019-04-28T01:11:43.250724: step 137500, loss 2135.2998046875
+epoch 5, batch 14484:
+2019-04-28T01:11:51.270866: step 137600, loss 2553.668212890625
+epoch 5, batch 14584:
+2019-04-28T01:11:59.303860: step 137700, loss 2879.3095703125
+epoch 5, batch 14684:
+2019-04-28T01:12:07.350808: step 137800, loss 3076.970703125
+epoch 5, batch 14784:
+2019-04-28T01:12:15.396932: step 137900, loss 2907.73388671875
+epoch 5, batch 14884:
+2019-04-28T01:12:23.425869: step 138000, loss 2731.42724609375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 138000, perp_mean: 69.63917499694692, perp_median: 38.31425857543945
+
+epoch 5, batch 14984:
+2019-04-28T01:12:40.725213: step 138100, loss 2523.3154296875
+epoch 5, batch 15084:
+2019-04-28T01:12:48.765519: step 138200, loss 2616.7880859375
+epoch 5, batch 15184:
+2019-04-28T01:12:56.806167: step 138300, loss 2998.09765625
+epoch 5, batch 15284:
+2019-04-28T01:13:04.844509: step 138400, loss 2779.510986328125
+epoch 5, batch 15384:
+2019-04-28T01:13:12.867286: step 138500, loss 2957.8125
+epoch 5, batch 15484:
+2019-04-28T01:13:20.900512: step 138600, loss 2797.798828125
+epoch 5, batch 15584:
+2019-04-28T01:13:28.928985: step 138700, loss 3041.00146484375
+epoch 5, batch 15684:
+2019-04-28T01:13:36.981766: step 138800, loss 2851.351806640625
+epoch 5, batch 15784:
+2019-04-28T01:13:45.030404: step 138900, loss 2689.9814453125
+epoch 5, batch 15884:
+2019-04-28T01:13:53.072571: step 139000, loss 2774.51220703125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 139000, perp_mean: 68.10055942158134, perp_median: 38.508243560791016
+
+epoch 5, batch 15984:
+2019-04-28T01:14:11.358213: step 139100, loss 2787.445556640625
+epoch 5, batch 16084:
+2019-04-28T01:14:19.404363: step 139200, loss 2527.69775390625
+epoch 5, batch 16184:
+2019-04-28T01:14:27.467240: step 139300, loss 3083.68994140625
+epoch 5, batch 16284:
+2019-04-28T01:14:35.517213: step 139400, loss 2754.182373046875
+epoch 5, batch 16384:
+2019-04-28T01:14:43.556227: step 139500, loss 2494.068359375
+epoch 5, batch 16484:
+2019-04-28T01:14:51.596478: step 139600, loss 2700.432373046875
+epoch 5, batch 16584:
+2019-04-28T01:14:59.644138: step 139700, loss 2583.62744140625
+epoch 5, batch 16684:
+2019-04-28T01:15:07.692456: step 139800, loss 2848.5009765625
+epoch 5, batch 16784:
+2019-04-28T01:15:15.729393: step 139900, loss 2968.843994140625
+epoch 5, batch 16884:
+2019-04-28T01:15:23.766921: step 140000, loss 2835.96435546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 140000, perp_mean: 69.07471309124927, perp_median: 38.2812442779541
+
+epoch 5, batch 16984:
+2019-04-28T01:15:41.921964: step 140100, loss 2849.200927734375
+epoch 5, batch 17084:
+2019-04-28T01:15:49.970350: step 140200, loss 3009.205078125
+epoch 5, batch 17184:
+2019-04-28T01:15:58.010576: step 140300, loss 2789.483642578125
+epoch 5, batch 17284:
+2019-04-28T01:16:06.049639: step 140400, loss 2684.8046875
+epoch 5, batch 17384:
+2019-04-28T01:16:14.099186: step 140500, loss 2374.004150390625
+epoch 5, batch 17484:
+2019-04-28T01:16:22.148840: step 140600, loss 2173.00927734375
+epoch 5, batch 17584:
+2019-04-28T01:16:30.187639: step 140700, loss 2987.15478515625
+epoch 5, batch 17684:
+2019-04-28T01:16:38.250517: step 140800, loss 2768.165283203125
+epoch 5, batch 17784:
+2019-04-28T01:16:46.304761: step 140900, loss 2505.91748046875
+epoch 5, batch 17884:
+2019-04-28T01:16:54.348031: step 141000, loss 2864.1826171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 141000, perp_mean: 69.9168549350745, perp_median: 38.39901161193848
+
+epoch 5, batch 17984:
+2019-04-28T01:17:12.872692: step 141100, loss 2724.6611328125
+epoch 5, batch 18084:
+2019-04-28T01:17:20.902153: step 141200, loss 2875.330322265625
+epoch 5, batch 18184:
+2019-04-28T01:17:28.944101: step 141300, loss 2616.197265625
+epoch 5, batch 18284:
+2019-04-28T01:17:36.987909: step 141400, loss 2627.903564453125
+epoch 5, batch 18384:
+2019-04-28T01:17:45.037779: step 141500, loss 2826.657958984375
+epoch 5, batch 18484:
+2019-04-28T01:17:53.072789: step 141600, loss 2984.634521484375
+epoch 5, batch 18584:
+2019-04-28T01:18:01.109508: step 141700, loss 2907.273193359375
+epoch 5, batch 18684:
+2019-04-28T01:18:09.158085: step 141800, loss 2616.2158203125
+epoch 5, batch 18784:
+2019-04-28T01:18:17.205352: step 141900, loss 2560.24365234375
+epoch 5, batch 18884:
+2019-04-28T01:18:25.251697: step 142000, loss 2674.00732421875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 142000, perp_mean: 69.47704236338639, perp_median: 38.64483833312988
+
+epoch 5, batch 18984:
+2019-04-28T01:18:42.711029: step 142100, loss 2574.855712890625
+epoch 5, batch 19084:
+2019-04-28T01:18:50.766577: step 142200, loss 2972.158935546875
+epoch 5, batch 19184:
+2019-04-28T01:18:58.826551: step 142300, loss 2845.717041015625
+epoch 5, batch 19284:
+2019-04-28T01:19:06.868263: step 142400, loss 2707.32958984375
+epoch 5, batch 19384:
+2019-04-28T01:19:14.903347: step 142500, loss 3022.5146484375
+epoch 5, batch 19484:
+2019-04-28T01:19:22.947793: step 142600, loss 2918.3798828125
+epoch 5, batch 19584:
+2019-04-28T01:19:30.998982: step 142700, loss 2638.020751953125
+epoch 5, batch 19684:
+2019-04-28T01:19:39.051485: step 142800, loss 2789.0185546875
+epoch 5, batch 19784:
+2019-04-28T01:19:47.097784: step 142900, loss 3041.1025390625
+epoch 5, batch 19884:
+2019-04-28T01:19:55.143718: step 143000, loss 2472.58935546875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 143000, perp_mean: 69.76021203114786, perp_median: 38.338640213012695
+
+epoch 5, batch 19984:
+2019-04-28T01:20:13.340808: step 143100, loss 2930.49169921875
+epoch 5, batch 20084:
+2019-04-28T01:20:21.370146: step 143200, loss 2871.286376953125
+epoch 5, batch 20184:
+2019-04-28T01:20:29.414340: step 143300, loss 3070.4814453125
+epoch 5, batch 20284:
+2019-04-28T01:20:37.450679: step 143400, loss 2818.592041015625
+epoch 5, batch 20384:
+2019-04-28T01:20:45.498900: step 143500, loss 2740.06787109375
+epoch 5, batch 20484:
+2019-04-28T01:20:53.555864: step 143600, loss 2552.585693359375
+epoch 5, batch 20584:
+2019-04-28T01:21:01.607632: step 143700, loss 2934.406982421875
+epoch 5, batch 20684:
+2019-04-28T01:21:09.641288: step 143800, loss 2836.23291015625
+epoch 5, batch 20784:
+2019-04-28T01:21:17.684760: step 143900, loss 2451.62451171875
+epoch 5, batch 20884:
+2019-04-28T01:21:25.733342: step 144000, loss 2581.201171875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 144000, perp_mean: 70.8303392035022, perp_median: 38.77939987182617
+
+epoch 5, batch 20984:
+2019-04-28T01:21:43.910054: step 144100, loss 2639.89453125
+epoch 5, batch 21084:
+2019-04-28T01:21:51.955456: step 144200, loss 2855.66796875
+epoch 5, batch 21184:
+2019-04-28T01:22:00.000190: step 144300, loss 2763.86376953125
+epoch 5, batch 21284:
+2019-04-28T01:22:08.038547: step 144400, loss 2807.77587890625
+epoch 5, batch 21384:
+2019-04-28T01:22:16.084533: step 144500, loss 2967.589599609375
+epoch 5, batch 21484:
+2019-04-28T01:22:24.130711: step 144600, loss 2691.001953125
+epoch 5, batch 21584:
+2019-04-28T01:22:32.192951: step 144700, loss 2738.269287109375
+epoch 5, batch 21684:
+2019-04-28T01:22:40.239454: step 144800, loss 3015.087646484375
+epoch 5, batch 21784:
+2019-04-28T01:22:48.297601: step 144900, loss 2665.18408203125
+epoch 5, batch 21884:
+2019-04-28T01:22:56.341456: step 145000, loss 2551.86279296875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 145000, perp_mean: 70.68177073013484, perp_median: 38.73607063293457
+
+epoch 5, batch 21984:
+2019-04-28T01:23:14.698186: step 145100, loss 2615.427490234375
+epoch 5, batch 22084:
+2019-04-28T01:23:22.739706: step 145200, loss 3016.816650390625
+epoch 5, batch 22184:
+2019-04-28T01:23:30.781993: step 145300, loss 2803.14599609375
+epoch 5, batch 22284:
+2019-04-28T01:23:38.828053: step 145400, loss 3366.927734375
+epoch 5, batch 22384:
+2019-04-28T01:23:46.882510: step 145500, loss 3404.6787109375
+epoch 5, batch 22484:
+2019-04-28T01:23:54.930373: step 145600, loss 2759.546142578125
+epoch 5, batch 22584:
+2019-04-28T01:24:02.980161: step 145700, loss 2440.563232421875
+epoch 5, batch 22684:
+2019-04-28T01:24:11.027235: step 145800, loss 2781.029052734375
+epoch 5, batch 22784:
+2019-04-28T01:24:19.066049: step 145900, loss 2633.361328125
+epoch 5, batch 22884:
+2019-04-28T01:24:27.113128: step 146000, loss 2666.74755859375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 146000, perp_mean: 69.66391051688525, perp_median: 38.57046890258789
+
+epoch 5, batch 22984:
+2019-04-28T01:24:45.284008: step 146100, loss 2615.501953125
+epoch 5, batch 23084:
+2019-04-28T01:24:53.315562: step 146200, loss 2611.537353515625
+epoch 5, batch 23184:
+2019-04-28T01:25:01.348595: step 146300, loss 2605.3486328125
+epoch 5, batch 23284:
+2019-04-28T01:25:09.392648: step 146400, loss 3288.5263671875
+epoch 5, batch 23384:
+2019-04-28T01:25:17.438081: step 146500, loss 2522.094970703125
+epoch 5, batch 23484:
+2019-04-28T01:25:25.484424: step 146600, loss 3005.247802734375
+epoch 5, batch 23584:
+2019-04-28T01:25:33.524876: step 146700, loss 2889.1513671875
+epoch 5, batch 23684:
+2019-04-28T01:25:41.565309: step 146800, loss 2783.387939453125
+epoch 5, batch 23784:
+2019-04-28T01:25:49.621259: step 146900, loss 2657.681396484375
+epoch 5, batch 23884:
+2019-04-28T01:25:57.653635: step 147000, loss 2723.525390625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 147000, perp_mean: 69.23121052865403, perp_median: 38.74416542053223
+
+epoch 5, batch 23984:
+2019-04-28T01:26:15.973482: step 147100, loss 2687.711181640625
+epoch 5, batch 24084:
+2019-04-28T01:26:24.004215: step 147200, loss 3093.362060546875
+epoch 5, batch 24184:
+2019-04-28T01:26:32.047330: step 147300, loss 2775.87548828125
+epoch 5, batch 24284:
+2019-04-28T01:26:40.088654: step 147400, loss 2983.356689453125
+epoch 5, batch 24384:
+2019-04-28T01:26:48.129832: step 147500, loss 2928.10498046875
+epoch 5, batch 24484:
+2019-04-28T01:26:56.172956: step 147600, loss 3042.76513671875
+epoch 5, batch 24584:
+2019-04-28T01:27:04.217305: step 147700, loss 2388.578125
+epoch 5, batch 24684:
+2019-04-28T01:27:12.243015: step 147800, loss 3020.40673828125
+epoch 5, batch 24784:
+2019-04-28T01:27:20.287379: step 147900, loss 2898.93798828125
+epoch 5, batch 24884:
+2019-04-28T01:27:28.334857: step 148000, loss 3154.277099609375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 148000, perp_mean: 69.92418670617975, perp_median: 38.70175552368164
+
+epoch 5, batch 24984:
+2019-04-28T01:27:45.807377: step 148100, loss 2421.887451171875
+epoch 5, batch 25084:
+2019-04-28T01:27:53.849487: step 148200, loss 2773.62451171875
+epoch 5, batch 25184:
+2019-04-28T01:28:01.888596: step 148300, loss 2844.852294921875
+epoch 5, batch 25284:
+2019-04-28T01:28:09.944005: step 148400, loss 2815.307861328125
+epoch 5, batch 25384:
+2019-04-28T01:28:17.989800: step 148500, loss 2691.513916015625
+epoch 5, batch 25484:
+2019-04-28T01:28:26.038118: step 148600, loss 2351.938232421875
+epoch 5, batch 25584:
+2019-04-28T01:28:34.076277: step 148700, loss 3097.869873046875
+epoch 5, batch 25684:
+2019-04-28T01:28:42.144063: step 148800, loss 2975.53173828125
+epoch 5, batch 25784:
+2019-04-28T01:28:50.200897: step 148900, loss 2759.308349609375
+epoch 5, batch 25884:
+2019-04-28T01:28:58.262859: step 149000, loss 3071.7841796875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 149000, perp_mean: 71.185178718055, perp_median: 38.45924758911133
+
+epoch 5, batch 25984:
+2019-04-28T01:29:16.594513: step 149100, loss 3160.583984375
+epoch 5, batch 26084:
+2019-04-28T01:29:24.628278: step 149200, loss 2907.091064453125
+epoch 5, batch 26184:
+2019-04-28T01:29:32.669959: step 149300, loss 2782.2099609375
+epoch 5, batch 26284:
+2019-04-28T01:29:40.708059: step 149400, loss 2684.591796875
+epoch 5, batch 26384:
+2019-04-28T01:29:48.758154: step 149500, loss 2635.423095703125
+epoch 5, batch 26484:
+2019-04-28T01:29:56.812564: step 149600, loss 3224.97314453125
+epoch 5, batch 26584:
+2019-04-28T01:30:04.855978: step 149700, loss 2802.843994140625
+epoch 5, batch 26684:
+2019-04-28T01:30:12.903049: step 149800, loss 2914.19970703125
+epoch 5, batch 26784:
+2019-04-28T01:30:20.958725: step 149900, loss 2723.112060546875
+epoch 5, batch 26884:
+2019-04-28T01:30:29.010059: step 150000, loss 2617.331787109375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 150000, perp_mean: 70.62518254774217, perp_median: 38.31222724914551
+
+epoch 5, batch 26984:
+2019-04-28T01:30:47.303387: step 150100, loss 2437.807373046875
+epoch 5, batch 27084:
+2019-04-28T01:30:55.350610: step 150200, loss 2755.140869140625
+epoch 5, batch 27184:
+2019-04-28T01:31:03.387541: step 150300, loss 2691.03076171875
+epoch 5, batch 27284:
+2019-04-28T01:31:11.420468: step 150400, loss 2770.779052734375
+epoch 5, batch 27384:
+2019-04-28T01:31:19.474588: step 150500, loss 2317.77685546875
+epoch 5, batch 27484:
+2019-04-28T01:31:27.523396: step 150600, loss 2481.33203125
+epoch 5, batch 27584:
+2019-04-28T01:31:35.582411: step 150700, loss 2794.5986328125
+epoch 5, batch 27684:
+2019-04-28T01:31:43.618610: step 150800, loss 2851.3994140625
+epoch 5, batch 27784:
+2019-04-28T01:31:51.659032: step 150900, loss 2664.1650390625
+epoch 5, batch 27884:
+2019-04-28T01:31:59.697563: step 151000, loss 3111.63818359375
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 151000, perp_mean: 71.10673602501987, perp_median: 38.69778823852539
+
+epoch 5, batch 27984:
+2019-04-28T01:32:18.030421: step 151100, loss 2672.125
+epoch 5, batch 28084:
+2019-04-28T01:32:26.066624: step 151200, loss 2656.23095703125
+epoch 5, batch 28184:
+2019-04-28T01:32:34.122034: step 151300, loss 2809.8505859375
+epoch 5, batch 28284:
+2019-04-28T01:32:42.157655: step 151400, loss 2784.362060546875
+epoch 5, batch 28384:
+2019-04-28T01:32:50.212136: step 151500, loss 2965.867431640625
+epoch 5, batch 28484:
+2019-04-28T01:32:58.263297: step 151600, loss 2720.328369140625
+epoch 5, batch 28584:
+2019-04-28T01:33:06.321534: step 151700, loss 2802.330078125
+epoch 5, batch 28684:
+2019-04-28T01:33:14.361310: step 151800, loss 2603.17578125
+epoch 5, batch 28784:
+2019-04-28T01:33:22.400562: step 151900, loss 2545.68310546875
+epoch 5, batch 28884:
+2019-04-28T01:33:30.443809: step 152000, loss 2634.473876953125
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 152000, perp_mean: 70.81480703350492, perp_median: 38.44072723388672
+
+epoch 5, batch 28984:
+2019-04-28T01:33:47.804794: step 152100, loss 2691.490478515625
+epoch 5, batch 29084:
+2019-04-28T01:33:55.833167: step 152200, loss 3223.68212890625
+epoch 5, batch 29184:
+2019-04-28T01:34:03.878125: step 152300, loss 2476.203857421875
+epoch 5, batch 29284:
+2019-04-28T01:34:11.905738: step 152400, loss 2717.35791015625
+epoch 5, batch 29384:
+2019-04-28T01:34:19.940305: step 152500, loss 2499.02392578125
+epoch 5, batch 29484:
+2019-04-28T01:34:27.983190: step 152600, loss 2667.85009765625
+epoch 5, batch 29584:
+2019-04-28T01:34:36.015020: step 152700, loss 2621.13134765625
+epoch 5, batch 29684:
+2019-04-28T01:34:44.049471: step 152800, loss 2413.880615234375
+epoch 5, batch 29784:
+2019-04-28T01:34:52.091607: step 152900, loss 2682.557373046875
+epoch 5, batch 29884:
+2019-04-28T01:35:00.143378: step 153000, loss 2859.822998046875
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
+
+Evaluation:
+    batches: 154, step: 153000, perp_mean: 70.494694265788, perp_median: 38.48429870605469
+
+epoch 5, batch 29984:
+2019-04-28T01:35:18.450317: step 153100, loss 2730.315673828125
+epoch 5, batch 30084:
+2019-04-28T01:35:26.502043: step 153200, loss 2559.353515625
+epoch 5, batch 30184:
+2019-04-28T01:35:34.546353: step 153300, loss 2512.66064453125
+epoch 5, batch 30284:
+2019-04-28T01:35:42.580521: step 153400, loss 2815.450927734375
+epoch 5, batch 30384:
+2019-04-28T01:35:50.625733: step 153500, loss 2220.193359375
+epoch 5, batch 30484:
+2019-04-28T01:35:58.667288: step 153600, loss 2695.2392578125
+epoch 5, batch 30584:
+2019-04-28T01:36:06.702513: step 153700, loss 2635.187744140625
+epoch 5, batch 30684:
+2019-04-28T01:36:14.729644: step 153800, loss 3084.92431640625
+Model saved at /cluster/home/mamrani/1.NLU/2.Project/models/modelC.ckpt
