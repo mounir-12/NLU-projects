@@ -5,6 +5,14 @@ from tensorflow.keras.preprocessing import sequence
 
 
 def concat_sentences(df, sentences=range(1, 6), sep=' '):
+    """
+    Concatenates a subset of the five sentences with "sep"
+
+    :param df: The dataframe containing the sentences. Its columns must be "sentencex", where x is the sentence number
+    :param sentences: the columns to concatenate. If a single int is given, will return the values of this column
+    :param sep:
+    :return: Numpy array containing the list of concatenated sentences
+    """
     if isinstance(sentences, int):
         return df['sentence' + str(sentences)].values
     else:
@@ -13,6 +21,14 @@ def concat_sentences(df, sentences=range(1, 6), sep=' '):
 
 
 def process(df, tokenizer, max_seq_len):
+    """
+    Mostly for the baseline RNN task
+
+    :param df:
+    :param tokenizer:
+    :param max_seq_len:
+    :return: X, the padded, tokenized and "sequencized" sentences and y, the labels
+    """
     X = concat_sentences(df)
     y = df.label
 
