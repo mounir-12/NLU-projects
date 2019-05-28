@@ -15,7 +15,7 @@ from tensorflow.keras.initializers import Constant
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional
 
-tf.logging.set_verbosity(tf.logging.ERROR)
+# tf.logging.set_verbosity(tf.logging.ERROR)
 
 import tensorflow_hub as hub
 import bert
