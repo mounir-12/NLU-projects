@@ -67,13 +67,13 @@ BERT_MODEL_HUB = "https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1"
 def create_tokenizer_from_hub_module():
     """Get the vocab file and casing info from the Hub module."""
     with tf.Graph().as_default():
-        print("Importing BERT...")
+        print("\nCreating Tokenizer from hub module...")
         sys.stdout.flush()
         bert_module = hub.Module(BERT_MODEL_HUB)
         print("Done.")
         sys.stdout.flush()
         tokenization_info = bert_module(signature="tokenization_info", as_dict=True)
-        print("Testing BERT...")
+        print("Testing Tokenizer...")
         sys.stdout.flush()
         with tf.Session() as sess:
             vocab_file, do_lower_case = sess.run([tokenization_info["vocab_file"],
@@ -84,6 +84,8 @@ def create_tokenizer_from_hub_module():
 
 tokenizer = create_tokenizer_from_hub_module()
 
+print("Loading Bert Module ...")
+sys.stdout.flush()
 bert_module = hub.Module("https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1", trainable=True)
 
 def concat_sentences(df, sentences=range(1, 6), sep=' '):
@@ -92,7 +94,9 @@ def concat_sentences(df, sentences=range(1, 6), sep=' '):
     else:
         return reduce(lambda x, y: x.astype(str) + sep + y.astype(str),
                       [df['sentence' + str(col)] for col in sentences]).values
-                      
+
+print("Data manipulation ...")
+sys.stdout.flush()                  
 train_a = concat_sentences(train, range(1, 5))
 train_b = concat_sentences(train, 5)
 y_train_bert = 1 - train.label  # For Bert 0 means true continuation and 1 means fake
@@ -178,8 +182,12 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
 
         is_predicting = (mode == tf.estimator.ModeKeys.PREDICT)
 
+        print("\nEntering function with mode {}:".format(mode))
+        sys.stdout.flush()
         # TRAIN and EVAL
         if not is_predicting:
+            print("Not Predicting ...")
+            sys.stdout.flush()
 
             (loss, predicted_labels, log_probs) = create_model(
                 is_predicting, input_ids, input_mask, segment_ids, label_ids, num_labels)
@@ -229,14 +237,20 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
             eval_metrics = metric_fn(label_ids, predicted_labels)
 
             if mode == tf.estimator.ModeKeys.TRAIN:
+                print("Training ...")
+                sys.stdout.flush()
                 return tf.estimator.EstimatorSpec(mode=mode,
                                                   loss=loss,
                                                   train_op=train_op)
             else:
+                print("Evaluating ...")
+                sys.stdout.flush()
                 return tf.estimator.EstimatorSpec(mode=mode,
                                                   loss=loss,
                                                   eval_metric_ops=eval_metrics)
         else:
+            print("Predicting ...")
+            sys.stdout.flush()
             (predicted_labels, log_probs) = create_model(
                 is_predicting, input_ids, input_mask, segment_ids, label_ids, num_labels)
 
