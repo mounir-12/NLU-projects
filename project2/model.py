@@ -1,6 +1,7 @@
 from functools import reduce
 import pandas as pd
 import numpy as np
+import os, sys
 
 from process import concat_sentences, process
 
@@ -57,7 +58,7 @@ print(len(max(X, key=len)))
 X_train, y_train = process(train, tokenizer, MAX_SEQUENCE_LENGTH)
 X_val, y_val = process(val, tokenizer, MAX_SEQUENCE_LENGTH)
 X_test, y_test = process(test, tokenizer, MAX_SEQUENCE_LENGTH)
-
+sys.stdout.flush()
 # ------------------------------------BERT--------------------------------------------
 
 # This is a path to an uncased (all lowercase) version of BERT
@@ -67,14 +68,18 @@ def create_tokenizer_from_hub_module():
     """Get the vocab file and casing info from the Hub module."""
     with tf.Graph().as_default():
         print("Importing BERT...")
+        sys.stdout.flush()
         bert_module = hub.Module(BERT_MODEL_HUB)
         print("Done.")
+        sys.stdout.flush()
         tokenization_info = bert_module(signature="tokenization_info", as_dict=True)
         print("Testing BERT...")
+        sys.stdout.flush()
         with tf.Session() as sess:
             vocab_file, do_lower_case = sess.run([tokenization_info["vocab_file"],
                                                 tokenization_info["do_lower_case"]])
         print("Done.")
+        sys.stdout.flush()
     return bert.tokenization.FullTokenizer(vocab_file=vocab_file, do_lower_case=do_lower_case)
 
 tokenizer = create_tokenizer_from_hub_module()
@@ -285,6 +290,7 @@ train_input_fn = bert.run_classifier.input_fn_builder(
     drop_remainder=False)
     
 print(f'Beginning Training!')
+sys.stdout.flush()
 estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
 val_input_fn = run_classifier.input_fn_builder(
