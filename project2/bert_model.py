@@ -1,12 +1,10 @@
+import os
 import sys
 
 import bert
 import pandas as pd
 import tensorflow as tf
-import tensorflow_hub as hub
-from bert import optimization
 from bert import run_classifier
-from bert import tokenization
 
 # --------------------------------------------------Data---------------------------------------
 from process import concat_sentences
@@ -18,36 +16,19 @@ val = pd.read_csv('data/val.csv')
 test = pd.read_csv('data/test.csv')
 
 sys.stdout.flush()
+
+BERT_PATH = os.path.join('data', 'models', 'bert', 'uncased_L-12_H-768_A-12')
+INIT_CHECKPOINT = os.path.join('data', 'models', 'bert', 'bert_model.ckpt')
+
+
 # ------------------------------------BERT--------------------------------------------
-
-# This is a path to an uncased (all lowercase) version of BERT
-BERT_MODEL_HUB = "https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1"
-
-
-def create_tokenizer_from_hub_module():
-    """Get the vocab file and casing info from the Hub module."""
-    with tf.Graph().as_default():
-        print("\nCreating Tokenizer from hub module...")
-        sys.stdout.flush()
-        bert_module = hub.Module(BERT_MODEL_HUB)
-        print("Done.")
-        sys.stdout.flush()
-        tokenization_info = bert_module(signature="tokenization_info", as_dict=True)
-        print("Testing Tokenizer...")
-        sys.stdout.flush()
-        with tf.Session() as sess:
-            vocab_file, do_lower_case = sess.run([tokenization_info["vocab_file"],
-                                                  tokenization_info["do_lower_case"]])
-        print("Done.")
-        sys.stdout.flush()
-    return bert.tokenization.FullTokenizer(vocab_file=vocab_file, do_lower_case=do_lower_case)
+def create_tokenizer():
+    """Get the vocab file from disk."""
+    return bert.tokenization.FullTokenizer(vocab_file=os.path.join(BERT_PATH, 'vocab.txt'), do_lower_case=True)
 
 
-tokenizer = create_tokenizer_from_hub_module()
-
-print("Loading Bert Module ...")
-sys.stdout.flush()
-bert_module = hub.Module("https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1", trainable=True)
+# tokenizer = create_tokenizer_from_hub_module()
+tokenizer = create_tokenizer()
 
 print("Data manipulation ...")
 sys.stdout.flush()
@@ -89,22 +70,18 @@ test_features = bert.run_classifier.convert_examples_to_features(test_examples, 
 def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
                  num_labels):
     """Creates a classification model."""
-
-    bert_module = hub.Module(
-        BERT_MODEL_HUB,
-        trainable=True)
-    bert_inputs = dict(
+    bert_config = bert.modeling.BertConfig.from_json_file(os.path.join(BERT_PATH, 'bert_config.json'))
+    model = bert.modeling.BertModel(
+        config=bert_config,
+        is_training=not is_predicting,  # TODO Check this
         input_ids=input_ids,
         input_mask=input_mask,
-        segment_ids=segment_ids)
-    bert_outputs = bert_module(
-        inputs=bert_inputs,
-        signature="tokens",
-        as_dict=True)
+        token_type_ids=segment_ids,
+        use_one_hot_embeddings=True)  # TODO Check this
 
     # Use "pooled_output" for classification tasks on an entire sentence.
     # Use "sequence_outputs" for token-level output.
-    output_layer = bert_outputs["pooled_output"]
+    output_layer = model.get_pooled_output()
 
     hidden_size = output_layer.shape[-1].value
 
@@ -163,6 +140,11 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
 
             (loss, predicted_labels, log_probs) = create_model(
                 is_predicting, input_ids, input_mask, segment_ids, label_ids, num_labels)
+
+            tvars = tf.trainable_variables()
+            (assignment_map, initialized_variable_names) = bert.modeling.get_assignment_map_from_checkpoint(tvars,
+                                                                                                            INIT_CHECKPOINT)
+            tf.train.init_from_checkpoint(INIT_CHECKPOINT, assignment_map)
 
             train_op = bert.optimization.create_optimizer(
                 loss, learning_rate, num_train_steps, num_warmup_steps, use_tpu=False)
@@ -225,6 +207,11 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
             sys.stdout.flush()
             (predicted_labels, log_probs) = create_model(
                 is_predicting, input_ids, input_mask, segment_ids, label_ids, num_labels)
+
+            tvars = tf.trainable_variables()
+            (assignment_map, initialized_variable_names) = bert.modeling.get_assignment_map_from_checkpoint(tvars,
+                                                                                                            INIT_CHECKPOINT)
+            tf.train.init_from_checkpoint(INIT_CHECKPOINT, assignment_map)
 
             predictions = {
                 'probabilities': log_probs,
