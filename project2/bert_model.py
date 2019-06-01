@@ -1,68 +1,28 @@
-from functools import reduce
-import pandas as pd
-import numpy as np
-import os, sys
+import sys
 
-from process import concat_sentences, process
-
-import tensorflow as tf
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.layers import Dense, Input, GlobalMaxPooling1D, Concatenate
-from tensorflow.keras.layers import Conv1D, MaxPooling1D, Embedding
-from tensorflow.keras.models import Model
-from tensorflow.keras.initializers import Constant
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Embedding, LSTM, Bidirectional
-
-# tf.logging.set_verbosity(tf.logging.ERROR)
-
-import tensorflow_hub as hub
 import bert
-from bert import run_classifier
+import pandas as pd
+import tensorflow as tf
+import tensorflow_hub as hub
 from bert import optimization
+from bert import run_classifier
 from bert import tokenization
 
-#--------------------------------------------------Data---------------------------------------
+# --------------------------------------------------Data---------------------------------------
+from process import concat_sentences
+
+# tf.logging.set_verbosity(tf.logging.ERROR)
 
 train = pd.read_csv('data/train.csv')
 val = pd.read_csv('data/val.csv')
 test = pd.read_csv('data/test.csv')
 
-all_sentences = concat_sentences(train).tolist()
-all_sentences.extend(concat_sentences(val))
-all_sentences.extend(concat_sentences(test))
-
-MAX_SEQUENCE_LENGTH = 76
-MAX_NUM_WORDS = 20000
-EMBEDDING_DIM = 100
-
-# first, build index mapping words in the embeddings set
-# to their embedding vector
-tokenizer = Tokenizer(num_words=MAX_NUM_WORDS, oov_token=True)
-tokenizer.fit_on_texts(all_sentences)
-
-X = concat_sentences(train)
-X = tokenizer.texts_to_sequences(X)
-print(len(max(X, key=len)))
-
-X = concat_sentences(val)
-X = tokenizer.texts_to_sequences(X)
-print(len(max(X, key=len)))
-
-X = concat_sentences(test)
-X = tokenizer.texts_to_sequences(X)
-print(len(max(X, key=len)))
-
-X_train, y_train = process(train, tokenizer, MAX_SEQUENCE_LENGTH)
-X_val, y_val = process(val, tokenizer, MAX_SEQUENCE_LENGTH)
-X_test, y_test = process(test, tokenizer, MAX_SEQUENCE_LENGTH)
 sys.stdout.flush()
 # ------------------------------------BERT--------------------------------------------
 
 # This is a path to an uncased (all lowercase) version of BERT
 BERT_MODEL_HUB = "https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1"
+
 
 def create_tokenizer_from_hub_module():
     """Get the vocab file and casing info from the Hub module."""
@@ -77,10 +37,11 @@ def create_tokenizer_from_hub_module():
         sys.stdout.flush()
         with tf.Session() as sess:
             vocab_file, do_lower_case = sess.run([tokenization_info["vocab_file"],
-                                                tokenization_info["do_lower_case"]])
+                                                  tokenization_info["do_lower_case"]])
         print("Done.")
         sys.stdout.flush()
     return bert.tokenization.FullTokenizer(vocab_file=vocab_file, do_lower_case=do_lower_case)
+
 
 tokenizer = create_tokenizer_from_hub_module()
 
@@ -88,24 +49,32 @@ print("Loading Bert Module ...")
 sys.stdout.flush()
 bert_module = hub.Module("https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1", trainable=True)
 
-def concat_sentences(df, sentences=range(1, 6), sep=' '):
-    if isinstance(sentences, int):
-        return df['sentence' + str(sentences)].values
-    else:
-        return reduce(lambda x, y: x.astype(str) + sep + y.astype(str),
-                      [df['sentence' + str(col)] for col in sentences]).values
-
 print("Data manipulation ...")
-sys.stdout.flush()                  
-train_a = concat_sentences(train, range(1, 5))
+sys.stdout.flush()
+
+INPUT_SENTENCES = 4  # The sentences used as text_a
+TRAIN_WITH_VAL = True
+
+train_a = concat_sentences(train, INPUT_SENTENCES)
 train_b = concat_sentences(train, 5)
 y_train_bert = 1 - train.label  # For Bert 0 means true continuation and 1 means fake
-train_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for text_a, text_b, label in zip(train_a, train_b, y_train_bert)]
+train_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
+                  text_a, text_b, label in zip(train_a, train_b, y_train_bert)]
 
-val_a = concat_sentences(val, range(1, 5))
+val_a = concat_sentences(val, INPUT_SENTENCES)
 val_b = concat_sentences(val, 5)
 y_val_bert = 1 - val.label  # For Bert 0 means true continuation and 1 means fake
-val_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for text_a, text_b, label in zip(val_a, val_b, y_val_bert)]
+val_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
+                text_a, text_b, label in zip(val_a, val_b, y_val_bert)]
+
+if TRAIN_WITH_VAL:
+    train_examples.extend(val_examples)
+
+test_a = concat_sentences(test, INPUT_SENTENCES)
+test_b = concat_sentences(test, 5)
+y_test_bert = 1 - test.label  # For Bert 0 means true continuation and 1 means fake
+test_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
+                 text_a, text_b, label in zip(test_a, test_b, y_test_bert)]
 
 label_list = [0, 1]
 # We'll set sequences to be at most 128 tokens long.
@@ -114,6 +83,8 @@ MAX_SEQ_LENGTH = 128
 # Convert our train and test features to InputFeatures that BERT understands.
 train_features = bert.run_classifier.convert_examples_to_features(train_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
 val_features = bert.run_classifier.convert_examples_to_features(val_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
+test_features = bert.run_classifier.convert_examples_to_features(test_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
+
 
 def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
                  num_labels):
@@ -165,7 +136,8 @@ def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
         per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
         loss = tf.reduce_mean(per_example_loss)
         return (loss, predicted_labels, log_probs)
-        
+
+
 # model_fn_builder actually creates our model function
 # using the passed parameters for num_labels, learning_rate, etc.
 def model_fn_builder(num_labels, learning_rate, num_train_steps,
@@ -262,10 +234,10 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
 
     # Return the actual model function in the closure
     return model_fn
-    
+
+
 # Compute train and warmup steps from batch size
-# These hyperparameters are copied from this colab notebook (https://colab.sandbox.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb)
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 LEARNING_RATE = 2e-5
 NUM_TRAIN_EPOCHS = 3.0
 # Warmup is a period of time where hte learning rate 
@@ -284,33 +256,45 @@ run_config = tf.estimator.RunConfig(
     model_dir='temp/model',
     save_summary_steps=SAVE_SUMMARY_STEPS,
     save_checkpoints_steps=SAVE_CHECKPOINTS_STEPS)
-    
+
 model_fn = model_fn_builder(
-  num_labels=len(label_list),
-  learning_rate=LEARNING_RATE,
-  num_train_steps=num_train_steps,
-  num_warmup_steps=num_warmup_steps)
+    num_labels=len(label_list),
+    learning_rate=LEARNING_RATE,
+    num_train_steps=num_train_steps,
+    num_warmup_steps=num_warmup_steps)
 
 estimator = tf.estimator.Estimator(
-  model_fn=model_fn,
-  config=run_config,
-  params={"batch_size": BATCH_SIZE})
-  
+    model_fn=model_fn,
+    config=run_config,
+    params={"batch_size": BATCH_SIZE})
+
 # Create an input function for training. drop_remainder = True for using TPUs.
 train_input_fn = bert.run_classifier.input_fn_builder(
     features=train_features,
     seq_length=MAX_SEQ_LENGTH,
     is_training=True,
     drop_remainder=False)
-    
-print(f'Beginning Training!')
+
+print('Beginning Training!')
 sys.stdout.flush()
 estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
+print('Beginning Evaluation!')
+sys.stdout.flush()
 val_input_fn = run_classifier.input_fn_builder(
     features=val_features,
     seq_length=MAX_SEQ_LENGTH,
     is_training=False,
     drop_remainder=False)
-    
+
 estimator.evaluate(input_fn=val_input_fn, steps=None)
+
+print('Beginning testing!')
+sys.stdout.flush()
+test_input_fn = run_classifier.input_fn_builder(
+    features=test_features,
+    seq_length=MAX_SEQ_LENGTH,
+    is_training=False,
+    drop_remainder=False)
+
+estimator.evaluate(input_fn=test_input_fn, steps=None)

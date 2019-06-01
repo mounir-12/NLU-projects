@@ -1,10 +1,11 @@
 from functools import reduce
+from typing import Union
 
 import numpy as np
 from tensorflow.keras.preprocessing import sequence
 
 
-def concat_sentences(df, sentences=range(1, 6), sep=' '):
+def concat_sentences(df, sentences: Union[int, range] = range(1, 6), sep=' '):
     """
     Concatenates a subset of the five sentences with "sep"
 
