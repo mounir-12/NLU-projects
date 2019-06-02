@@ -18,7 +18,7 @@ test = pd.read_csv('data/test.csv')
 sys.stdout.flush()
 
 BERT_PATH = os.path.join('data', 'models', 'bert', 'uncased_L-12_H-768_A-12')
-INIT_CHECKPOINT = os.path.join('data', 'models', 'bert', 'bert_model.ckpt')
+INIT_CHECKPOINT = os.path.join(BERT_PATH, 'bert_model.ckpt')
 
 
 # ------------------------------------BERT--------------------------------------------

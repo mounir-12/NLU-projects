@@ -2,7 +2,6 @@ from functools import reduce
 from typing import Union
 
 import numpy as np
-from tensorflow.keras.preprocessing import sequence
 
 
 def concat_sentences(df, sentences: Union[int, range] = range(1, 6), sep=' '):
@@ -30,6 +29,8 @@ def process(df, tokenizer, max_seq_len):
     :param max_seq_len:
     :return: X, the padded, tokenized and "sequencized" sentences and y, the labels
     """
+    from tensorflow.keras.preprocessing import sequence
+
     X = concat_sentences(df)
     y = df.label
 
