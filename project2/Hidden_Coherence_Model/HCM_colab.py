@@ -41,6 +41,8 @@ train = pd.read_csv('data/train_stories.csv')
 val = pd.read_csv('data/cloze_test_val__spring2016 - cloze_test_ALL_val.csv')
 test = pd.read_csv('data/cloze_test_test__spring2016 - cloze_test_ALL_test.csv')
 
+final_test = pd.read_csv('data/test-stories.csv')
+
 train = train.drop("storytitle", axis=1).drop("storyid", axis=1)
 
 val = val.drop("InputStoryid", axis=1)
@@ -413,6 +415,38 @@ y_pred = model.predict(test_features)
 
 print(accuracy_score(y_gt, y_pred))
 
+final_test_stories = get_stories_as_lists(final_test)
+
+print("Extracting final test sentiment features...\n")
+
+a = time.time()
+sentiment_analyzer = SentimentIntensityAnalyzer()
+n = len(final_test_stories)
+test_features = np.zeros((n, 12))
+y_gt = np.zeros(n, dtype = int)
+for i in tqdm(range(n)):
+    story = final_test_stories[i]
+    begining = story[0]
+    body = story[1] + story[2]
+    climax = story[3]
+    option1 = story[4]
+    option2 = story[5]
+    
+    sf = sentiment_features(begining, body, climax, option1, option2, P1, P2, P3, P4, sentiment_analyzer)
+    
+    context = begining + body + climax
+    
+#     tf = topical_consistency(context, option1, option2, encoder)
+    
+#     features[i] = np.concatenate((sf, tf))
+    test_features[i] = sf
+
+print("Done in {} s".format(time.time() - a))
+
+y_pred = model.predict(test_features)
+
+np.savetxt('predictions_s.csv', y_pred, delimiter=',')
+
 
 # In[119]:
 
@@ -595,7 +629,7 @@ with tf.Session() as sess:
                     _,loss = sess.run([model.train_op, model.loss], feed_dict)
                     total_loss+=loss
                     pbar.update(1)
-                print("epoch {}, story {}, loss {}".format(epoch+1, count, total_loss))
+                # print("epoch {}, story {}, loss {}".format(epoch+1, count, total_loss))
     model.save_model(sess, os.path.join(os.getcwd(), 'model.ckpt'))
     
     D = 10
@@ -684,6 +718,44 @@ with tf.Session() as sess:
 
         y_gt[i] = test_answer[i]
 
+    print("Extracting final test features...\n")
+
+    n = len(final_test_stories)
+    final_test_features = np.zeros((n, 3*D+12))
+    for i in tqdm(range(n)):
+        story = final_test_stories[i]
+        begining = story[0]
+        body = story[1] + story[2]
+        climax = story[3]
+        option1 = story[4]
+        option2 = story[5]
+
+        sf = sentiment_features(begining, body, climax, option1, option2, P1, P2, P3, P4, sentiment_analyzer)
+
+
+        context = begining+body+climax
+
+        context_events = []
+        for sentence in context:
+            sentence_pos = nltk.pos_tag(sentence)
+            for word_pos in sentence_pos:
+                if 'NN' in word_pos[1] or 'PR' in word_pos[1] or 'VB' in word_pos[1]:
+                    context_events.append(word_pos[0])
+        option1_events = []
+        sentence_pos = nltk.pos_tag(option1)
+        for word_pos in sentence_pos:
+            if 'NN' in word_pos[1] or 'PR' in word_pos[1] or 'VB' in word_pos[1]:
+                option1_events.append(word_pos[0])
+        option2_events = []
+        sentence_pos = nltk.pos_tag(option2)
+        for word_pos in sentence_pos:
+            if 'NN' in word_pos[1] or 'PR' in word_pos[1] or 'VB' in word_pos[1]:
+                option2_events.append(word_pos[0])
+
+        ef = model.event_features(context_events, option1_events, option2_events, sess, D)
+
+        final_test_features[i] = np.concatenate((sf, ef))
+
 
 # In[ ]:
 
@@ -699,3 +771,7 @@ print("Training accuracy: "+ str(accuracy_score(y+1, y_pred)))
 y_pred = lr_model.predict(test_features)
 
 print("Testing accuracy: "+ str(accuracy_score(y_gt, y_pred)))
+
+y_final_pred = lr_model.predict(final_test_features)
+
+np.savetxt('predictions_es.csv', y_final_pred, delimiter=',')
