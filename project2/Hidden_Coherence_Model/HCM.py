@@ -35,6 +35,7 @@ nltk.download('punkt')
 
 # In[3]:
 
+print("Loading Data...\n")
 
 train = pd.read_csv('data/train_stories.csv')
 val = pd.read_csv('data/cloze_test_val__spring2016 - cloze_test_ALL_val.csv')
@@ -252,6 +253,7 @@ train_stories = get_stories_as_lists(train)
 
 # In[40]:
 
+print("Learning sentiment parameters...\n")
 
 P1, P2, P3, P4 = sentiment_features_train(train_stories)
 
@@ -282,7 +284,7 @@ valid_stories = get_stories_as_lists(val_sentences)
 
 # In[99]:
 
-
+print("Extracting valid sentiment features...\n")
 a = time.time()
 sentiment_analyzer = SentimentIntensityAnalyzer()
 n = len(valid_stories)
@@ -375,6 +377,7 @@ test_stories = get_stories_as_lists(test_sentences)
 
 # In[105]:
 
+print("Extracting test sentiment features...\n")
 
 a = time.time()
 sentiment_analyzer = SentimentIntensityAnalyzer()
@@ -413,6 +416,7 @@ print(accuracy_score(y_gt, y_pred))
 
 # In[119]:
 
+print("Building Corpus and Vocabulary...\n")
 
 vocab_size = 20000
 vocab_file = './vocab.pkl'
@@ -560,6 +564,7 @@ class Model():
 n = len(corpus)
 num_epochs = 2
 model = Model(token2id = token2id, hidden_size=512, embedding_size=100, vocab_size=20000)
+print("Training LSTM language model...\n")
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     with tqdm(total=n*num_epochs) as pbar:
@@ -594,6 +599,8 @@ with tf.Session() as sess:
     model.save_model(sess, os.path.join(os.getcwd(), 'model.ckpt'))
     
     D = 10
+
+    print("Extracting event sequence features...\n")
 
     sentiment_analyzer = SentimentIntensityAnalyzer()
     n = len(valid_stories)
@@ -635,6 +642,8 @@ with tf.Session() as sess:
 
         y[i] = val_answer[i]-1
 
+
+    print("Extracting test features...\n")
 
     n = len(test_stories)
     test_features = np.zeros((n, 3*D+12))
