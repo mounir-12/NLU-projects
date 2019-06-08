@@ -1,0 +1,81 @@
+Sender: LSF System <lsfadmin@lo-s4-024>
+Subject: Job 2143303: <python3 model.py> in cluster <leonhard> Done
+
+Job <python3 model.py> was submitted from host <lo-login-02> by user <mamrani> in cluster <leonhard> at Wed May 29 19:44:52 2019
+Job was executed on host(s) <12*lo-s4-024>, in queue <gpu.24h>, as user <mamrani> in cluster <leonhard> at Wed May 29 19:45:21 2019
+</cluster/home/mamrani> was used as the home directory.
+</cluster/home/mamrani/1.NLU/2.Projects/code+data/project2> was used as the working directory.
+Started at Wed May 29 19:45:21 2019
+Terminated at Wed May 29 22:38:28 2019
+Results reported at Wed May 29 22:38:28 2019
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+python3 model.py
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   8438.71 sec.
+    Max Memory :                                 18065 MB
+    Average Memory :                             15709.99 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               6511.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                64
+    Run time :                                   10407 sec.
+    Turnaround time :                            10416 sec.
+
+The output (if any) follows:
+
+WARNING: Logging before flag parsing goes to stderr.
+W0529 19:45:27.876461 47498395225536 __init__.py:56] Some hub symbols are not available because TensorFlow version is less than 1.14
+76
+66
+66
+x shape: (196312, 76)
+x shape: (3742, 76)
+x shape: (3742, 76)
+
+Creating Tokenizer from hub module...
+Done.
+Testing Tokenizer...
+2019-05-29 19:46:33.186896: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+2019-05-29 19:46:33.500210: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1432] Found device 0 with properties: 
+name: GeForce GTX 1080 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.582
+pciBusID: 0000:0c:00.0
+totalMemory: 10.92GiB freeMemory: 10.77GiB
+2019-05-29 19:46:33.500274: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
+2019-05-29 19:46:35.082066: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-05-29 19:46:35.082117: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0 
+2019-05-29 19:46:35.082127: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N 
+2019-05-29 19:46:35.083302: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10421 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:0c:00.0, compute capability: 6.1)
+Done.
+Loading Bert Module ...
+Data manipulation ...
+Beginning Training!
+
+Entering function with mode train:
+Not Predicting ...
+Training ...
+2019-05-29 19:51:57.907425: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
+2019-05-29 19:51:57.907528: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-05-29 19:51:57.907537: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0 
+2019-05-29 19:51:57.907543: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N 
+2019-05-29 19:51:57.908162: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10421 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:0c:00.0, compute capability: 6.1)
+
+Entering function with mode eval:
+Not Predicting ...
+Evaluating ...
+2019-05-29 22:37:56.303432: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1511] Adding visible gpu devices: 0
+2019-05-29 22:37:56.303506: I tensorflow/core/common_runtime/gpu/gpu_device.cc:982] Device interconnect StreamExecutor with strength 1 edge matrix:
+2019-05-29 22:37:56.303514: I tensorflow/core/common_runtime/gpu/gpu_device.cc:988]      0 
+2019-05-29 22:37:56.303519: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1001] 0:   N 
+2019-05-29 22:37:56.304139: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 10421 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:0c:00.0, compute capability: 6.1)
+/cluster/home/mamrani/.virtualenvs/mp/lib/python3.6/site-packages/tensorflow_gpu-1.12.0-py3.6-linux-x86_64.egg/tensorflow/python/ops/gradients_impl.py:112: UserWarning: Converting sparse IndexedSlices to a dense Tensor of unknown shape. This may consume a large amount of memory.
+  "Converting sparse IndexedSlices to a dense Tensor of unknown shape. "
