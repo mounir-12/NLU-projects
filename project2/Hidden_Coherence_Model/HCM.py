@@ -594,7 +594,7 @@ with tf.Session() as sess:
                                 model.next_word: [next_ind]}
                     _,loss = sess.run([model.train_op, model.loss], feed_dict)
                     total_loss+=loss
-                    pbar.update(1)
+            	pbar.update(1)
                 print("epoch {}, story {}, loss {}".format(epoch+1, count, total_loss))
     model.save_model(sess, os.path.join(os.getcwd(), 'model.ckpt'))
     
