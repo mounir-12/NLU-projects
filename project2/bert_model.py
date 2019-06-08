@@ -18,7 +18,8 @@ test = pd.read_csv('data/test.csv')
 sys.stdout.flush()
 
 BERT_PATH = os.path.join('data', 'models', 'bert', 'uncased_L-12_H-768_A-12')
-INIT_CHECKPOINT = os.path.join(BERT_PATH, 'bert_model.ckpt')
+# INIT_CHECKPOINT = os.path.join(BERT_PATH, 'bert_model.ckpt')
+INIT_CHECKPOINT = os.path.join('data', 'pretraining50k_output', 'model.ckpt-50000')
 
 
 # ------------------------------------BERT--------------------------------------------
@@ -36,11 +37,13 @@ sys.stdout.flush()
 INPUT_SENTENCES = 4  # The sentences used as text_a
 TRAIN_WITH_VAL = True
 
+"""
 train_a = concat_sentences(train, INPUT_SENTENCES)
 train_b = concat_sentences(train, 5)
 y_train_bert = 1 - train.label  # For Bert 0 means true continuation and 1 means fake
 train_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
                   text_a, text_b, label in zip(train_a, train_b, y_train_bert)]
+"""
 
 val_a = concat_sentences(val, INPUT_SENTENCES)
 val_b = concat_sentences(val, 5)
@@ -48,8 +51,10 @@ y_val_bert = 1 - val.label  # For Bert 0 means true continuation and 1 means fak
 val_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
                 text_a, text_b, label in zip(val_a, val_b, y_val_bert)]
 
+"""
 if TRAIN_WITH_VAL:
     train_examples.extend(val_examples)
+"""
 
 test_a = concat_sentences(test, INPUT_SENTENCES)
 test_b = concat_sentences(test, 5)
@@ -62,8 +67,9 @@ label_list = [0, 1]
 MAX_SEQ_LENGTH = 128
 
 # Convert our train and test features to InputFeatures that BERT understands.
-train_features = bert.run_classifier.convert_examples_to_features(train_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
+# train_features = bert.run_classifier.convert_examples_to_features(train_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
 val_features = bert.run_classifier.convert_examples_to_features(val_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
+train_features = val_features
 test_features = bert.run_classifier.convert_examples_to_features(test_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
 
 
@@ -226,12 +232,12 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
 # Compute train and warmup steps from batch size
 BATCH_SIZE = 16
 LEARNING_RATE = 2e-5
-NUM_TRAIN_EPOCHS = 3.0
+NUM_TRAIN_EPOCHS = 5.0
 # Warmup is a period of time where hte learning rate 
 # is small and gradually increases--usually helps training.
 WARMUP_PROPORTION = 0.1
 # Model configs
-SAVE_CHECKPOINTS_STEPS = 500
+SAVE_CHECKPOINTS_STEPS = 1000
 SAVE_SUMMARY_STEPS = 100
 
 # Compute # train and warmup steps from batch size
@@ -240,7 +246,7 @@ num_warmup_steps = int(num_train_steps * WARMUP_PROPORTION)
 
 # Specify outpit directory and number of checkpoint steps to save
 run_config = tf.estimator.RunConfig(
-    model_dir='temp/model',
+    model_dir='temp2/model',
     save_summary_steps=SAVE_SUMMARY_STEPS,
     save_checkpoints_steps=SAVE_CHECKPOINTS_STEPS)
 
@@ -266,6 +272,7 @@ print('Beginning Training!')
 sys.stdout.flush()
 estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
+"""
 print('Beginning Evaluation!')
 sys.stdout.flush()
 val_input_fn = run_classifier.input_fn_builder(
@@ -275,7 +282,7 @@ val_input_fn = run_classifier.input_fn_builder(
     drop_remainder=False)
 
 estimator.evaluate(input_fn=val_input_fn, steps=None)
-
+"""
 print('Beginning testing!')
 sys.stdout.flush()
 test_input_fn = run_classifier.input_fn_builder(
