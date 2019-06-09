@@ -542,7 +542,7 @@ class Model():
                 ind = self.token2id['<unk>']
             option1_ind.append(ind)
         
-        print(option1_ind)
+        # print(option1_ind)
         
         #option 2:
         option2_ind = []
@@ -601,6 +601,8 @@ model = Model(token2id = token2id, hidden_size=512, embedding_size=100, vocab_si
 print("Training LSTM language model...\n")
 with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
+    path = os.path.join(os.getcwd(), 'model.ckpt')
+    model.load_model(sess, path)
     with tqdm(total=n*num_epochs) as pbar:
         for epoch in range(num_epochs):
             count = 0

@@ -508,7 +508,7 @@ class Model():
                 ind = self.token2id['<unk>']
             option1_ind.append(ind)
         
-        print(option1_ind)
+        # print(option1_ind)
         
         #option 2:
         option2_ind = []
