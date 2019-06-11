@@ -1,0 +1,70 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+ \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2017
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2017}
+
+\usepackage[final]{nips_2017}
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+% Choose a title for your submission
+\title{Story Cloze Test}
+
+
+\author{Ali Hosseini \qquad Mounir Amrani \qquad Srikanth Gurram}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+
+% We do not requrire you to write an abstract. Still, if you feel like it, please do so.
+\begin{abstract}
+The Story Cloze Test (Mostafazadeh et al. \cite{cloze}) is a framework that was developed for evaluating story understanding and script learning. In this task, given the first 4 sentences of a story, we are tasked to choose the 5th ending sentence between two possible endings to the story.
+We describe in this paper different Neural Models that we used to solve this task: a BERT Model, a Logistic Regression Model and a Feed-Forward Neural Network (FFNN) Model. Our best performing model was the BERT model with an accuracy of 85.73\% on the test set
+\end{abstract}
+
+\section{Introduction}
+
+You can keep this short. Ideally you introduce the task already in a way that highlights the difficulties your method will tackle.
+
+The Story Cloze Task involves choosing the correct ending from two alternate story endings. The data set is divided threefold train, valid and test. The train set contains only stories with correct endings while valid and test sets contain stories with both the correct and wrong endings. The approaches we use in this paper involve using train set to train language models and other feature extractors while valid set is used to train a classifier to classify ending options right or wrong. Finally, the classifier is evaluated using the test set.
+
+The challenging part about story cloze task is that stories have a narrative sequence that maintains coherence of events, consistency of topics and commonsense. For a model to perform well on story cloze task, it must learn these aspects of stories (explicitly or implicitly). We explore 3 different models in this paper that try to tackle the story cloze task using different approaches.
+
+The second approach involves learning the different aspects of stories explicitly. This is fairly inspired by \cite{hcm} who extract features that pertain to three key aspects of stories: event sequence, sentiment trajectory and topical consistency. The best accuracy reported by \cite{hcm} was 77.6\%. In our second approach, we use best two of the three aspects used by \cite{hcm} namely: event sequence and sentiment trajectory. We explore two alternatives for event sequence using (i) language model to learn sequence of nouns and verbs (ii) using frame annotations. We observe that the former approach is only detrimental to the performance.
+
+\section{Methodology}
+Your idea. You can rename this section if you like. Early on in this section -- but not necessarily first -- make clear what category your method falls into: Is it generative? Discriminative? Is there a particular additional data source you want to use?
+\section{Model}
+The math/architecture of your model. This should formally describe your idea from above. If you really want to, you can merge the two sections.
+\section{Training}
+What is your objective? How do you optimize it?
+
+\section{Experiments}
+This {\bf must} at least include the accuracy of your method on the validation set.
+\section{Conclusion}
+You can keep this short, too.
+
+\pagebreak
+
+\begin{thebibliography}{}
+ 
+\bibitem{cloze} N. Mostafazadeh, N. Chambers, X. He, D. Parikh, D. Batra, L. Vanderwende, P. Kohli, J. Allen (2016): A Corpus and Cloze Evaluation for Deeper Understanding of Commonsense Stories.
+
+
+\end{thebibliography}
+
+\end{document}

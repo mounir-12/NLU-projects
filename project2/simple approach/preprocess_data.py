@@ -4,10 +4,17 @@ import numpy as np
 import h5py
 import utils
 import os, time
+from argparse import ArgumentParser
 
-np.random.seed(5)
+global_seed = 5
 
-VERBOSE = True
+np.random.seed(global_seed)
+
+parser = ArgumentParser()
+parser.add_argument("-v", "--verbose", help="Print more data", action="store_true")
+args = parser.parse_args()
+
+VERBOSE = args.verbose
 DATA_DIR = "./data"
 ENCODED_DATA_DIR = "./encoded_data"
 

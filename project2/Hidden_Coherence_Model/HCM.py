@@ -508,7 +508,7 @@ class Model():
                 ind = self.token2id['<unk>']
             option1_ind.append(ind)
         
-        print(option1_ind)
+        # print(option1_ind)
         
         #option 2:
         option2_ind = []
@@ -594,7 +594,7 @@ with tf.Session() as sess:
                                 model.next_word: [next_ind]}
                     _,loss = sess.run([model.train_op, model.loss], feed_dict)
                     total_loss+=loss
-                    pbar.update(1)
+            	pbar.update(1)
                 print("epoch {}, story {}, loss {}".format(epoch+1, count, total_loss))
     model.save_model(sess, os.path.join(os.getcwd(), 'model.ckpt'))
     
@@ -699,4 +699,3 @@ print("Training accuracy: "+ str(accuracy_score(y+1, y_pred)))
 y_pred = lr_model.predict(test_features)
 
 print("Testing accuracy: "+ str(accuracy_score(y_gt, y_pred)))
-

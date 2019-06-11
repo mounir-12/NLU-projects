@@ -2,7 +2,8 @@ import numpy as np
 import time, datetime
 import math
 
-np.random.seed(5)
+global_seed = 5
+np.random.seed(global_seed)
 
 def timestamp():
     return datetime.datetime.fromtimestamp(time.time()).strftime("%Y.%m.%d-%H:%M:%S")
