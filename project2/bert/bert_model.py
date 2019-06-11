@@ -18,7 +18,9 @@ parser.add_argument('-trf', '--train-file', type=str, default=os.path.join('data
 parser.add_argument('-vf', '--val-file', type=str, default=os.path.join('data', 'test.csv'),
                     help='Path (file) containing evaluation data.')
 parser.add_argument('-tsf', '--test-file', type=str, default=os.path.join('data', 'test.csv'),
-                    help='Path (file) containing test data on which prediction will be run.')
+                    help='Path (file) containing labeled test data on which prediction will be run.')
+parser.add_argument('-pf', '--predict-file', type=str, default=os.path.join('data', 'predict.csv'),
+                    help='Path (file) containing unlabeled data on which prediction will be run.')
 
 parser.add_argument('-bp', '--bert-path', type=str,
                     default=os.path.join('data', 'models', 'bert', 'uncased_L-12_H-768_A-12'),
@@ -34,13 +36,14 @@ parser.add_argument("-bs", "--batch-size", type=int, default=16,
 parser.add_argument("-e", "--epochs", type=int, default=5,
                     help="Training epochs")
 
-parser.add_argument('-m', "--modes", nargs="+", choices=['train', 'eval', 'predict'],
-                    default=['train', 'eval', 'predict'])
+parser.add_argument('-m', "--modes", nargs="+", choices=['train', 'eval', 'test', 'predict'],
+                    default=['train', 'eval', 'test', 'predict'])
 
 parser.add_argument("-rs", "--random-seed", type=int, default=9,
                     help="Random seed")
 
 args = parser.parse_args()
+
 
 modes = args.modes
 
@@ -60,7 +63,6 @@ label_list = [0, 1]  # 0 means the fifth sentence is the true continuation, 1 me
 MAX_SEQ_LENGTH = 128  # We'll set sequences to be at most 128 tokens (word pieces) long.
 
 INPUT_SENTENCES = 4  # The sentences used as text_a
-TRAIN_WITH_VAL = False
 
 print("Data manipulation ...")
 
@@ -89,13 +91,14 @@ if args.train_file and 'train' in modes:
     print("Reading train file:", args.train_file)
     train = pd.read_csv(args.train_file)
     train_examples, train_features = bert_data(train)
-    if TRAIN_WITH_VAL:
-        raise NotImplementedError("Please give me some time to implement it")
-if args.test_file and 'predict' in modes:
+if args.test_file and 'test' in modes:
     print("Reading test file:", args.test_file)
     test = pd.read_csv(args.test_file)
     test_examples, test_features = bert_data(test)
-
+if args.predict_file and 'predict' in modes:
+    print("Reading predictions file:", args.predict_file)
+    pred = pd.read_csv(args.predict_file)
+    pred_examples, pred_features = bert_data(pred)   
 
 def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
                  num_labels):
@@ -103,11 +106,11 @@ def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
     bert_config = bert.modeling.BertConfig.from_json_file(os.path.join(BERT_PATH, 'bert_config.json'))
     model = bert.modeling.BertModel(
         config=bert_config,
-        is_training=not is_predicting,  # TODO Check this
+        is_training=not is_predicting,
         input_ids=input_ids,
         input_mask=input_mask,
         token_type_ids=segment_ids,
-        use_one_hot_embeddings=True)  # TODO Check this
+        use_one_hot_embeddings=True)
 
     # Use "pooled_output" for classification tasks on an entire sentence.
     # Use "sequence_outputs" for token-level output.
@@ -315,8 +318,8 @@ if 'eval' in modes:
 
     print("Eval results:\n", estimator.evaluate(input_fn=val_input_fn, steps=None))
 
-if 'predict' in modes:
-    print('Beginning prediction!')
+if 'test' in modes:
+    print('Beginning Testing!')
 
     test_input_fn = run_classifier.input_fn_builder(
         features=test_features,
@@ -332,5 +335,20 @@ if 'predict' in modes:
 
     choice_acc, class_acc = accuracy(preds_df)
     print("Test choice accuracy: {}, test classification accuracy: {}".format(choice_acc, class_acc))
+
+if 'predict' in modes:
+    print('Beginning prediction!')
+
+    pred_input_fn = run_classifier.input_fn_builder(
+        features=pred_features,
+        seq_length=MAX_SEQ_LENGTH,
+        is_training=False,
+        drop_remainder=False)
+
+    predictions = list(estimator.predict(input_fn=pred_input_fn))
+    preds = [(id, prediction['probabilities'][0], prediction['probabilities'][1]) for id, prediction in
+             zip(pred.InputStoryid.values, predictions)]
+    preds_df = pd.DataFrame(preds, columns=['id', 'log_prob_true', 'log_prob_fake'])
+    preds_df.to_csv(os.path.join(args.output_path, 'predictions.csv'), index=False)
 
 sys.stdout.flush()
