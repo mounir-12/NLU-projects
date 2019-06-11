@@ -2,9 +2,9 @@ In order to run this model, install python3 and all the required libraries as me
 
 In case the code is being run on a cluster, run the following before submitting a job:
 
-python3 nltk.download('vader_lexicon')
-python3 nltk.download('averaged_perceptron_tagger')
-python3 nltk.download('punkt')
+python3 -m nltk.downloader vader_lexicon
+python3 -m nltk.downloader averaged_perceptron_tagger
+python3 -m nltk.downloader punkt
 
 The main code is executed by the command:
 
