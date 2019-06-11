@@ -7,9 +7,11 @@ column_names = ["InputStoryid","sentence1","sentence2","sentence3","sentence4","
 
 df_ending_1 = df.drop("RandomFifthSentenceQuiz2", axis=1)
 df_ending_1.columns = column_names
+df_ending_1['label'] = 1
 
 df_ending_2 = df.drop("RandomFifthSentenceQuiz1", axis=1)
 df_ending_2.columns = column_names
+df_ending_2['label'] = 2
 
 concat = pd.concat([df_ending_1, df_ending_2])
 

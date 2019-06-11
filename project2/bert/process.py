@@ -70,3 +70,24 @@ def accuracy(preds):
     class_acc = (preds.label == preds_probs.idxmax(axis=1)).mean()
 
     return choice_acc, class_acc
+
+
+def prediction_choice(preds):
+    """
+
+    :param preds:
+    :return: Choice accuracy: the accuracy of choosing the right story ending
+             Classification accuracy: the accuracy of classifying each ending as either correct or not
+    """
+    grouped = preds.groupby('id')
+
+    choices = []
+    for storyid, group in grouped:
+        one_prob_true = group.loc[group.label == 1].log_prob_true.values[0]
+        two_prob_true = group.loc[group.label == 2].log_prob_true.values[0]
+        if one_prob_true > two_prob_true:
+            choices.append(1)
+        else:
+            choices.append(2)
+
+    return choices
