@@ -30,6 +30,7 @@ The required data files files are:
   - `ROCStories_winter2017 - ROCStories_winter2017.csv`
 - validation file: `cloze_test_val__spring2016 - cloze_test_ALL_val.csv`
 - test file: `cloze_test_test__spring2016 - cloze_test_ALL_test.csv`
+- prediction file: `test-stories.csv`
 
 As you can see, we collected additional training data from the Story Cloze website: http://cs.rochester.edu/nlp/rocstories/
 
@@ -50,6 +51,11 @@ This will allow you to get the files required later for the training process:
 - `test.csv`
 
 Those will be generated under `./data/`.
+
+To generate the `predict.csv` file required for predictions on the unlabeled data, run the following:
+```
+python3 create_pretraining_data.py
+```
  
 #### Pre-training
 You can run the pre-training on the training data set using the following command:
@@ -73,4 +79,4 @@ To **train, validate, test and predict**, simply run:
 python3 bert_model.py
 ```
 
-After the training is completed, the model will be evaluated on the test set
+After the training is completed, the model will be evaluated on the test set and predictions will be run on the appropriate file.
