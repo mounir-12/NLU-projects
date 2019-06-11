@@ -30,6 +30,7 @@ The required data files files are:
   - `ROCStories_winter2017 - ROCStories_winter2017.csv`
 - validation file: `cloze_test_val__spring2016 - cloze_test_ALL_val.csv`
 - test file: `cloze_test_test__spring2016 - cloze_test_ALL_test.csv`
+- prediction file: `test-stories.csv`
 
 As you can see, we collected additional training data from the Story Cloze website: http://cs.rochester.edu/nlp/rocstories/
 
@@ -40,16 +41,27 @@ Please unzip it under `./data/models/bert/uncased_L-12_H-768_A-12/`.
 
 https://github.com/google-research/bert
 
-### Preprocess data
-All the data is preprocessed and generated from the `data.ipynb` notebook. 
-
 ### Run
 
+#### Preprocess data
+All the data is preprocessed and generated from the `data.ipynb` notebook. 
+This will allow you to get the files required later for the training process:
+- `bert_corpus.tfrecord`
+- `val.csv`
+- `test.csv`
+
+Those will be generated under `./data/`.
+
+To generate the `predict.csv` file required for predictions on the unlabeled data, run the following:
+```
+python3 create_pretraining_data.py
+```
+ 
 #### Pre-training
 You can run the pre-training on the training data set using the following command:
 ```
-python run_pretraining.py 
-    \ --input_file=data/bert_corpus.tfrecord -
+python3 run_pretraining.py 
+    \ --input_file=data/bert_corpus.tfrecord
     \ -output_dir=data/pretraining50k_output 
     \ --do_train=True 
     \ --do_eval=True 
@@ -59,8 +71,6 @@ python run_pretraining.py
     \ --num_train_steps=50000 --num_warmup_steps=5000 --learning_rate=2e-5
 ```
 
-The code to generate the `bert_corpus.tfrecord` file is inside the Jupyter notebook.
-
 #### Finetuning
 We only use the validation data for finetuning. The file `bert_model.py` can be used to train a model and predict on the prediction set.
 
@@ -69,4 +79,4 @@ To **train, validate, test and predict**, simply run:
 python3 bert_model.py
 ```
 
-After the training is completed, the model will be evaluated on the test set
+After the training is completed, the model will be evaluated on the test set and predictions will be run on the appropriate file.

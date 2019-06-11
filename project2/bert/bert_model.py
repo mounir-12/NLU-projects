@@ -9,7 +9,7 @@ import pandas as pd
 import tensorflow as tf
 from bert import run_classifier
 # --------------------------------------------------Data---------------------------------------
-from process import concat_sentences, accuracy
+from process import concat_sentences, accuracy, prediction_choice
 
 parser = ArgumentParser()
 
@@ -33,7 +33,7 @@ parser.add_argument('-op', '--output-path', type=str, required=True,
 
 parser.add_argument("-bs", "--batch-size", type=int, default=16,
                     help="Train batch size")
-parser.add_argument("-e", "--epochs", type=int, default=5,
+parser.add_argument("-e", "--epochs", type=int, default=20,
                     help="Training epochs")
 
 parser.add_argument('-m', "--modes", nargs="+", choices=['train', 'eval', 'test', 'predict'],
@@ -73,10 +73,18 @@ def bert_data(df):
     ids = df.InputStoryid
     texts_a = concat_sentences(df, INPUT_SENTENCES)
     texts_b = concat_sentences(df, 5)
-    y_bert = 1 - df.label  # For Bert 0 means true continuation and 1 means fake
 
-    examples = [bert.run_classifier.InputExample(id, text_a=text_a, text_b=text_b, label=label) for
-                id, text_a, text_b, label in zip(ids, texts_a, texts_b, y_bert)]
+    if 'label' in df:
+        y_bert = 1 - df.label  # For Bert 0 means true continuation and 1 means fake
+    else:
+        y_bert = None
+
+    if 'label' in df:
+        examples = [bert.run_classifier.InputExample(id, text_a=text_a, text_b=text_b, label=label) for
+                    id, text_a, text_b, label in zip(ids, texts_a, texts_b, y_bert)]
+    else:
+        examples = [bert.run_classifier.InputExample(id, text_a=text_a, text_b=text_b) for
+                    id, text_a, text_b in zip(ids, texts_a, texts_b)]
     # Convert our examples to InputFeatures that BERT understands.
     features = bert.run_classifier.convert_examples_to_features(examples, label_list, MAX_SEQ_LENGTH, tokenizer)
 
@@ -99,6 +107,7 @@ if args.predict_file and 'predict' in modes:
     print("Reading predictions file:", args.predict_file)
     pred = pd.read_csv(args.predict_file)
     pred_examples, pred_features = bert_data(pred)   
+
 
 def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
                  num_labels):
@@ -331,7 +340,7 @@ if 'test' in modes:
     preds = [(id, label, prediction['probabilities'][0], prediction['probabilities'][1]) for id, label, prediction in
              zip(test.InputStoryid.values, test.label.values, predictions)]
     preds_df = pd.DataFrame(preds, columns=['id', 'label', 'log_prob_true', 'log_prob_fake'])
-    preds_df.to_csv(os.path.join(args.output_path, 'predictions.csv'), index=False)
+    preds_df.to_csv(os.path.join(args.output_path, 'test_predictions.csv'), index=False)
 
     choice_acc, class_acc = accuracy(preds_df)
     print("Test choice accuracy: {}, test classification accuracy: {}".format(choice_acc, class_acc))
@@ -346,9 +355,12 @@ if 'predict' in modes:
         drop_remainder=False)
 
     predictions = list(estimator.predict(input_fn=pred_input_fn))
-    preds = [(id, prediction['probabilities'][0], prediction['probabilities'][1]) for id, prediction in
-             zip(pred.InputStoryid.values, predictions)]
-    preds_df = pd.DataFrame(preds, columns=['id', 'log_prob_true', 'log_prob_fake'])
-    preds_df.to_csv(os.path.join(args.output_path, 'predictions.csv'), index=False)
+    preds = [(id, label, prediction['probabilities'][0], prediction['probabilities'][1]) for id, label, prediction in
+             zip(pred.InputStoryid.values, pred.label.values, predictions)]
+    preds_df = pd.DataFrame(preds, columns=['id', 'label', 'log_prob_true', 'log_prob_fake'])
+    choices = prediction_choice(preds_df)
+
+    with open(os.path.join('data', 'predictions.csv'), 'wt') as f:
+        f.write('\n'.join(str(choice) for choice in choices))
 
 sys.stdout.flush()
