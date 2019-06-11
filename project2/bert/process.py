@@ -43,3 +43,30 @@ def process(df, tokenizer, max_seq_len):
     y = np.array(y)
 
     return X, y
+
+
+def accuracy(preds):
+    """
+
+    :param preds:
+    :return: Choice accuracy: the accuracy of choosing the right story ending
+             Classification accuracy: the accuracy of classifying each ending as either correct or not
+    """
+    grouped = preds.groupby('id')
+
+    choices = []
+    for storyid, group in grouped:
+        true_prob_true = group.loc[group.label == 1].log_prob_true.values[0]
+        fake_prob_true = group.loc[group.label == 0].log_prob_true.values[0]
+        if true_prob_true > fake_prob_true:
+            choices.append(1)
+        else:
+            choices.append(0)
+
+    choice_acc = sum(choices) / len(choices)
+
+    preds_probs = preds[['log_prob_fake', 'log_prob_true']]
+    preds_probs.columns = np.arange(len(preds_probs.columns))
+    class_acc = (preds.label == preds_probs.idxmax(axis=1)).mean()
+
+    return choice_acc, class_acc
