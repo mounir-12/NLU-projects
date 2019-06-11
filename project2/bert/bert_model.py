@@ -1,76 +1,100 @@
 import os
+import random
 import sys
+from argparse import ArgumentParser
 
 import bert
+import numpy as np
 import pandas as pd
 import tensorflow as tf
 from bert import run_classifier
-
 # --------------------------------------------------Data---------------------------------------
-from process import concat_sentences
+from process import concat_sentences, accuracy
+
+parser = ArgumentParser()
+
+parser.add_argument('-trf', '--train-file', type=str, default=os.path.join('data', 'val.csv'),
+                    help='Path (file) containing training data.')
+parser.add_argument('-vf', '--val-file', type=str, default=os.path.join('data', 'test.csv'),
+                    help='Path (file) containing evaluation data.')
+parser.add_argument('-tsf', '--test-file', type=str, default=os.path.join('data', 'test.csv'),
+                    help='Path (file) containing test data on which prediction will be run.')
+
+parser.add_argument('-bp', '--bert-path', type=str,
+                    default=os.path.join('data', 'models', 'bert', 'uncased_L-12_H-768_A-12'),
+                    help='Path (directory) containing Bert model. Should contain at least the vocab and config files.')
+parser.add_argument('-cp', '--checkpoint-path', type=str,
+                    default=os.path.join('data', 'pretraining50k_output', 'model.ckpt-50000'),
+                    help='TF checkpoint. Can be a pretrained or finetuned Bert model.')
+parser.add_argument('-op', '--output-path', type=str, required=True,
+                    help='Path of output files.')
+
+parser.add_argument("-bs", "--batch-size", type=int, default=16,
+                    help="Train batch size")
+parser.add_argument("-e", "--epochs", type=int, default=5,
+                    help="Training epochs")
+
+parser.add_argument('-m', "--modes", nargs="+", choices=['train', 'eval', 'predict'],
+                    default=['train', 'eval', 'predict'])
+
+parser.add_argument("-rs", "--random-seed", type=int, default=9,
+                    help="Random seed")
+
+args = parser.parse_args()
+
+modes = args.modes
+
+random.seed(args.random_seed)
+tf.set_random_seed(args.random_seed)
+np.random.seed(args.random_seed)
+
+os.makedirs(args.output_path, exist_ok=True)
+
+BERT_PATH = args.bert_path
+# INIT_CHECKPOINT = os.path.join(BERT_PATH, 'bert_model.ckpt')
+INIT_CHECKPOINT = args.checkpoint_path
 
 # tf.logging.set_verbosity(tf.logging.ERROR)
 
-train = pd.read_csv('data/train.csv')
-val = pd.read_csv('data/val.csv')
-test = pd.read_csv('data/test.csv')
-
-sys.stdout.flush()
-
-BERT_PATH = os.path.join('data', 'models', 'bert', 'uncased_L-12_H-768_A-12')
-# INIT_CHECKPOINT = os.path.join(BERT_PATH, 'bert_model.ckpt')
-INIT_CHECKPOINT = os.path.join('data', 'pretraining50k_output', 'model.ckpt-50000')
-
-
-# ------------------------------------BERT--------------------------------------------
-def create_tokenizer():
-    """Get the vocab file from disk."""
-    return bert.tokenization.FullTokenizer(vocab_file=os.path.join(BERT_PATH, 'vocab.txt'), do_lower_case=True)
-
-
-# tokenizer = create_tokenizer_from_hub_module()
-tokenizer = create_tokenizer()
-
-print("Data manipulation ...")
-sys.stdout.flush()
+label_list = [0, 1]  # 0 means the fifth sentence is the true continuation, 1 means it isn't
+MAX_SEQ_LENGTH = 128  # We'll set sequences to be at most 128 tokens (word pieces) long.
 
 INPUT_SENTENCES = 4  # The sentences used as text_a
-TRAIN_WITH_VAL = True
+TRAIN_WITH_VAL = False
 
-"""
-train_a = concat_sentences(train, INPUT_SENTENCES)
-train_b = concat_sentences(train, 5)
-y_train_bert = 1 - train.label  # For Bert 0 means true continuation and 1 means fake
-train_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
-                  text_a, text_b, label in zip(train_a, train_b, y_train_bert)]
-"""
+print("Data manipulation ...")
 
-val_a = concat_sentences(val, INPUT_SENTENCES)
-val_b = concat_sentences(val, 5)
-y_val_bert = 1 - val.label  # For Bert 0 means true continuation and 1 means fake
-val_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
-                text_a, text_b, label in zip(val_a, val_b, y_val_bert)]
+tokenizer = bert.tokenization.FullTokenizer(vocab_file=os.path.join(BERT_PATH, 'vocab.txt'), do_lower_case=True)
 
-"""
-if TRAIN_WITH_VAL:
-    train_examples.extend(val_examples)
-"""
 
-test_a = concat_sentences(test, INPUT_SENTENCES)
-test_b = concat_sentences(test, 5)
-y_test_bert = 1 - test.label  # For Bert 0 means true continuation and 1 means fake
-test_examples = [bert.run_classifier.InputExample(None, text_a=text_a, text_b=text_b, label=label) for
-                 text_a, text_b, label in zip(test_a, test_b, y_test_bert)]
+def bert_data(df):
+    ids = df.InputStoryid
+    texts_a = concat_sentences(df, INPUT_SENTENCES)
+    texts_b = concat_sentences(df, 5)
+    y_bert = 1 - df.label  # For Bert 0 means true continuation and 1 means fake
 
-label_list = [0, 1]
-# We'll set sequences to be at most 128 tokens long.
-MAX_SEQ_LENGTH = 128
+    examples = [bert.run_classifier.InputExample(id, text_a=text_a, text_b=text_b, label=label) for
+                id, text_a, text_b, label in zip(ids, texts_a, texts_b, y_bert)]
+    # Convert our examples to InputFeatures that BERT understands.
+    features = bert.run_classifier.convert_examples_to_features(examples, label_list, MAX_SEQ_LENGTH, tokenizer)
 
-# Convert our train and test features to InputFeatures that BERT understands.
-# train_features = bert.run_classifier.convert_examples_to_features(train_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
-val_features = bert.run_classifier.convert_examples_to_features(val_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
-train_features = val_features
-test_features = bert.run_classifier.convert_examples_to_features(test_examples, label_list, MAX_SEQ_LENGTH, tokenizer)
+    return examples, features
+
+
+if args.val_file and 'eval' in modes:
+    print("Reading val file:", args.val_file)
+    val = pd.read_csv(args.val_file)
+    val_examples, val_features = bert_data(val)
+if args.train_file and 'train' in modes:
+    print("Reading train file:", args.train_file)
+    train = pd.read_csv(args.train_file)
+    train_examples, train_features = bert_data(train)
+    if TRAIN_WITH_VAL:
+        raise NotImplementedError("Please give me some time to implement it")
+if args.test_file and 'predict' in modes:
+    print("Reading test file:", args.test_file)
+    test = pd.read_csv(args.test_file)
+    test_examples, test_features = bert_data(test)
 
 
 def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
@@ -148,6 +172,7 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
                 is_predicting, input_ids, input_mask, segment_ids, label_ids, num_labels)
 
             tvars = tf.trainable_variables()
+            print('Loading checkpoint:', INIT_CHECKPOINT)
             (assignment_map, initialized_variable_names) = bert.modeling.get_assignment_map_from_checkpoint(tvars,
                                                                                                             INIT_CHECKPOINT)
             tf.train.init_from_checkpoint(INIT_CHECKPOINT, assignment_map)
@@ -229,11 +254,12 @@ def model_fn_builder(num_labels, learning_rate, num_train_steps,
     return model_fn
 
 
+print("Preparing model...")
+
 # Compute train and warmup steps from batch size
-BATCH_SIZE = 16
+BATCH_SIZE = args.batch_size
 LEARNING_RATE = 2e-5
-NUM_TRAIN_EPOCHS = 5.0
-# Warmup is a period of time where hte learning rate 
+# Warmup is a period of time where hte learning rate
 # is small and gradually increases--usually helps training.
 WARMUP_PROPORTION = 0.1
 # Model configs
@@ -241,12 +267,17 @@ SAVE_CHECKPOINTS_STEPS = 1000
 SAVE_SUMMARY_STEPS = 100
 
 # Compute # train and warmup steps from batch size
-num_train_steps = int(len(train_features) / BATCH_SIZE * NUM_TRAIN_EPOCHS)
+if 'train' in modes:
+    num_train_steps = int(len(train_features) / BATCH_SIZE * args.epochs)
+else:
+    # We aren't training so we don't care about the value
+    num_train_steps = 1
+
 num_warmup_steps = int(num_train_steps * WARMUP_PROPORTION)
 
-# Specify outpit directory and number of checkpoint steps to save
+# Specify output directory and number of checkpoint steps to save
 run_config = tf.estimator.RunConfig(
-    model_dir='temp2/model',
+    model_dir=args.output_path,
     save_summary_steps=SAVE_SUMMARY_STEPS,
     save_checkpoints_steps=SAVE_CHECKPOINTS_STEPS)
 
@@ -261,34 +292,45 @@ estimator = tf.estimator.Estimator(
     config=run_config,
     params={"batch_size": BATCH_SIZE})
 
-# Create an input function for training. drop_remainder = True for using TPUs.
-train_input_fn = bert.run_classifier.input_fn_builder(
-    features=train_features,
-    seq_length=MAX_SEQ_LENGTH,
-    is_training=True,
-    drop_remainder=False)
+if 'train' in modes:
+    print('Beginning Training!')
 
-print('Beginning Training!')
+    # Create an input function for training. drop_remainder = True for using TPUs.
+    train_input_fn = bert.run_classifier.input_fn_builder(
+        features=train_features,
+        seq_length=MAX_SEQ_LENGTH,
+        is_training=True,
+        drop_remainder=False)
+
+    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+
+if 'eval' in modes:
+    print('Beginning Evaluation!')
+
+    val_input_fn = run_classifier.input_fn_builder(
+        features=val_features,
+        seq_length=MAX_SEQ_LENGTH,
+        is_training=False,
+        drop_remainder=False)
+
+    print("Eval results:\n", estimator.evaluate(input_fn=val_input_fn, steps=None))
+
+if 'predict' in modes:
+    print('Beginning prediction!')
+
+    test_input_fn = run_classifier.input_fn_builder(
+        features=test_features,
+        seq_length=MAX_SEQ_LENGTH,
+        is_training=False,
+        drop_remainder=False)
+
+    predictions = list(estimator.predict(input_fn=test_input_fn))
+    preds = [(id, label, prediction['probabilities'][0], prediction['probabilities'][1]) for id, label, prediction in
+             zip(test.InputStoryid.values, test.label.values, predictions)]
+    preds_df = pd.DataFrame(preds, columns=['id', 'label', 'log_prob_true', 'log_prob_fake'])
+    preds_df.to_csv(os.path.join(args.output_path, 'predictions.csv'), index=False)
+
+    choice_acc, class_acc = accuracy(preds_df)
+    print("Test choice accuracy: {}, test classification accuracy: {}".format(choice_acc, class_acc))
+
 sys.stdout.flush()
-estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
-
-"""
-print('Beginning Evaluation!')
-sys.stdout.flush()
-val_input_fn = run_classifier.input_fn_builder(
-    features=val_features,
-    seq_length=MAX_SEQ_LENGTH,
-    is_training=False,
-    drop_remainder=False)
-
-estimator.evaluate(input_fn=val_input_fn, steps=None)
-"""
-print('Beginning testing!')
-sys.stdout.flush()
-test_input_fn = run_classifier.input_fn_builder(
-    features=test_features,
-    seq_length=MAX_SEQ_LENGTH,
-    is_training=False,
-    drop_remainder=False)
-
-estimator.evaluate(input_fn=test_input_fn, steps=None)
