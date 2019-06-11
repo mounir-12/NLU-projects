@@ -39,7 +39,7 @@ print("Loading Data...\n")
 
 train = pd.read_csv('data/train_stories.csv')
 val = pd.read_csv('data/cloze_test_val__spring2016 - cloze_test_ALL_val.csv')
-test = pd.read_csv('data/cloze_test_test__spring2016 - cloze_test_ALL_test.csv')
+test = pd.read_csv('data/test_for_report-stories_labels.csv')
 
 final_test = pd.read_csv('data/test-stories.csv')
 

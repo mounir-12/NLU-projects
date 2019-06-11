@@ -20,6 +20,14 @@ Install pip requirements
 pip install -r requirements.txt
 ```
 
+### Data
+Please put all the project's csv files under `./data/`
+The provided files are:
+- training set: train_stories.csv
+- validation set: cloze_test_val__spring2016 - cloze_test_ALL_val.csv
+- test set: test_for_report-stories_labels.csv
+- predictions set: test-stories.csv
+
 # Running
 
 In case the code is being run on a cluster, run the following before submitting a job:
