@@ -84,7 +84,7 @@ def prediction_choice(preds):
     choices = []
     for storyid, group in grouped:
         one_prob_true = group.loc[group.label == 1].log_prob_true.values[0]
-        two_prob_true = group.loc[group.label == 2].log_prob_true.values[0]
+        two_prob_true = group.loc[group.label == 0].log_prob_true.values[0]
         if one_prob_true > two_prob_true:
             choices.append(1)
         else:
