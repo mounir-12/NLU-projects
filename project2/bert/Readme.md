@@ -44,13 +44,18 @@ https://github.com/google-research/bert
 ### Run
 
 #### Preprocess data
-All the data is preprocessed and generated from the `data.ipynb` notebook. 
+All the data is preprocessed and generated from the `data.ipynb` notebook.
 This will allow you to get the files required later for the training process:
 - `bert_corpus.tfrecord`
 - `val.csv`
 - `test.csv`
 
 Those will be generated under `./data/`.
+
+If you want to play it quick, you can run the script version:
+```
+python3 data.py
+```
 
 To generate the `predict.csv` file required for predictions on the unlabeled data, run the following:
 ```
@@ -80,3 +85,7 @@ python3 bert_model.py
 ```
 
 After the training is completed, the model will be evaluated on the test set and predictions will be run on the appropriate file.
+
+## Model files
+Because they can be easily generated, the model files have not been provided.
+However, the authors of this work are ready to provide them free of charge if you want to avoid the hassle of running anything. Please ask in case of need.
