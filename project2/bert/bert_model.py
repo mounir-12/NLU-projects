@@ -355,9 +355,9 @@ if 'predict' in modes:
         drop_remainder=False)
 
     predictions = list(estimator.predict(input_fn=pred_input_fn))
-    preds = [(id, prediction['probabilities'][0], prediction['probabilities'][1]) for id, prediction in
-             zip(pred.InputStoryid.values, predictions)]
-    preds_df = pd.DataFrame(preds, columns=['id', 'log_prob_true', 'log_prob_fake'])
+    preds = [(id, label, prediction['probabilities'][0], prediction['probabilities'][1]) for id, label, prediction in
+             zip(pred.InputStoryid.values, pred.label.values, predictions)]
+    preds_df = pd.DataFrame(preds, columns=['id', 'label', 'log_prob_true', 'log_prob_fake'])
     choices = prediction_choice(preds_df)
 
     with open(os.path.join('data', 'predictions.csv'), 'wt') as f:
