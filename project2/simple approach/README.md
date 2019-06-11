@@ -60,7 +60,7 @@ The file `train_predict_sa.py` can be used to train a model and predict on the p
 Every epoch, the train, validation and test accuracies are computed and the model's new weights are saved if the model achieves better validation accuracy than in the previous epochs.
 After training, the best model weights are reloaded and prediction is done using these weights.
 
-To **train, validate, test and predict**, simply run:
+To **train, validate, test and predict** the default model, simply run:
 ```
 python3 train_predict_sa.py
 ```
@@ -78,3 +78,10 @@ Use the option -st to skip training
 Use the option -s to use as input to the network the sum of the last contex sentence with the story ending instead of their concatenation
 Use the option -v for some more verbosity (used for dev)
 
+## Predictions
+
+The included `predictions.csv` contains the chosen story ending (1 or 2) of the default model i,e model with concatenated sentences, 0.3 dropout, run for 50 epochs with learning rate 0.001 and batch_size 32
+The model can be run as described above by simply running:
+```
+python3 train_predict_sa.py
+```
