@@ -8,9 +8,16 @@ from keras.layers import Dense, Dropout
 from sklearn.metrics import accuracy_score as accuracy
 import utils
 
+global_seed = 5
+
 class ANN:
     def __init__(self, summed=False, dropout_rate=0.0, learning_rate=0.001):
     
+        # fix seeds and set session (for keras reproducibility)
+        np.random.seed(global_seed)
+        tf.set_random_seed(global_seed)
+        self.sess = tf.Session(graph=tf.get_default_graph())
+        K.set_session(self.sess)
         print("Dropout {}, Learning_rate: {}".format(dropout_rate, learning_rate))
         model = Sequential()
         if not summed: # if last sentence concatenated with ending, then the input has 9600 dims
@@ -62,7 +69,7 @@ class ANN:
 class WriterSaverCallback(keras.callbacks.Callback):
     def __init__(self, ann, train_inputs, train_answers, valid_inputs, valid_answers, test_inputs, test_answers, LOG_DIR):
         print("\nInitializing Writer ...\n")
-        self.writer = tf.summary.FileWriter(LOG_DIR, K.get_session().graph)
+        self.writer = tf.summary.FileWriter(LOG_DIR, ann.sess.graph)
         
         self.train_loss_pl = tf.placeholder(dtype=tf.float32)
         self.valid_loss_pl = tf.placeholder(dtype=tf.float32)
@@ -123,7 +130,7 @@ class WriterSaverCallback(keras.callbacks.Callback):
         print("   Test Accuracy: {}".format(test_acc))
         print("\n")
         
-        sess = K.get_session()
+        sess = self.ann.sess
         summary = sess.run(self.summary, {self.train_loss_pl: train_loss,
                                       self.valid_loss_pl: valid_loss,
                                       self.train_accuracy_pl: train_acc,

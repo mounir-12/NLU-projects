@@ -6,21 +6,46 @@ import time, gc, os, sys, glob
 import tensorflow as tf
 from sklearn.metrics import accuracy_score as accuracy
 from keras.models import load_model
+from keras import backend as K
+from argparse import ArgumentParser
 
 from model_sa import ANN
 
+global_seed = 5
+
 print("\nFixing seeds ...")
-tf.set_random_seed(5)
-np.random.seed(5)
+tf.set_random_seed(global_seed)
+np.random.seed(global_seed)
 
-SUM_LAST_WITH_ENDING=False
-DROPOUT=0.2
-NUM_EPOCHS=100
-BATCH_SIZE=32
-LEARNING_RATE=0.001
-SKIP_TRAINING=False # when true, directly loads the final trained model and predicts using it
+parser = ArgumentParser()
 
-VERBOSE = True
+parser.add_argument("-bs", "--batch_size", type=int, default=32,
+                    help="Batch size")
+parser.add_argument("-e", "--epochs", type=int, default=50,
+                    help="Training epochs")
+parser.add_argument("-d", "--dropout", type=float, default=0.3,
+                    help="The dropout rate, must be in [0.0, 1.0], 0.0 meaning no dropout")
+parser.add_argument("-lr", "--learning_rate", type=float, default=0.001,
+                    help="The learning rate for Adam Optimizer")
+parser.add_argument("-v", "--verbose", help="Print more data", action="store_true")
+parser.add_argument("-s", "--sum", help="Use sum of last contex sentence with story ending as input to the network (otherwise use their concatenation)", action="store_true")
+parser.add_argument("-st", "--skip_training", help="Skip Training step and directly predict on the last trained model", action="store_true")
+
+args = parser.parse_args()
+
+assert (args.dropout >= 0.0 and args.dropout <= 1.0), "Illegal dropout value" 
+assert (args.batch_size >= 1), "Illegal batch size"
+assert (args.epochs >= 1), "Illegal number of epochs"
+assert (args.learning_rate > 0), "Illegal learning rate"
+
+NUM_EPOCHS=args.epochs
+BATCH_SIZE=args.batch_size
+DROPOUT=args.dropout
+LEARNING_RATE=args.learning_rate
+SKIP_TRAINING=args.skip_training # when true, directly loads the final trained model and predicts using it
+SUM_LAST_WITH_ENDING=args.sum
+VERBOSE = args.verbose
+
 ENCODED_DATA_DIR = "./encoded_data"
 
 # Read data
@@ -173,4 +198,4 @@ pred_stories_pred = ann.get_predicted_right_endings(pred_stories_ls).reshape([-1
 
 np.savetxt(os.path.join(LOG_DIR, "predictions.csv"), pred_stories_pred, delimiter=",")
 
-    
+
