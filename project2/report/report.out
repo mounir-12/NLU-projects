@@ -1,6 +1,16 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Methodology}{}% 2
-\BOOKMARK [1][-]{section.3}{Model}{}% 3
-\BOOKMARK [1][-]{section.4}{Training}{}% 4
-\BOOKMARK [1][-]{section.5}{Experiments}{}% 5
-\BOOKMARK [1][-]{section.6}{Conclusion}{}% 6
+\BOOKMARK [1][-]{section.2}{Model}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{BERT Model}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Logistic Regression Model}{section.2}% 4
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Sentiment Trajectory}{subsection.2.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Event Sequence}{subsection.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.3}{Feed-Forward Neural Network with skip-thoughts embeddings}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{Training}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{BERT}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Logistic Regression}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.3}{Feed-Forward Neural Network with skip-thoughts embeddings}{section.3}% 11
+\BOOKMARK [1][-]{section.4}{Experiments}{}% 12
+\BOOKMARK [2][-]{subsection.4.1}{BERT}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.2}{Logistic Regression}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.3}{Feed-Forward Neural Network with skip-thoughts embeddings}{section.4}% 15
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 16
