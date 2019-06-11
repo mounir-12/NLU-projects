@@ -67,14 +67,12 @@ BERT operates on wordpieces and was pretrained on a huge corpus with two target 
 
 The next sentence classification is closely related to our task and allows to learn relationships between sentences. It is trained on a simple task which can be generated from any monolingual corpus: Given two sentences A and B, is B the actual next sentence that comes after A, or just a random sentence from the corpus? 
 \begin{itemize}
-    \item Sentence A: the man went to the store .
-    \item Sentence B: penguins are flightless .
+    \item Sentence A: the man went to the store.  Sentence B: penguins are flightless.
     \item Label: NotNextSentence
 \end{itemize}
 
 \begin{itemize}
-    \item Sentence A: the man went to the store .
-    \item Sentence B: he bought a gallon of milk .
+    \item Sentence A: the man went to the store. Sentence B: he bought a gallon of milk.
     \item Label: IsNextSentence
 \end{itemize}
 
@@ -114,9 +112,7 @@ During evaluation and testing, we compute the choice between the 2 endings of ea
 
 \section{Training}
 \subsection{BERT}
-We continue the pretraining of the language model for 50'000 steps using a batch size of 16 and a learning rate of 2e-5.
-
-The finetuning procedure is trained using cross-entropy loss. We again use a batch size of 16 and a learning rate of 2e-5. We train for 20 epochs.
+We continue the pretraining of the language model for 50'000 steps using a batch size of 16 and a learning rate of 2e-5. The finetuning procedure is trained using cross-entropy loss. We again use a batch size of 16 and a learning rate of 2e-5. We train for 20 epochs.
 \subsection{Logistic Regression}
 For training this model, we use cross-entropy loss that is minimized using standard stochastic gradient descent with learning rate 0.01.
 \subsection{Feed-Forward Neural Network with skip-thoughts embeddings}
@@ -134,7 +130,7 @@ Note that the context we use is only the forth sentence, the beginning of the st
 
 \subsection{Logistic Regression}
 
-First, we consider the sole effect of using sentiment trajectory features. To exract the sentiment trajectory  features, a conditional probability model is trained on the train data. A logistic regression model is trained on the features extracted from valid data using SGD with a learning rate of $0.01$ for $1000$ epochs. It was observed that sentiment features alone achieve a validation accuracy of $58.4\%$ and test accuracy of $57.13\%$.
+First, we consider the sole effect of using sentiment trajectory features. To extract the sentiment trajectory  features, a conditional probability model is trained on the train data. A logistic regression model is trained on the features extracted from valid data. It was observed that sentiment features alone achieve a validation accuracy of $58.4\%$ and test accuracy of $57.13\%$.
 
 Including the event sequence features dropped the testing accuracy to $48\%$ which is worse than random assignment. We suspect that the model performs bad because the features aren't clean due to the way the event sequence model is trained. Instead of using frame representations as done by \cite{hcm}, we train a language model directly on the sequence of nouns and verbs. Since most nouns are non-repeating, they're encountered very rarely by the language model during training and hence, the representations learned are not accurate. This we suspect is a reason for the ill performance of the final classification model. It is observed that the prediction is always option 2 when both the event and sentiment features are used hence, the bad performance.
 
