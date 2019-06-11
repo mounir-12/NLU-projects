@@ -24,17 +24,24 @@ pip install -r requirements.txt
 
 ### Data
 Please put all the project's csv files under `./data/`
-The provided preprocessed files are:
-- training set: val.csv
-- test and predictions set: test.csv
+The required data files files are:
+- training files:
+  - `ROCStories__spring2016 - ROCStories_spring2016.csv`
+  - `ROCStories_winter2017 - ROCStories_winter2017.csv`
+- validation file: `cloze_test_val__spring2016 - cloze_test_ALL_val.csv`
+- test file: `cloze_test_test__spring2016 - cloze_test_ALL_test.csv`
+
+As you can see, we collected additional training data from the Story Cloze website: http://cs.rochester.edu/nlp/rocstories/
+
+You'll also need the base BERT model which you can download [here](https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip).
+Please unzip it under `./data/models/bert/uncased_L-12_H-768_A-12/`.
 
 ### BERT
-https://arxiv.org/abs/1810.04805
 
-Idea: Use the fourth sentences as "sentence a" and the last as "sentence b", do binary classification on this input
+https://github.com/google-research/bert
 
 ### Preprocess data
-All the data is preprocessed and generated from the "data" notebook. 
+All the data is preprocessed and generated from the `data.ipynb` notebook. 
 
 ### Run
 
