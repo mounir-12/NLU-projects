@@ -1,0 +1,14 @@
+In order to run this model, install python3 and all the required libraries as mentioned in requirements.txt.
+
+In case the code is being run on a cluster, run the following before submitting a job:
+
+python3 nltk.download('vader_lexicon')
+python3 nltk.download('averaged_perceptron_tagger')
+python3 nltk.download('punkt')
+
+The main code is executed by the command:
+
+python3 Logistic_Regression.py
+
+Two prediction files are generated: predictions_s.csv and predctions_es.csv where, the former is the prediction considering only sentiment
+features while the later is the prediciton considering both sentiment and event features.
