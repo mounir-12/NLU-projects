@@ -40,16 +40,22 @@ Please unzip it under `./data/models/bert/uncased_L-12_H-768_A-12/`.
 
 https://github.com/google-research/bert
 
-### Preprocess data
-All the data is preprocessed and generated from the `data.ipynb` notebook. 
-
 ### Run
 
+#### Preprocess data
+All the data is preprocessed and generated from the `data.ipynb` notebook. 
+This will allow you to get the files required later for the training process:
+- `bert_corpus.tfrecord`
+- `val.csv`
+- `test.csv`
+
+Those will be generated under `./data/`.
+ 
 #### Pre-training
 You can run the pre-training on the training data set using the following command:
 ```
-python run_pretraining.py 
-    \ --input_file=data/bert_corpus.tfrecord -
+python3 run_pretraining.py 
+    \ --input_file=data/bert_corpus.tfrecord
     \ -output_dir=data/pretraining50k_output 
     \ --do_train=True 
     \ --do_eval=True 
@@ -58,8 +64,6 @@ python run_pretraining.py
     \ --train_batch_size=16 --max_seq_length=128 --max_predictions_per_seq=20 
     \ --num_train_steps=50000 --num_warmup_steps=5000 --learning_rate=2e-5
 ```
-
-The code to generate the `bert_corpus.tfrecord` file is inside the Jupyter notebook.
 
 #### Finetuning
 We only use the validation data for finetuning. The file `bert_model.py` can be used to train a model and predict on the prediction set.
