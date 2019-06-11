@@ -17,7 +17,6 @@ import time
 from tqdm import tqdm
 import pickle
 from scipy.special import expit
-import matplotlib.pyplot as plt
 from sklearn.metrics import accuracy_score
 from collections import Counter
 import os
