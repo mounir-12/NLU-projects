@@ -97,7 +97,7 @@ if args.test_file and 'test' in modes:
     test_examples, test_features = bert_data(test)
 if args.predict_file and 'predict' in modes:
     print("Reading predictions file:", args.predict_file)
-    pred = pd.read_csv(args.test_file)
+    pred = pd.read_csv(args.predict_file)
     pred_examples, pred_features = bert_data(pred)   
 
 def create_model(is_predicting, input_ids, input_mask, segment_ids, labels,
@@ -318,8 +318,8 @@ if 'eval' in modes:
 
     print("Eval results:\n", estimator.evaluate(input_fn=val_input_fn, steps=None))
 
-if 'predict' in modes:
-    print('Beginning prediction!')
+if 'test' in modes:
+    print('Beginning Testing!')
 
     test_input_fn = run_classifier.input_fn_builder(
         features=test_features,
@@ -335,5 +335,20 @@ if 'predict' in modes:
 
     choice_acc, class_acc = accuracy(preds_df)
     print("Test choice accuracy: {}, test classification accuracy: {}".format(choice_acc, class_acc))
+
+if 'predict' in modes:
+    print('Beginning prediction!')
+
+    pred_input_fn = run_classifier.input_fn_builder(
+        features=pred_features,
+        seq_length=MAX_SEQ_LENGTH,
+        is_training=False,
+        drop_remainder=False)
+
+    predictions = list(estimator.predict(input_fn=pred_input_fn))
+    preds = [(id, prediction['probabilities'][0], prediction['probabilities'][1]) for id, prediction in
+             zip(pred.InputStoryid.values, predictions)]
+    preds_df = pd.DataFrame(preds, columns=['id', 'log_prob_true', 'log_prob_fake'])
+    preds_df.to_csv(os.path.join(args.output_path, 'predictions.csv'), index=False)
 
 sys.stdout.flush()
