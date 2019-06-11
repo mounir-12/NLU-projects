@@ -80,7 +80,8 @@ Use the option -v for some more verbosity (used for dev)
 
 ## Predictions
 
-The included `predictions.csv` contains the chosen story ending (1 or 2) of the default model i,e model with concatenated sentences, 0.3 dropout, run for 50 epochs with learning rate 0.001 and batch_size 32
+The included `predictions.csv` contains the chosen story ending (1 or 2) of the default model i,e model with concatenated sentences, 0.3 dropout, run for 50 epochs with learning rate 0.001 and batch_size 32.
+
 The model can be run as described above by simply running:
 ```
 python3 train_predict_sa.py
